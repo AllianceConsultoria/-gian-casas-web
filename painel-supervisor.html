@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Supervisor - Gian Casas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --panel-bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --pending: #fd7e14;
+        }
+
+        body { background: var(--panel-bg); }
+
+        .panel-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .panel-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .panel-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .panel-header p { opacity: 0.9; }
+
+        .btn-logout {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: white;
+            color: #1a1a2e;
+        }
+
+        /* Métricas gerais */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid #d4af37;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        /* Tabela de corretores */
+        .section-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .corretor-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #d4af37;
+        }
+
+        .corretor-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .corretor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .corretor-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .corretor-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #d4af37;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .corretor-nome {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .corretor-creci {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .badge-perfil {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-senior { background: #d4af37; color: white; }
+        .badge-pleno { background: #17a2b8; color: white; }
+        .badge-junior { background: #28a745; color: white; }
+
+        .corretor-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1a1a2e;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        /* Detalhes do corretor (expandido) */
+        .corretor-detalhes {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .corretor-detalhes.ativo {
+            display: block;
+        }
+
+        .proposta-lista {
+            margin-top: 10px;
+        }
+
+        .proposta-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-nova { background: #cce5ff; color: #004085; }
+        .status-analise { background: #fff3cd; color: #856404; }
+        .status-negociacao { background: #e2d5f1; color: #4a148c; }
+        .status-aprovada { background: #d4edda; color: #155724; }
+        .status-rejeitada { background: #f8d7da; color: #721c24; }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .ranking-posicao {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #d4af37;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .ranking-posicao.ouro { background: gold; color: #333; }
+        .ranking-posicao.prata { background: silver; color: #333; }
+        .ranking-posicao.bronze { background: #cd7f32; }
+
+        @media (max-width: 768px) {
+            .panel-header { flex-direction: column; text-align: center; }
+            .corretor-header { flex-direction: column; align-items: flex-start; }
+            .corretor-stats { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="brand">
+                <i class="fa-solid fa-hotel" style="color: var(--accent); font-size: 24px;"></i>
+                <h1>Gian<span>Casas</span></h1>
+            </a>
+            <nav class="desktop-nav">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="imoveis.html" class="nav-link">Imóveis</a>
+                <a href="contato.html" class="nav-link">Contacto</a>
+            </nav>
+            <button class="mobile-nav-toggle">&#9776;</button>
+        </div>
+    </header>
+
+    <div class="panel-container">
+        
+        <div class="panel-header">
+            <div>
+                <h2>👔 Painel do Supervisor Geral</h2>
+                <p>Visão completa da equipe de corretores</p>
+            </div>
+            <button class="btn-logout" onclick="fazerLogout()">
+                <i class="fa-solid fa-right-from-bracket"></i> Sair
+            </button>
+        </div>
+
+        <!-- MÉTRICAS GERAIS DA EMPRESA -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value" id="totalCorretores">3</div>
+                <div class="metric-label">Corretores Ativos</div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--success);">
+                <div class="metric-value" id="totalPropostas">8</div>
+                <div class="metric-label">Propostas Ativas</div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--warning);">
+                <div class="metric-value" id="totalVisitas">7</div>
+                <div class="metric-label">Visitas Hoje</div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--info);">
+                <div class="metric-value" id="faturamentoTotal">€ 49.550</div>
+                <div class="metric-label">Comissões Previstas</div>
+            </div>
+        </div>
+
+        <!-- RANKING GERAL -->
+        <div class="section-box">
+            <div class="section-title">
+                <span>🏆 Ranking da Equipe</span>
+                <span style="font-size: 13px; color: #6c757d;">Baseado em comissões do mês</span>
+            </div>
+            <div id="rankingContainer"></div>
+        </div>
+
+        <!-- LISTA DE CORRETORES -->
+        <div class="section-box">
+            <div class="section-title">
+                <span>👥 Equipe de Corretores</span>
+                <span style="font-size: 13px; color: #6c757d;">Clique para ver detalhes</span>
+            </div>
+            <div id="corretoresContainer"></div>
+        </div>
+
+        <!-- TODAS AS PROPOSTAS -->
+        <div class="section-box">
+            <div class="section-title">
+                <span> Todas as Propostas em Andamento</span>
+            </div>
+            <div id="todasPropostasContainer"></div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Gian Casas Imobiliária S.A. - Painel Supervisor</p>
+        </div>
+    </footer>
+
+    <script src="js/usuarios.js"></script>
+    <script>
+        // VERIFICAÇÃO DE SEGURANÇA: só supervisor/rh pode acessar
+        const usuario = getUsuarioLogado();
+        if (!usuario || (usuario.perfil !== 'supervisor' && usuario.perfil !== 'rh')) {
+            window.location.href = 'login.html';
+        } else {
+            // Atualiza header com nome do supervisor
+            document.querySelector('.panel-header p').textContent = 
+                `Logado como: ${usuario.nome} (${usuario.cargo || usuario.perfil})`;
+        }
+
+        // Dados dos corretores (filtrar apenas perfil corretor)
+        const corretores = usuariosSistema.filter(u => u.perfil === 'corretor');
+
+        // Calcula métricas por corretor
+        function calcularMetricas(corretorId) {
+            const propostasCorretor = propostasSistema.filter(p => p.corretorId === corretorId);
+            const visitasCorretor = visitasSistema.filter(v => v.corretorId === corretorId);
+            const comissaoTotal = propostasCorretor.reduce((sum, p) => sum + p.comissao, 0);
+            const propostasAtivas = propostasCorretor.filter(p => 
+                p.status !== 'rejeitada').length;
+            
+            return {
+                propostasAtivas,
+                visitas: visitasCorretor.length,
+                comissaoTotal,
+                totalPropostas: propostasCorretor.length
+            };
+        }
+
+        // Renderiza ranking
+        function renderizarRanking() {
+            const container = document.getElementById('rankingContainer');
+            const ranking = corretores.map(c => ({
+                ...c,
+                metricas: calcularMetricas(c.id)
+            })).sort((a, b) => b.metricas.comissaoTotal - a.metricas.comissaoTotal);
+
+            container.innerHTML = ranking.map((c, index) => {
+                const posicao = index + 1;
+                let classePos = '';
+                if (posicao === 1) classePos = 'ouro';
+                else if (posicao === 2) classePos = 'prata';
+                else if (posicao === 3) classePos = 'bronze';
+                
+                return `
+                    <div class="ranking-item">
+                        <div class="ranking-posicao ${classePos}">${posicao}º</div>
+                        <div class="corretor-avatar">${c.avatar}</div>
+                        <div style="flex: 1;">
+                            <div class="corretor-nome">${c.nome}</div>
+                            <div class="corretor-creci">CRECI: ${c.creci} | ${c.nivel}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 18px; font-weight: 800; color: #d4af37;">
+                                € ${c.metricas.comissaoTotal.toLocaleString('pt-PT')}
+                            </div>
+                            <div style="font-size: 12px; color: #6c757d;">em comissões</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Renderiza lista de corretores
+        function renderizarCorretores() {
+            const container = document.getElementById('corretoresContainer');
+            
+            container.innerHTML = corretores.map(c => {
+                const m = calcularMetricas(c.id);
+                const badgeClass = c.nivel === 'Senior' ? 'badge-senior' : 
+                                   c.nivel === 'Pleno' ? 'badge-pleno' : 'badge-junior';
+                
+                // Pega propostas deste corretor
+                const propostas = propostasSistema.filter(p => p.corretorId === c.id);
+                const propostasHtml = propostas.map(p => {
+                    const statusClass = `status-${p.status}`;
+                    const statusLabel = p.status.charAt(0).toUpperCase() + p.status.slice(1);
+                    return `
+                        <div class="proposta-item">
+                            <div>
+                                <strong>${p.cliente}</strong><br>
+                                <small style="color: #6c757d;">${p.imovel}</small>
+                            </div>
+                            <div style="text-align: right;">
+                                <span class="status-badge ${statusClass}">${statusLabel}</span>
+                                <div style="font-size: 12px; color: #28a745; margin-top: 4px;">
+                                    € ${p.comissao.toLocaleString('pt-PT')} comissão
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                return `
+                    <div class="corretor-card" onclick="toggleDetalhes(this)">
+                        <div class="corretor-header">
+                            <div class="corretor-info">
+                                <div class="corretor-avatar">${c.avatar}</div>
+                                <div>
+                                    <div class="corretor-nome">${c.nome}</div>
+                                    <div class="corretor-creci">CRECI: ${c.creci} | ${c.nivel}</div>
+                                </div>
+                            </div>
+                            <span class="badge-perfil ${badgeClass}">${c.nivel}</span>
+                        </div>
+                        <div class="corretor-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${m.propostasAtivas}</div>
+                                <div class="stat-label">Propostas Ativas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${m.visitas}</div>
+                                <div class="stat-label">Visitas Hoje</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" style="color: #d4af37;">
+                                    € ${m.comissaoTotal.toLocaleString('pt-PT')}
+                                </div>
+                                <div class="stat-label">Comissão Prevista</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${m.totalPropostas}</div>
+                                <div class="stat-label">Total Propostas</div>
+                            </div>
+                        </div>
+                        <div class="corretor-detalhes">
+                            <h4 style="margin-bottom: 10px; color: #1a1a2e;">📋 Propostas deste corretor:</h4>
+                            <div class="proposta-lista">
+                                ${propostasHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Renderiza todas as propostas
+        function renderizarTodasPropostas() {
+            const container = document.getElementById('todasPropostasContainer');
+            
+            container.innerHTML = propostasSistema.map(p => {
+                const corretor = usuariosSistema.find(u => u.id === p.corretorId);
+                const statusClass = `status-${p.status}`;
+                const statusLabel = p.status.charAt(0).toUpperCase() + p.status.slice(1);
+                
+                return `
+                    <div class="proposta-item">
+                        <div style="flex: 1;">
+                            <strong>${p.cliente}</strong>
+                            <div style="font-size: 12px; color: #6c757d;">
+                                ${p.imovel} | Corretor: ${corretor ? corretor.nome : 'Desconhecido'}
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: 700; color: #1a1a2e;">
+                                € ${p.valor.toLocaleString('pt-PT')}
+                            </div>
+                            <span class="status-badge ${statusClass}">${statusLabel}</span>
+                            <div style="font-size: 12px; color: #28a745; margin-top: 4px;">
+                                Comissão: € ${p.comissao.toLocaleString('pt-PT')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle de detalhes
+        function toggleDetalhes(elemento) {
+            const detalhes = elemento.querySelector('.corretor-detalhes');
+            detalhes.classList.toggle('ativo');
+        }
+
+        // Inicializa tudo
+        renderizarRanking();
+        renderizarCorretores();
+        renderizarTodasPropostas();
+    </script>
+</body>
+</html>
