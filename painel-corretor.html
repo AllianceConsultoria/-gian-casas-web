@@ -21,7 +21,22 @@
             --pending: #fd7e14;
         }
 
-        body {
+        body    <!-- VERIFICAÇÃO DE SEGURANÇA -->
+    <script src="js/usuarios.js"></script>
+    <script>
+        const usuarioAtual = getUsuarioLogado();
+        if (!usuarioAtual || usuarioAtual.perfil !== 'corretor') {
+            window.location.href = 'login.html';
+        } else {
+            // Atualiza informações do corretor logado
+            document.querySelector('.panel-welcome h2').textContent = 
+                `Olá, ${usuarioAtual.nome.split(' ')[0]}! 👋`;
+            document.querySelector('.user-details h4').textContent = usuarioAtual.nome;
+            document.querySelector('.user-details p').textContent = 
+                `CRECI: ${usuarioAtual.creci} | Nível: ${usuarioAtual.nivel}`;
+            document.querySelector('.user-avatar').textContent = usuarioAtual.avatar;
+        }
+    </script> {
             background: var(--panel-bg);
         }
 
@@ -746,9 +761,12 @@
     </div>
 
     <!-- FOOTER -->
-    <footer>
-        <div class="container footer-bottom">
+        <footer>
+        <div class="container footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
             <p>&copy; 2026 Gian Casas Imobiliária S.A. - Painel do Corretor</p>
+            <button onclick="fazerLogout()" style="background: var(--accent); color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                <i class="fa-solid fa-right-from-bracket"></i> Sair
+            </button>
         </div>
     </footer>
 
