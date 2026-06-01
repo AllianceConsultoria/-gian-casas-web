@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto Consulares - Gian Casas</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Estilo -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation Section -->
+    <header class="scrolled">
+        <div class="container nav-container" style="height: 65px;">
+            <a href="index.html" class="brand">
+                <i class="fa-solid fa-hotel" style="color: var(--accent); font-size: 24px;"></i>
+                <h1>Gian<span>Casas</span></h1>
+            </a>
+
+            <!-- Desktop Links -->
+            <nav class="desktop-nav">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="imoveis.html" class="nav-link">Imóveis</a>
+                <a href="contato.html" class="nav-link active">Contacto</a>
+                <a href="contato.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 12px;">Encontrar Corretor</a>
+            </nav>
+
+            <!-- Hamburger Button for Mobile -->
+            <button class="mobile-nav-toggle">&#9776;</button>
+        </div>
+
+        <!-- Mobile Drawer Links -->
+        <div class="mobile-menu">
+            <a href="index.html">Início</a>
+            <a href="imoveis.html">Imóveis</a>
+            <a href="contato.html">Contacto</a>
+            <a href="contato.html" class="btn btn-primary" style="margin-top: 20px;">Falar com Corretor</a>
+        </div>
+    </header>
+
+    <!-- Page Header (Inner Banner) -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Entre em Contacto</h1>
+            <p>Agende uma Reunião Executiva de Diagnóstico Pessoal</p>
+        </div>
+    </section>
+
+    <!-- Contact Grid System -->
+    <section class="container">
+        <div class="contact-grid">
+            
+            <!-- Contact Form Panel -->
+            <div class="contact-form-panel">
+                <h2 style="font-size: 24px; margin-bottom: 24px;">Envie uma Mensagem</h2>
+                <form id="gianContactForm">
+                    <!-- Client Name input -->
+                    <div class="form-group">
+                        <label for="contactNome">Nome Completo *</label>
+                        <input type="text" id="contactNome" placeholder="Ex: Roberto Silva" required>
+                    </div>
+
+                    <!-- Client Email input -->
+                    <div class="form-group">
+                        <label for="contactEmail">E-mail Corporativo *</label>
+                        <input type="email" id="contactEmail" placeholder="Ex: roberto@empresa.com" required>
+                    </div>
+
+                    <!-- Client Phone input -->
+                    <div class="form-group">
+                        <label for="contactTelefone">Telefone / WhatsApp</label>
+                        <input type="tel" id="contactTelefone" placeholder="Ex: +351 912 345 678">
+                    </div>
+
+                    <!-- Client Message TextArea input -->
+                    <div class="form-group">
+                        <label for="contactMensagem">Sua Mensagem de Interesse *</label>
+                        <textarea id="contactMensagem" rows="5" placeholder="Olá, gostaria de agendar uma visita à Modern Villa Cascais..." required></textarea>
+                    </div>
+
+                    <!-- Action Submit -->
+                    <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: 4px; padding: 14px 0;">Enviar Mensagem à Gian Casas</button>
+                </form>
+            </div>
+
+            <!-- Coordinate Panel and Map Placeholder -->
+            <div class="contact-info-panel">
+                <h2 style="font-size: 24px; margin-bottom: 10px;">Atendimento Consular</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Os nossos agentes estão estrategicamente posicionados no continente e ilhas prontos para fornecer dados completos de transações sob sigilo absoluto.</p>
+
+                <!-- Phone Item -->
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                    <div class="info-details">
+                        <h3>Telefone Geral</h3>
+                        <p>+351 912 345 678 (Linha Premium 24/7)</p>
+                    </div>
+                </div>
+
+                <!-- Email Item -->
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="info-details">
+                        <h3>E-mail de Atendimento</h3>
+                        <p>geral@giancasas.com | concierge@giancasas.com</p>
+                    </div>
+                </div>
+
+                <!-- Address Item -->
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <div class="info-details">
+                        <h3>Endereço Corporativo</h3>
+                        <p>Av. da Liberdade 110A, 1250-146 Lisboa, Portugal (Anexo à Sede Principal)</p>
+                    </div>
+                </div>
+
+                <!-- Embedded Map Stylized Box -->
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <i class="fa-solid fa-compass-drafting" style="font-size: 36px; color: var(--accent); margin-bottom: 12px;"></i>
+                        <h4 style="font-family: var(--font-body); font-weight:700; color: var(--primary);">LOCALIZAÇÃO NO GOOGLE MAPS</h4>
+                        <p style="font-size: 12px; margin-top: 6px;">Av. da Liberdade, Lisboa - Vista Satélite Integrada</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <h2>Gian<span>Casas</span></h2>
+                <p>Nossa missão é alinhar sonhos imobiliários com as mais exclusivas realidades estruturais. Referência em alto padrão, residências modernas de luxo e sigilo profissional absoluto.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Links Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="imoveis.html">Imóveis em Carteira</a></li>
+                    <li><a href="contato.html">Marcar Reunião</a></li>
+                    <li><a href="index.html#sobre">Sobre Nós</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Sede Principal</h3>
+                <ul class="footer-links" style="pointer-events: none;">
+                    <li><i class="fa-solid fa-location-dot" style="color: var(--accent);"></i> Av. da Liberdade 110A</li>
+                    <li>1250-146 Lisboa, Portugal</li>
+                    <li><i class="fa-solid fa-phone" style="color: var(--accent);"></i> +351 912 345 678</li>
+                    <li><i class="fa-solid fa-envelope" style="color: var(--accent);"></i> geral@giancasas.com</li>
+                </ul>
+            </div>
+
+            <div class="footer-newsletter">
+                <h3>Newsletter VIP</h3>
+                <p>Subscreva para receber propriedades recém-adicionadas à carteira antes de entrarem no mercado.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Seu e-mail profissional" required>
+                    <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Gian Casas Imobiliária S.A. Todos os direitos reservados.</p>
+            <p>Construído profissionalmente para publicação estável no portal.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Component for notifications dynamic -->
+    <div id="js-toast-message" class="toast"></div>
+
+    <!-- JS Files -->
+    <script src="js/main.js"></script>
+</body>
+</html>

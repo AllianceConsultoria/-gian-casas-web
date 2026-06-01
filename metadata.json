@@ -1,0 +1,6 @@
+{
+  "name": "Gian Casas",
+  "description": "Imóveis de alto padrão e CRM exclusivo em Portugal, Espanha, Brasil, Itália e Emirados Árabes",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
