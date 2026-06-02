@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Avaliação - Sistema Gian Casas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #d4af37;
+        }
+        .quiz-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        .quiz-logo span { color: #d4af37; }
+        .quiz-header h2 {
+            color: #1a1a2e;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .quiz-header p {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .user-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .user-info h3 {
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .user-info .form-group {
+            margin-bottom: 15px;
+        }
+        .user-info label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+        .user-info input, .user-info select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .user-info input:focus, .user-info select:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+        .question {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #d4af37;
+        }
+        .question-number {
+            background: #d4af37;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .option:hover {
+            border-color: #d4af37;
+            background: #fff9e6;
+        }
+        .option input[type="radio"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            color: #2c3e50;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #d4af37;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .submit-btn:hover {
+            background: #b8941f;
+            transform: translateY(-2px);
+        }
+        .result-container {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .result-icon.success { color: #28a745; }
+        .result-icon.warning { color: #ffc107; }
+        .result-icon.danger { color: #dc3545; }
+        .result-score {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        .result-message {
+            font-size: 18px;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+        .result-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .result-details h4 {
+            color: #1a1a2e;
+            margin-bottom: 15px;
+        }
+        .result-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .result-item.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+        .result-item.wrong {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .print-btn {
+            padding: 12px 24px;
+            background: #17a2b8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        .back-btn {
+            padding: 12px 24px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .quiz-container { padding: 20px; }
+            .quiz-logo { font-size: 28px; }
+            .result-score { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <!-- HEADER -->
+        <div class="quiz-header">
+            <h1 class="quiz-logo">Gian<span>Casas</span></h1>
+            <h2>🎯 Quiz de Avaliação Pós-Treinamento</h2>
+            <p>Este quiz avalia seu conhecimento sobre o sistema. Boa sorte!</p>
+        </div>
+
+        <!-- FORMULÁRIO DO QUIZ -->
+        <div id="quizForm">
+            <!-- INFORMAÇÕES DO USUÁRIO -->
+            <div class="user-info">
+                <h3><i class="fa-solid fa-user"></i> Identificação</h3>
+                <div class="form-group">
+                    <label for="userName">Nome Completo *</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email *</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPerfil">Perfil *</label>
+                    <select id="userPerfil" required>
+                        <option value="">Selecione seu perfil</option>
+                        <option value="corretor">Corretor</option>
+                        <option value="supervisor">Supervisor</option>
+                        <option value="rh">RH</option>
+                        <option value="financeiro">Financeiro</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- QUESTÕES -->
+            <div id="questionsContainer"></div>
+
+            <button class="submit-btn" onclick="submitQuiz()">
+                <i class="fa-solid fa-check-circle"></i> Finalizar Avaliação
+            </button>
+        </div>
+
+        <!-- RESULTADO -->
+        <div class="result-container" id="resultContainer">
+            <div class="result-icon" id="resultIcon"></div>
+            <div class="result-score" id="resultScore"></div>
+            <div class="result-message" id="resultMessage"></div>
+            <div class="result-details" id="resultDetails"></div>
+            <div>
+                <button class="print-btn" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Imprimir Resultado
+                </button>
+                <button class="back-btn" onclick="location.reload()">
+                    <i class="fa-solid fa-redo"></i> Fazer Novamente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // BANCO DE QUESTÕES
+        const questions = [
+            // QUESTÕES GERAIS (Todos os perfis)
+            {
+                perfil: 'todos',
+                pergunta: 'Qual é a URL correta para acessar o sistema Gian Casas?',
+                opcoes: [
+                    'https://gian-casas.com',
+                    'https://gian-casas-web.vercel.app/login.html',
+                    'https://vercel.com/gian-casas',
+                    'https://login.giancasas.com'
+                ],
+                correta: 1
+            },
+            {
+                perfil: 'todos',
+                pergunta: 'O que você deve fazer ao terminar de usar o sistema?',
+                opcoes: [
+                    'Fechar o navegador',
+                    'Deixar a sessão aberta',
+                    'Clicar em "Sair do Sistema" e confirmar',
+                    'Minimizar a janela'
+                ],
+                correta: 2
+            },
+            {
+                perfil: 'todos',
+                pergunta: 'Se você esquecer sua senha, o que deve fazer?',
+                opcoes: [
+                    'Criar uma nova conta',
+                    'Tentar senhas aleatórias',
+                    'Entrar em contato com o Supervisor',
+                    'Desistir de usar o sistema'
+                ],
+                correta: 2
+            },
+
+            // QUESTÕES DO CORRETOR
+            {
+                perfil: 'corretor',
+                pergunta: 'No seu painel, onde você vê quantas visitas tem agendadas para hoje?',
+                opcoes: [
+                    'No rodapé da página',
+                    'Na seção "Visitas Agendadas Hoje"',
+                    'Nas notificações apenas',
+                    'No menu superior'
+                ],
+                correta: 1
+            },
+            {
+                perfil: 'corretor',
+                pergunta: 'O que significa o status "Em Negociação" em uma proposta?',
+                opcoes: [
+                    'A proposta foi rejeitada',
+                    'O cliente está avaliando a proposta',
+                    'Está conversando sobre valores com o cliente',
+                    'A venda foi concluída'
+                ],
+                correta: 2
+            },
+            {
+                perfil: 'corretor',
+                pergunta: 'Onde você vê o valor da sua comissão prevista?',
+                opcoes: [
+                    'Apenas no email',
+                    'No card "Comissão prevista" e em cada proposta',
+                    'Somente falando com o financeiro',
+                    'Não é possível ver'
+                ],
+                correta: 1
+            },
+            {
+                perfil: 'corretor',
+                pergunta: 'O que aparece nas "Notificações" do seu painel?',
+                opcoes: [
+                    'Apenas mensagens de propaganda',
+                    'Alertas de novas propostas, visitas confirmadas e documentos pendentes',
+                    'Somente notícias da empresa',
+                    'Publicidades de imóveis'
+                ],
+                correta: 1
+            },
+
+            // QUESTÕES DO SUPERVISOR/RH
+            {
+                perfil: 'supervisor',
+                pergunta: 'Como você adiciona um novo funcionário ao sistema?',
+                opcoes: [
+                    'Enviando email para o TI',
+                    'Clicando no botão "Adicionar Funcionário" no painel de Gestão de Equipe',
+                    'Editando o código do sistema',
+                    'Pedindo para o funcionário se cadastrar'
+                ],
+                correta: 1
+            },
+            {
+                perfil: 'supervisor',
+                pergunta: 'O que acontece quando você clica em "Remover" um funcionário?',
+                opcoes: [
+                    'O funcionário é deletado permanentemente',
+                    'O funcionário fica inativo e perde acesso ao sistema',
+                    'Nada acontece',
+                    'O funcionário recebe um email de demissão'
+                ],
+                correta: 1
+            },
+            {
+                perfil: 'supervisor',
+                pergunta: 'Onde você vê o ranking da equipe?',
+                opcoes: [
+                    'No painel financeiro',
+                    'Na seção "Ranking da Equipe" no painel do supervisor',
+                    'No perfil de cada corretor',
+                    'Não existe ranking'
+                ],
+                correta: 1
+            },
+            {
+                perfil: 'supervisor',
+                pergunta: 'Se um funcionário foi removido por engano, o que você pode fazer?',
+                opcoes: [
+                    'Nada, é irreversível',
+                    'Clicar em "Reativar" ao lado do nome do funcionário',
+                    'Criar uma nova conta para ele',
+                    'Pedir para ele se cadastrar novamente'
+                ],
+                correta: 1
+            },
+
+            // QUESTÕES DO FINANCEIRO
+            {
+                perfil: 'financeiro',
+                pergunta: 'Qual é o primeiro passo para pagar uma comissão?',
+                opcoes: [
+                    'Marcar como pago diretamente',
+                    'Aprovar a comissão primeiro',
+                    'Enviar email ao corretor',
+                    'Cancelar a comissão'
+                ],
+                correta: 1
+            },
+            {
+                perfil: 'financeiro',
+                pergunta: 'O que significa o status "Aprovado" em uma comissão?',
+                opcoes: [
+                    'A comissão já foi paga',
+                    'A comissão foi validada e está pronta para pagamento',
+                    'A comissão foi cancelada',
+                    'A comissão está pendente de análise'
+                ],
+                correta: 1
+            },
+            {
+                perfil: 'financeiro',
+                pergunta: 'Onde você vê o histórico de pagamentos já realizados?',
+                opcoes: [
+                    'Na seção "Comissões a Pagar"',
+                    'Na seção "Histórico de Pagamentos"',
+                    'No ranking da equipe',
+                    'Nas notificações'
+                ],
+                correta: 1
+            },
+            {
+                perfil: 'financeiro',
+                pergunta: 'Como você filtra comissões por status?',
+                opcoes: [
+                    'Não é possível filtrar',
+                    'Usando os botões "Todas", "Pendentes" e "Aprovadas"',
+                    'Digitando no campo de busca',
+                    'Falando com o supervisor'
+                ],
+                correta: 1
+            }
+        ];
+
+        // FILTRAR QUESTÕES CONFORME PERFIL SELECIONADO
+        function getQuestionsForPerfil(perfil) {
+            return questions.filter(q => q.perfil === 'todos' || q.perfil === perfil);
+        }
+
+        // RENDERIZAR QUESTÕES
+        function renderQuestions(perfil) {
+            const container = document.getElementById('questionsContainer');
+            const perfilQuestions = getQuestionsForPerfil(perfil);
+            
+            container.innerHTML = perfilQuestions.map((q, index) => `
+                <div class="question">
+                    <span class="question-number">Questão ${index + 1}</span>
+                    <div class="question-text">${q.pergunta}</div>
+                    <div class="options">
+                        ${q.opcoes.map((opcao, opIndex) => `
+                            <div class="option">
+                                <input type="radio" name="q${index}" id="q${index}_${opIndex}" value="${opIndex}" required>
+                                <label for="q${index}_${opIndex}">${opcao}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ATUALIZAR QUESTÕES QUANDO PERFIL MUDA
+        document.getElementById('userPerfil').addEventListener('change', function() {
+            const perfil = this.value;
+            if (perfil) {
+                renderQuestions(perfil);
+            } else {
+                document.getElementById('questionsContainer').innerHTML = '';
+            }
+        });
+
+        // SUBMETER QUIZ
+        function submitQuiz() {
+            const nome = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            const perfil = document.getElementById('userPerfil').value;
+
+            // Validação
+            if (!nome || !email || !perfil) {
+                alert('⚠️ Por favor, preencha todos os campos de identificação!');
+                return;
+            }
+
+            const perfilQuestions = getQuestionsForPerfil(perfil);
+            let acertos = 0;
+            let detalhes = [];
+
+            // Verificar respostas
+            for (let i = 0; i < perfilQuestions.length; i++) {
+                const q = perfilQuestions[i];
+                const respostaSelecionada = document.querySelector(`input[name="q${i}"]:checked`);
+                
+                if (!respostaSelecionada) {
+                    alert(`⚠️ Por favor, responda a Questão ${i + 1}!`);
+                    return;
+                }
+
+                const respostaValor = parseInt(respostaSelecionada.value);
+                const correta = respostaValor === q.correta;
+                
+                if (correta) acertos++;
+                
+                detalhes.push({
+                    pergunta: q.pergunta,
+                    respostaUsuario: q.opcoes[respostaValor],
+                    respostaCorreta: q.opcoes[q.correta],
+                    correta: correta
+                });
+            }
+
+            // Calcular porcentagem
+            const porcentagem = Math.round((acertos / perfilQuestions.length) * 100);
+            
+            // Salvar resultado no localStorage
+            const resultado = {
+                nome,
+                email,
+                perfil,
+                acertos,
+                total: perfilQuestions.length,
+                porcentagem,
+                detalhes,
+                data: new Date().toISOString()
+            };
+
+            // Salvar no localStorage (supervisor pode consultar depois)
+            const resultadosSalvos = JSON.parse(localStorage.getItem('quizResultados') || '[]');
+            resultadosSalvos.push(resultado);
+            localStorage.setItem('quizResultados', JSON.stringify(resultadosSalvos));
+
+            // Mostrar resultado
+            mostrarResultado(resultado);
+        }
+
+        // MOSTRAR RESULTADO
+        function mostrarResultado(resultado) {
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('resultContainer').style.display = 'block';
+
+            const icon = document.getElementById('resultIcon');
+            const score = document.getElementById('resultScore');
+            const message = document.getElementById('resultMessage');
+            const details = document.getElementById('resultDetails');
+
+            // Ícone e mensagem conforme desempenho
+            if (resultado.porcentagem >= 80) {
+                icon.className = 'result-icon success';
+                icon.innerHTML = '<i class="fa-solid fa-trophy"></i>';
+                message.textContent = '🎉 Excelente! Você está pronto para usar o sistema!';
+            } else if (resultado.porcentagem >= 60) {
+                icon.className = 'result-icon warning';
+                icon.innerHTML = '<i class="fa-solid fa-check-circle"></i>';
+                message.textContent = '👍 Bom! Mas revise alguns pontos do treinamento.';
+            } else {
+                icon.className = 'result-icon danger';
+                icon.innerHTML = '<i class="fa-solid fa-exclamation-triangle"></i>';
+                message.textContent = '⚠️ Atenção! Recomendamos refazer o treinamento.';
+            }
+
+            score.textContent = `${resultado.porcentagem}%`;
+
+            // Detalhes das respostas
+            let detailsHTML = '<h4><i class="fa-solid fa-list-check"></i> Detalhamento das Respostas:</h4>';
+            detailsHTML += `<p><strong>Nome:</strong> ${resultado.nome}</p>`;
+            detailsHTML += `<p><strong>Perfil:</strong> ${resultado.perfil}</p>`;
+            detailsHTML += `<p><strong>Data:</strong> ${new Date(resultado.data).toLocaleString('pt-BR')}</p>`;
+            detailsHTML += `<p><strong>Acertos:</strong> ${resultado.acertos} de ${resultado.total}</p>`;
+            detailsHTML += '<hr style="margin: 15px 0;">';
+
+            resultado.detalhes.forEach((d, i) => {
+                detailsHTML += `
+                    <div class="result-item ${d.correta ? 'correct' : 'wrong'}">
+                        <div>
+                            <strong>Questão ${i + 1}:</strong> ${d.correta ? '✅ Correta' : '❌ Errada'}<br>
+                            <small>Sua resposta: ${d.respostaUsuario}</small><br>
+                            ${!d.correta ? `<small>Resposta correta: ${d.respostaCorreta}</small>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            details.innerHTML = detailsHTML;
+
+            // Scroll para o topo
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
