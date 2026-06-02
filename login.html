@@ -28,32 +28,84 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
         .login-header { text-align: center; margin-bottom: 30px; }
-        .login-logo { font-family: 'Playfair Display', serif; font-size: 32px; color: #1a1a2e; margin-bottom: 10px; }
+        .login-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
         .login-logo span { color: #d4af37; }
         .login-header p { color: #6c757d; font-size: 14px; }
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #2c3e50; font-size: 14px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-size: 14px;
+        }
         .form-group input {
-            width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0;
-            border-radius: 8px; font-size: 14px; font-family: inherit; transition: all 0.3s ease;
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
         }
-        .form-group input:focus { outline: none; border-color: #d4af37; }
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
         .btn-login {
-            width: 100%; padding: 14px; background: #d4af37; color: white;
-            border: none; border-radius: 8px; font-size: 16px; font-weight: 700;
-            cursor: pointer; transition: all 0.3s ease; margin-top: 10px;
+            width: 100%;
+            padding: 14px;
+            background: #d4af37;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
-        .btn-login:hover { background: #b8941f; transform: translateY(-2px); }
-        .login-footer { text-align: center; margin-top: 20px; font-size: 13px; color: #6c757d; }
+        .btn-login:hover {
+            background: #b8941f;
+            transform: translateY(-2px);
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #6c757d;
+        }
         .error-message {
-            background: #f8d7da; color: #721c24; padding: 12px;
-            border-radius: 8px; margin-bottom: 15px; font-size: 14px; display: none; text-align: center;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
         }
         .credenciais-demo {
-            background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 20px; font-size: 12px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 12px;
         }
-        .credenciais-demo h4 { font-size: 13px; margin-bottom: 8px; color: #1a1a2e; }
-        .credenciais-demo p { color: #6c757d; margin-bottom: 4px; }
+        .credenciais-demo h4 {
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: #1a1a2e;
+        }
+        .credenciais-demo p {
+            color: #6c757d;
+            margin-bottom: 4px;
+        }
         .credenciais-demo strong { color: #2c3e50; }
     </style>
 </head>
@@ -95,15 +147,18 @@
         </div>
     </div>
 
-    <script src="js/usuarios.js"></script>
-    <script src="js/app.js"></script>
-    <script>
-        // 1. Verifica se já está logado ao carregar a página
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+        
+        const SUPABASE_URL = 'https://sulnodgrwzqffpryllld.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_lpKspNbDobxkjq4Ywp0tbQ_86VF2Bqa';
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // Verificar se já está logado
         document.addEventListener('DOMContentLoaded', function() {
             const usuarioAtual = localStorage.getItem('usuarioLogado');
             if (usuarioAtual) {
                 const user = JSON.parse(usuarioAtual);
-                // CORREÇÃO: RH usa o painel do supervisor
                 let destino = 'painel-' + user.perfil + '.html';
                 if (user.perfil === 'rh') {
                     destino = 'painel-supervisor.html';
@@ -112,25 +167,42 @@
             }
         });
         
-        // 2. Lógica de login ao submeter o formulário
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // Lógica de login com Supabase
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const senha = document.getElementById('senha').value;
             const errorMsg = document.getElementById('errorMsg');
             
-            const usuario = verificarLogin(email, senha);
-            
-            if (usuario) {
-                // CORREÇÃO: RH usa o painel do supervisor
-                let destino = 'painel-' + usuario.perfil + '.html';
-                if (usuario.perfil === 'rh') {
-                    destino = 'painel-supervisor.html';
+            try {
+                // Buscar usuário no Supabase
+                const { data, error } = await supabase
+                    .from('usuarios')
+                    .select('*')
+                    .eq('email', email)
+                    .eq('senha', senha)
+                    .eq('ativo', true)
+                    .single();
+                
+                if (data && !error) {
+                    // Login bem-sucedido
+                    localStorage.setItem('usuarioLogado', JSON.stringify(data));
+                    
+                    let destino = 'painel-' + data.perfil + '.html';
+                    if (data.perfil === 'rh') {
+                        destino = 'painel-supervisor.html';
+                    }
+                    window.location.href = destino;
+                } else {
+                    // Erro
+                    errorMsg.style.display = 'block';
+                    setTimeout(() => {
+                        errorMsg.style.display = 'none';
+                    }, 3000);
                 }
-                window.location.href = destino;
-            } else {
-                // Erro: mostra mensagem por 3 segundos
+            } catch (err) {
+                console.error('Erro no login:', err);
                 errorMsg.style.display = 'block';
                 setTimeout(() => {
                     errorMsg.style.display = 'none';
@@ -140,11 +212,3 @@
     </script>
 </body>
 </html>
-if (usuario) {
-    // CORREÇÃO: RH usa o painel do supervisor
-    let destino = 'painel-' + usuario.perfil + '.html';
-    if (usuario.perfil === 'rh') {
-        destino = 'painel-supervisor.html';
-    }
-    window.location.href = destino;
-}
