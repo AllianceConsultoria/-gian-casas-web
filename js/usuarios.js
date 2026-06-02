@@ -1,6 +1,12 @@
 // ===== SISTEMA GIAN CASAS - CONECTADO AO SUPABASE =====
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-// Dados locais (fallback enquanto carrega do Supabase)
+const SUPABASE_URL = 'https://sulnodgrwzqffpryllld.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_lpKspNbDobxkjq4Ywp0tbQ_86VF2Bqa';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Dados locais
 let usuariosSistema = [];
 let propostasSistema = [];
 let visitasSistema = [];
@@ -9,7 +15,6 @@ let visitasSistema = [];
 
 async function verificarLogin(email, senha) {
     try {
-        // Buscar usuário no Supabase
         const { data, error } = await supabase
             .from('usuarios')
             .select('*')
@@ -23,12 +28,8 @@ async function verificarLogin(email, senha) {
             return null;
         }
 
-        // Salvar no localStorage
         localStorage.setItem('usuarioLogado', JSON.stringify(data));
-        
-        // Carregar dados do sistema
         await carregarDadosSistema();
-        
         return data;
     } catch (err) {
         console.error('Erro ao verificar login:', err);
@@ -52,43 +53,28 @@ function fazerLogout() {
 
 async function carregarDadosSistema() {
     try {
-        // Carregar propostas
-        const { data: propostasData, error: propostasError } = await supabase
+        const { data: propostasData } = await supabase
             .from('propostas')
             .select('*');
-        
-        if (!propostasError && propostasData) {
-            propostasSistema = propostasData;
-        }
+        if (propostasData) propostasSistema = propostasData;
 
-        // Carregar visitas
-        const { data: visitasData, error: visitasError } = await supabase
+        const { data: visitasData } = await supabase
             .from('visitas')
             .select('*');
-        
-        if (!visitasError && visitasData) {
-            visitasSistema = visitasData;
-        }
+        if (visitasData) visitasSistema = visitasData;
 
-        // Carregar usuários
-        const { data: usuariosData, error: usuariosError } = await supabase
+        const { data: usuariosData } = await supabase
             .from('usuarios')
             .select('*');
-        
-        if (!usuariosError && usuariosData) {
-            usuariosSistema = usuariosData;
-        }
-
+        if (usuariosData) usuariosSistema = usuariosData;
     } catch (err) {
         console.error('Erro ao carregar dados:', err);
     }
 }
 
-// ===== FUNÇÕES DE GESTÃO DE EQUIPE (SUPERVISOR) =====
+// ===== GESTÃO DE EQUIPE =====
 
-function getTodosFuncionarios() {
-    return usuariosSistema;
-}
+function getTodosFuncionarios() { return usuariosSistema; }
 
 function getCorretoresAtivos() {
     return usuariosSistema.filter(u => u.perfil === 'corretor' && u.ativo !== false);
@@ -96,7 +82,7 @@ function getCorretoresAtivos() {
 
 async function adicionarFuncionario(dados) {
     try {
-        const novoId = Math.max(...usuariosSistema.map(u => u.id)) + 1;
+        const novoId = usuariosSistema.length > 0 ? Math.max(...usuariosSistema.map(u => u.id)) + 1 : 1;
         const novoFuncionario = {
             id: novoId,
             ...dados,
@@ -105,7 +91,6 @@ async function adicionarFuncionario(dados) {
             avatar: dados.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
         };
 
-        // Inserir no Supabase
         const { data, error } = await supabase
             .from('usuarios')
             .insert([novoFuncionario])
@@ -116,7 +101,6 @@ async function adicionarFuncionario(dados) {
             return null;
         }
 
-        // Adicionar localmente
         usuariosSistema.push(novoFuncionario);
         return novoFuncionario;
     } catch (err) {
@@ -127,7 +111,6 @@ async function adicionarFuncionario(dados) {
 
 async function removerFuncionario(id) {
     try {
-        // Atualizar no Supabase (soft delete)
         const { error } = await supabase
             .from('usuarios')
             .update({ ativo: false })
@@ -138,11 +121,8 @@ async function removerFuncionario(id) {
             return false;
         }
 
-        // Atualizar localmente
         const usuario = usuariosSistema.find(u => u.id === id);
-        if (usuario) {
-            usuario.ativo = false;
-        }
+        if (usuario) usuario.ativo = false;
         return true;
     } catch (err) {
         console.error('Erro ao remover funcionário:', err);
@@ -152,7 +132,6 @@ async function removerFuncionario(id) {
 
 async function reativarFuncionario(id) {
     try {
-        // Atualizar no Supabase
         const { error } = await supabase
             .from('usuarios')
             .update({ ativo: true })
@@ -163,11 +142,8 @@ async function reativarFuncionario(id) {
             return false;
         }
 
-        // Atualizar localmente
         const usuario = usuariosSistema.find(u => u.id === id);
-        if (usuario) {
-            usuario.ativo = true;
-        }
+        if (usuario) usuario.ativo = true;
         return true;
     } catch (err) {
         console.error('Erro ao reativar funcionário:', err);
@@ -180,10 +156,12 @@ async function reativarFuncionario(id) {
 async function atualizarStatusFinanceiro(propostaId, novoStatus, observacoes = "") {
     try {
         const updateData = {
-            status_financeiro: novoStatus,
-            ...(observacoes && { observacoes: observacoes }),
-            ...(novoStatus === "pago" && { data_pagamento: new Date().toISOString().split('T')[0] })
+            status_financeiro: novoStatus
         };
+        if (observacoes) updateData.observacoes = observacoes;
+        if (novoStatus === "pago") {
+            updateData.data_pagamento = new Date().toISOString().split('T')[0];
+        }
 
         const { error } = await supabase
             .from('propostas')
@@ -195,12 +173,8 @@ async function atualizarStatusFinanceiro(propostaId, novoStatus, observacoes = "
             return false;
         }
 
-        // Atualizar localmente
         const proposta = propostasSistema.find(p => p.id === propostaId);
-        if (proposta) {
-            Object.assign(proposta, updateData);
-        }
-        
+        if (proposta) Object.assign(proposta, updateData);
         return true;
     } catch (err) {
         console.error('Erro ao atualizar status:', err);
@@ -215,11 +189,7 @@ function getComissoesAPagar(corretorId = null) {
         p.status_financeiro !== "cancelado" &&
         p.comissao > 0
     );
-    
-    if (corretorId) {
-        comissoes = comissoes.filter(p => p.corretor_id === corretorId);
-    }
-    
+    if (corretorId) comissoes = comissoes.filter(p => p.corretor_id === corretorId);
     return comissoes.sort((a, b) => new Date(a.data_previsao_pagamento) - new Date(b.data_previsao_pagamento));
 }
 
@@ -227,25 +197,14 @@ function getHistoricoPagamentos(corretorId = null) {
     let historico = propostasSistema.filter(p => 
         p.status_financeiro === "pago" || p.status_financeiro === "cancelado"
     );
-    
-    if (corretorId) {
-        historico = historico.filter(p => p.corretor_id === corretorId);
-    }
-    
+    if (corretorId) historico = historico.filter(p => p.corretor_id === corretorId);
     return historico;
 }
 
 function getTotalComissoes(corretorId = null, statusFinanceiro = null) {
     let propostas = propostasSistema;
-    
-    if (corretorId) {
-        propostas = propostas.filter(p => p.corretor_id === corretorId);
-    }
-    
-    if (statusFinanceiro) {
-        propostas = propostas.filter(p => p.status_financeiro === statusFinanceiro);
-    }
-    
+    if (corretorId) propostas = propostas.filter(p => p.corretor_id === corretorId);
+    if (statusFinanceiro) propostas = propostas.filter(p => p.status_financeiro === statusFinanceiro);
     return propostas.reduce((total, p) => total + p.comissao, 0);
 }
 
@@ -254,17 +213,32 @@ function gerarRelatorioMensal(mes, ano) {
         const data = new Date(p.data_proposta);
         return data.getMonth() + 1 === mes && data.getFullYear() === ano;
     });
-    
     return {
-        mes,
-        ano,
+        mes, ano,
         totalVendas: propostasMes.reduce((s, p) => s + p.valor, 0),
         totalComissoes: propostasMes.reduce((s, p) => s + p.comissao, 0),
         quantidadePropostas: propostasMes.length
     };
 }
 
-// ===== INICIALIZAÇÃO =====
+// Exportar funções para uso global
+window.verificarLogin = verificarLogin;
+window.getUsuarioLogado = getUsuarioLogado;
+window.fazerLogout = fazerLogout;
+window.carregarDadosSistema = carregarDadosSistema;
+window.getTodosFuncionarios = getTodosFuncionarios;
+window.getCorretoresAtivos = getCorretoresAtivos;
+window.adicionarFuncionario = adicionarFuncionario;
+window.removerFuncionario = removerFuncionario;
+window.reativarFuncionario = reativarFuncionario;
+window.atualizarStatusFinanceiro = atualizarStatusFinanceiro;
+window.getComissoesAPagar = getComissoesAPagar;
+window.getHistoricoPagamentos = getHistoricoPagamentos;
+window.getTotalComissoes = getTotalComissoes;
+window.gerarRelatorioMensal = gerarRelatorioMensal;
+window.usuariosSistema = usuariosSistema;
+window.propostasSistema = propostasSistema;
+window.visitasSistema = visitasSistema;
 
 // Carregar dados ao carregar a página
 document.addEventListener('DOMContentLoaded', async function() {
