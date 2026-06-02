@@ -19,7 +19,11 @@
             --info: #17a2b8;
         }
 
-        body { background: var(--panel-bg); }
+        body { 
+            background: var(--panel-bg); 
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
 
         .panel-container {
             max-width: 1400px;
@@ -43,23 +47,33 @@
         .panel-header h2 {
             font-family: 'Playfair Display', serif;
             font-size: 28px;
-            margin-bottom: 8px;
+            margin: 0 0 8px 0;
         }
 
+        .panel-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* BOTÃO SAIR CORRIGIDO (VERMELHO) */
         .btn-logout {
             padding: 10px 20px;
-            background: rgba(255,255,255,0.2);
+            background: #dc3545;
             color: white;
-            border: 2px solid white;
+            border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
         }
 
         .btn-logout:hover {
-            background: white;
-            color: #1a1a2e;
+            background: #c82333;
+            transform: translateY(-2px);
         }
 
         .metrics-grid {
@@ -165,14 +179,8 @@
         }
 
         .detalhe-item { font-size: 13px; }
-
         .detalhe-label { color: #6c757d; margin-bottom: 4px; }
-
-        .detalhe-valor {
-            font-weight: 700;
-            color: #1a1a2e;
-            font-size: 16px;
-        }
+        .detalhe-valor { font-weight: 700; color: #1a1a2e; font-size: 16px; }
 
         .status-financeiro {
             padding: 6px 14px;
@@ -346,13 +354,14 @@
     <header>
         <div class="container nav-container">
             <a href="index.html" class="brand">
-                <i class="fa-solid fa-hotel" style="color: var(--accent); font-size: 24px;"></i>
+                <i class="fa-solid fa-hotel" style="color: #d4af37; font-size: 24px;"></i>
                 <h1>Gian<span>Casas</span></h1>
             </a>
-            <nav class="desktop-nav">
+            <nav class="desktop-nav" id="menuNavegacao">
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="imoveis.html" class="nav-link">Imóveis</a>
                 <a href="contato.html" class="nav-link">Contacto</a>
+                <a href="painel-financeiro.html" class="nav-link active">Painel</a>
             </nav>
             <button class="mobile-nav-toggle">&#9776;</button>
         </div>
@@ -363,10 +372,11 @@
         <div class="panel-header">
             <div>
                 <h2>💰 Painel Financeiro</h2>
-                <p>Controle de Comissões e Pagamentos</p>
+                <p id="infoUsuario">Carregando...</p>
             </div>
+            <!-- BOTÃO SAIR CORRIGIDO -->
             <button class="btn-logout" onclick="fazerLogout()">
-                <i class="fa-solid fa-right-from-bracket"></i> Sair
+                <i class="fa-solid fa-right-from-bracket"></i> Sair do Sistema
             </button>
         </div>
 
@@ -446,26 +456,31 @@
     </div>
 
     <footer>
-        <div class="container footer-bottom">
-            <p>&copy; 2026 Gian Casas Imobiliária S.A. - Painel Financeiro</p>
+        <div class="container footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding: 20px 0; border-top: 1px solid #e0e0e0; margin-top: 40px;">
+            <p style="margin: 0; color: #6c757d;">&copy; 2026 Gian Casas Imobiliária S.A. - Painel Financeiro</p>
         </div>
     </footer>
 
+    <!-- SCRIPTS NO FINAL (ORDEM CORRETA) -->
     <script src="js/usuarios.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
     <script>
-        // VERIFICAÇÃO DE SEGURANÇA
-        const usuario = getUsuarioLogado();
-        if (!usuario || usuario.perfil !== 'financeiro') {
-            window.location.href = 'login.html';
-        } else {
-            document.querySelector('.panel-header p').textContent = 
-                `Logado como: ${usuario.nome} (${usuario.cargo})`;
-        }
+        // ===== VERIFICAÇÃO DE SEGURANÇA CORRIGIDA =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuario = getUsuarioLogado();
+            if (!usuario || usuario.perfil !== 'financeiro') {
+                window.location.href = 'login.html';
+                return;
+            } else {
+                document.getElementById('infoUsuario').textContent = 
+                    `Logado como: ${usuario.nome} (${usuario.cargo})`;
+            }
+        });
 
         let propostaSelecionada = null;
 
         // ===== RENDERIZAÇÃO =====
-
         function formatarData(data) {
             if (!data) return '-';
             const [ano, mes, dia] = data.split('-');
@@ -627,7 +642,6 @@
         }
 
         // ===== FUNÇÕES DE MODAL =====
-
         function abrirModal(propostaId, acao) {
             propostaSelecionada = propostaId;
             const modal = document.getElementById('modalAcao');
@@ -690,7 +704,7 @@
 
         function exportarRelatorio() {
             const relatorio = gerarRelatorioMensal(new Date().getMonth() + 1, new Date().getFullYear());
-            alert(' RELATÓRIO FINANCEIRO\n\n' + 
+            alert('📊 RELATÓRIO FINANCEIRO\n\n' + 
                   `Mês: ${relatorio.mes}/${relatorio.ano}\n` +
                   `Total de Vendas: € ${relatorio.totalVendas.toLocaleString('pt-PT')}\n` +
                   `Total Comissões: € ${relatorio.totalComissoes.toLocaleString('pt-PT')}\n` +
