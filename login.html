@@ -140,3 +140,11 @@
     </script>
 </body>
 </html>
+if (usuario) {
+    // CORREÇÃO: RH usa o painel do supervisor
+    let destino = 'painel-' + usuario.perfil + '.html';
+    if (usuario.perfil === 'rh') {
+        destino = 'painel-supervisor.html';
+    }
+    window.location.href = destino;
+}
