@@ -21,23 +21,10 @@
             --pending: #fd7e14;
         }
 
-        body    <!-- VERIFICAÇÃO DE SEGURANÇA -->
-    <script src="js/usuarios.js"></script>
-    <script>
-        const usuarioAtual = getUsuarioLogado();
-        if (!usuarioAtual || usuarioAtual.perfil !== 'corretor') {
-            window.location.href = 'login.html';
-        } else {
-            // Atualiza informações do corretor logado
-            document.querySelector('.panel-welcome h2').textContent = 
-                `Olá, ${usuarioAtual.nome.split(' ')[0]}! 👋`;
-            document.querySelector('.user-details h4').textContent = usuarioAtual.nome;
-            document.querySelector('.user-details p').textContent = 
-                `CRECI: ${usuarioAtual.creci} | Nível: ${usuarioAtual.nivel}`;
-            document.querySelector('.user-avatar').textContent = usuarioAtual.avatar;
-        }
-    </script> {
+        body {
             background: var(--panel-bg);
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         .panel-container {
@@ -48,7 +35,7 @@
 
         /* HEADER DO PAINEL */
         .panel-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--primary, #1a1a2e) 0%, var(--secondary, #16213e) 100%);
             color: white;
             padding: 30px;
             border-radius: 16px;
@@ -64,11 +51,13 @@
             font-size: 28px;
             margin-bottom: 8px;
             font-family: 'Playfair Display', serif;
+            margin-top: 0;
         }
 
         .panel-welcome p {
             opacity: 0.9;
             font-size: 15px;
+            margin: 0;
         }
 
         .panel-user-info {
@@ -81,7 +70,7 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: var(--accent);
+            background: #d4af37;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -90,14 +79,22 @@
             color: white;
         }
 
+        .user-details {
+            text-align: right;
+        }
+
         .user-details h4 {
             font-size: 16px;
             margin-bottom: 4px;
+            margin-top: 0;
+            color: white;
         }
 
         .user-details p {
             font-size: 13px;
             opacity: 0.8;
+            margin: 0;
+            color: white;
         }
 
         /* CARDS DE MÉTRICAS */
@@ -113,7 +110,7 @@
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border-left: 4px solid var(--accent);
+            border-left: 4px solid #d4af37;
             transition: transform 0.3s ease;
         }
 
@@ -129,7 +126,7 @@
 
         .metric-icon {
             font-size: 28px;
-            color: var(--accent);
+            color: #d4af37;
             margin-bottom: 12px;
         }
 
@@ -142,13 +139,13 @@
         .metric-value {
             font-size: 32px;
             font-weight: 800;
-            color: var(--primary);
+            color: #1a1a2e;
             margin-bottom: 5px;
         }
 
         .metric-label {
             font-size: 13px;
-            color: var(--text-light);
+            color: #6c757d;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -180,11 +177,12 @@
         .section-header h3 {
             font-family: 'Playfair Display', serif;
             font-size: 22px;
-            color: var(--primary);
+            color: #1a1a2e;
+            margin: 0;
         }
 
         .section-header .badge-count {
-            background: var(--accent);
+            background: #d4af37;
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
@@ -206,7 +204,7 @@
             padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
-            border-left: 3px solid var(--accent);
+            border-left: 3px solid #d4af37;
             transition: all 0.3s ease;
         }
 
@@ -216,7 +214,7 @@
         }
 
         .visit-time {
-            background: var(--primary);
+            background: #1a1a2e;
             color: white;
             padding: 10px;
             border-radius: 8px;
@@ -241,12 +239,14 @@
         .visit-info h4 {
             font-size: 15px;
             margin-bottom: 4px;
-            color: var(--primary);
+            color: #1a1a2e;
+            margin-top: 0;
         }
 
         .visit-info p {
             font-size: 13px;
-            color: var(--text-light);
+            color: #6c757d;
+            margin: 0;
         }
 
         .visit-status {
@@ -266,7 +266,7 @@
             padding: 18px;
             border-radius: 10px;
             margin-bottom: 15px;
-            border-left: 4px solid var(--accent);
+            border-left: 4px solid #d4af37;
         }
 
         .proposal-header {
@@ -281,12 +281,12 @@
         .proposal-client {
             font-weight: 700;
             font-size: 16px;
-            color: var(--primary);
+            color: #1a1a2e;
         }
 
         .proposal-property {
             font-size: 13px;
-            color: var(--text-light);
+            color: #6c757d;
             margin-bottom: 10px;
         }
 
@@ -318,7 +318,7 @@
         .proposal-value {
             font-size: 18px;
             font-weight: 700;
-            color: var(--accent);
+            color: #d4af37;
         }
 
         .proposal-commission {
@@ -343,13 +343,14 @@
 
         .goal-header h4 {
             font-size: 14px;
-            color: var(--primary);
+            color: #1a1a2e;
+            margin: 0;
         }
 
         .goal-header span {
             font-size: 14px;
             font-weight: 700;
-            color: var(--accent);
+            color: #d4af37;
         }
 
         .progress-bar {
@@ -361,7 +362,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+            background: linear-gradient(90deg, #d4af37, #b8941f);
             border-radius: 6px;
             transition: width 0.5s ease;
         }
@@ -397,17 +398,19 @@
         .notif-content h5 {
             font-size: 14px;
             margin-bottom: 3px;
-            color: var(--primary);
+            color: #1a1a2e;
+            margin-top: 0;
         }
 
         .notif-content p {
             font-size: 12px;
-            color: var(--text-light);
+            color: #6c757d;
+            margin: 0;
         }
 
         .notif-time {
             font-size: 11px;
-            color: var(--text-light);
+            color: #6c757d;
             margin-left: auto;
             white-space: nowrap;
         }
@@ -422,7 +425,7 @@
 
         .action-btn {
             padding: 14px;
-            background: var(--primary);
+            background: #1a1a2e;
             color: white;
             border: none;
             border-radius: 8px;
@@ -434,10 +437,11 @@
             justify-content: center;
             gap: 8px;
             font-size: 14px;
+            font-family: inherit;
         }
 
         .action-btn:hover {
-            background: var(--accent);
+            background: #d4af37;
             transform: translateY(-2px);
         }
 
@@ -449,6 +453,14 @@
             
             .panel-header {
                 flex-direction: column;
+                text-align: center;
+            }
+            
+            .panel-user-info {
+                flex-direction: column;
+            }
+            
+            .user-details {
                 text-align: center;
             }
         }
@@ -474,10 +486,10 @@
     <header class="scrolled">
         <div class="container nav-container">
             <a href="index.html" class="brand">
-                <i class="fa-solid fa-hotel" style="color: var(--accent); font-size: 24px;"></i>
+                <i class="fa-solid fa-hotel" style="color: #d4af37; font-size: 24px;"></i>
                 <h1>Gian<span>Casas</span></h1>
             </a>
-            <nav class="desktop-nav">
+            <nav class="desktop-nav" id="menuNavegacao">
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="imoveis.html" class="nav-link">Imóveis</a>
                 <a href="contato.html" class="nav-link">Contacto</a>
@@ -499,15 +511,15 @@
         <!-- HEADER DO PAINEL -->
         <div class="panel-header">
             <div class="panel-welcome">
-                <h2>Olá, Ricardo! 👋</h2>
-                <p>Bem-vindo ao seu painel. Hoje é <strong>Terça-feira, 02 de Junho de 2026</strong></p>
+                <h2>Olá, Corretor! 👋</h2>
+                <p>Bem-vindo ao seu painel. Hoje é <strong id="dataAtual"></strong></p>
             </div>
             <div class="panel-user-info">
-                <div class="user-details" style="text-align: right;">
-                    <h4>Ricardo Almeida</h4>
-                    <p>CRECI: 12345-F | Nível: Senior</p>
+                <div class="user-details">
+                    <h4>Carregando...</h4>
+                    <p>CRECI: --- | Nível: ---</p>
                 </div>
-                <div class="user-avatar">RA</div>
+                <div class="user-avatar">--</div>
             </div>
         </div>
 
@@ -559,7 +571,7 @@
                 <!-- VISITAS AGENDADAS -->
                 <div class="panel-section">
                     <div class="section-header">
-                        <h3><i class="fa-regular fa-calendar-check" style="color: var(--accent);"></i> Visitas Agendadas Hoje</h3>
+                        <h3><i class="fa-regular fa-calendar-check" style="color: #d4af37;"></i> Visitas Agendadas Hoje</h3>
                         <span class="badge-count">4 visitas</span>
                     </div>
                     <div class="visit-list">
@@ -609,16 +621,16 @@
                         </div>
                     </div>
                     <div class="action-buttons">
-                        <button class="action-btn"><i class="fa-solid fa-plus"></i> Nova Visita</button>
-                        <button class="action-btn"><i class="fa-solid fa-route"></i> Otimizar Rota</button>
-                        <button class="action-btn"><i class="fa-solid fa-calendar"></i> Ver Calendário</button>
+                        <button class="action-btn btn-nova-visita"><i class="fa-solid fa-plus"></i> Nova Visita</button>
+                        <button class="action-btn btn-otimizar"><i class="fa-solid fa-route"></i> Otimizar Rota</button>
+                        <button class="action-btn btn-calendario"><i class="fa-solid fa-calendar"></i> Ver Calendário</button>
                     </div>
                 </div>
 
                 <!-- PROPOSTAS -->
                 <div class="panel-section" style="margin-top: 25px;">
                     <div class="section-header">
-                        <h3><i class="fa-solid fa-handshake" style="color: var(--accent);"></i> Propostas em Andamento</h3>
+                        <h3><i class="fa-solid fa-handshake" style="color: #d4af37;"></i> Propostas em Andamento</h3>
                         <span class="badge-count">7 propostas</span>
                     </div>
 
@@ -693,9 +705,9 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button class="action-btn"><i class="fa-solid fa-plus"></i> Nova Proposta</button>
-                        <button class="action-btn"><i class="fa-solid fa-filter"></i> Filtrar</button>
-                        <button class="action-btn"><i class="fa-solid fa-file-export"></i> Exportar PDF</button>
+                        <button class="action-btn btn-nova-proposta"><i class="fa-solid fa-plus"></i> Nova Proposta</button>
+                        <button class="action-btn btn-filtrar"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                        <button class="action-btn btn-exportar"><i class="fa-solid fa-file-export"></i> Exportar PDF</button>
                     </div>
                 </div>
             </div>
@@ -705,7 +717,7 @@
                 <!-- NOTIFICAÇÕES -->
                 <div class="panel-section">
                     <div class="section-header">
-                        <h3><i class="fa-solid fa-bell" style="color: var(--accent);"></i> Notificações</h3>
+                        <h3><i class="fa-solid fa-bell" style="color: #d4af37;"></i> Notificações</h3>
                         <span class="badge-count">5 novas</span>
                     </div>
                     <div class="notification-item">
@@ -745,15 +757,15 @@
                 <!-- ACESSO RÁPIDO -->
                 <div class="panel-section" style="margin-top: 25px;">
                     <div class="section-header">
-                        <h3><i class="fa-solid fa-bolt" style="color: var(--accent);"></i> Acesso Rápido</h3>
+                        <h3><i class="fa-solid fa-bolt" style="color: #d4af37;"></i> Acesso Rápido</h3>
                     </div>
                     <div class="action-buttons" style="grid-template-columns: 1fr;">
-                        <button class="action-btn"><i class="fa-solid fa-user-plus"></i> Cadastrar Cliente</button>
-                        <button class="action-btn"><i class="fa-solid fa-house-chimney-medical"></i> Cadastrar Imóvel</button>
-                        <button class="action-btn"><i class="fa-solid fa-comments"></i> Chat com Supervisor</button>
-                        <button class="action-btn"><i class="fa-solid fa-user"></i> Meu Perfil</button>
-                        <button class="action-btn"><i class="fa-solid fa-graduation-cap"></i> Treinamentos</button>
-                        <button class="action-btn"><i class="fa-solid fa-file-invoice-dollar"></i> Minhas Comissões</button>
+                        <button class="action-btn btn-cadastrar-cliente"><i class="fa-solid fa-user-plus"></i> Cadastrar Cliente</button>
+                        <button class="action-btn btn-cadastrar-imovel"><i class="fa-solid fa-house-chimney-medical"></i> Cadastrar Imóvel</button>
+                        <button class="action-btn btn-chat"><i class="fa-solid fa-comments"></i> Chat com Supervisor</button>
+                        <button class="action-btn btn-perfil"><i class="fa-solid fa-user"></i> Meu Perfil</button>
+                        <button class="action-btn btn-treinamentos"><i class="fa-solid fa-graduation-cap"></i> Treinamentos</button>
+                        <button class="action-btn btn-comissoes"><i class="fa-solid fa-file-invoice-dollar"></i> Minhas Comissões</button>
                     </div>
                 </div>
             </div>
@@ -761,15 +773,54 @@
     </div>
 
     <!-- FOOTER -->
-        <footer>
-        <div class="container footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-            <p>&copy; 2026 Gian Casas Imobiliária S.A. - Painel do Corretor</p>
-            <button onclick="fazerLogout()" style="background: var(--accent); color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">
-                <i class="fa-solid fa-right-from-bracket"></i> Sair
+    <footer>
+        <div class="container footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding: 20px 0; border-top: 1px solid #e0e0e0; margin-top: 40px;">
+            <p style="margin: 0; color: #6c757d;">&copy; 2026 Gian Casas Imobiliária S.A. - Painel do Corretor</p>
+            <button onclick="fazerLogout()" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-family: inherit;">
+                <i class="fa-solid fa-right-from-bracket"></i> Sair do Sistema
             </button>
         </div>
     </footer>
 
+    <!-- SCRIPTS NO FINAL (ORDEM CORRETA) -->
+    <script src="js/usuarios.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // 1. Define a data atual no topo
+        const dataElement = document.getElementById('dataAtual');
+        if (dataElement) {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dataElement.textContent = new Date().toLocaleDateString('pt-PT', options);
+        }
+
+        // 2. Verificação de segurança e atualização dinâmica dos dados
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuarioAtual = getUsuarioLogado();
+            if (!usuarioAtual || usuarioAtual.perfil !== 'corretor') {
+                window.location.href = 'login.html';
+                return; // Impede a execução do resto se não for corretor
+            }
+            
+            // Atualiza as informações do corretor logado na tela
+            const welcomeElement = document.querySelector('.panel-welcome h2');
+            if (welcomeElement) {
+                welcomeElement.textContent = `Olá, ${usuarioAtual.nome.split(' ')[0]}! 👋`;
+            }
+            
+            const userDetails = document.querySelector('.user-details');
+            if (userDetails) {
+                userDetails.innerHTML = `
+                    <h4>${usuarioAtual.nome}</h4>
+                    <p>CRECI: ${usuarioAtual.creci} | Nível: ${usuarioAtual.nivel}</p>
+                `;
+            }
+            
+            const avatar = document.querySelector('.user-avatar');
+            if (avatar) {
+                avatar.textContent = usuarioAtual.avatar;
+            }
+        });
+    </script>
 </body>
 </html>
