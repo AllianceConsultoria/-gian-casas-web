@@ -112,11 +112,11 @@
             margin-bottom: 15px;
             font-size: 14px;
             display: none;
+            text-align: center;
         }
         
-        .credenciais-demo
-        <p><strong>Financeiro:</strong> financeiro@giancasas.com | senha: financeiro123</p>
-        {
+        /* CSS CORRIGIDO AQUI */
+        .credenciais-demo {
             background: #f8f9fa;
             padding: 15px;
             border-radius: 8px;
@@ -172,6 +172,7 @@
             <p><strong>Corretor:</strong> ricardo@giancasas.com | senha: corretor123</p>
             <p><strong>Supervisor:</strong> kleber@giancasas.com | senha: supervisor123</p>
             <p><strong>RH:</strong> marina@giancasas.com | senha: rh123</p>
+            <p><strong>Financeiro:</strong> financeiro@giancasas.com | senha: financeiro123</p>
         </div>
         
         <div class="login-footer">
@@ -179,20 +180,21 @@
         </div>
     </div>
 
+    <!-- SCRIPTS CORRIGIDOS E DINÂMICOS -->
     <script src="js/usuarios.js"></script>
+    <script src="js/app.js"></script>
     <script>
-        // Verifica se já está logado
-        const usuarioAtual = getUsuarioLogado();
-        if (usuarioAtual) {
-            // Redireciona para o painel correto
-            if (usuarioAtual.perfil === 'supervisor' || usuarioAtual.perfil === 'rh') {
-                window.location.href = 'painel-supervisor.html';
-            } else {
-                window.location.href = 'painel-corretor.html';
+        // 1. Verifica se já está logado ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuarioAtual = localStorage.getItem('usuarioLogado');
+            if (usuarioAtual) {
+                const user = JSON.parse(usuarioAtual);
+                // Redireciona dinamicamente: painel-corretor.html, painel-financeiro.html, etc.
+                window.location.href = 'painel-' + user.perfil + '.html';
             }
-        }
+        });
         
-        // Lógica de login
+        // 2. Lógica de login ao submeter o formulário
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -203,14 +205,10 @@
             const usuario = verificarLogin(email, senha);
             
             if (usuario) {
-                // Login bem-sucedido - redireciona conforme perfil
-                if (usuario.perfil === 'supervisor' || usuario.perfil === 'rh') {
-                    window.location.href = 'painel-supervisor.html';
-                } else {
-                    window.location.href = 'painel-corretor.html';
-                }
+                // Login bem-sucedido: redireciona dinamicamente baseado no perfil
+                window.location.href = 'painel-' + usuario.perfil + '.html';
             } else {
-                // Erro - mostra mensagem
+                // Erro: mostra mensagem por 3 segundos
                 errorMsg.style.display = 'block';
                 setTimeout(() => {
                     errorMsg.style.display = 'none';
