@@ -17,262 +17,170 @@
             --warning: #ffc107;
             --danger: #dc3545;
             --info: #17a2b8;
-            --pending: #fd7e14;
         }
 
-        body { background: var(--panel-bg); }
+        body { background: var(--panel-bg); margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        .panel-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
+        .panel-container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
 
         .panel-header {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+            color: white; padding: 30px; border-radius: 16px; margin-bottom: 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 20px;
         }
 
-        .panel-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
+        .panel-header h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 0 0 8px 0; }
+        .panel-header p { margin: 0; opacity: 0.9; }
 
-        .panel-header p { opacity: 0.9; }
-
+        /* BOTÃO SAIR CORRIGIDO (VERMELHO) */
         .btn-logout {
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            padding: 10px 20px; background: #dc3545; color: white;
+            border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 600; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 8px; font-family: inherit;
         }
+        .btn-logout:hover { background: #c82333; transform: translateY(-2px); }
 
-        .btn-logout:hover {
-            background: white;
-            color: #1a1a2e;
-        }
-
-        /* Métricas gerais */
         .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; margin-bottom: 30px;
         }
 
         .metric-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border-left: 4px solid #d4af37;
+            background: white; padding: 25px; border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #d4af37;
         }
 
-        .metric-value {
-            font-size: 32px;
-            font-weight: 800;
-            color: #1a1a2e;
-            margin-bottom: 5px;
-        }
+        .metric-value { font-size: 32px; font-weight: 800; color: #1a1a2e; margin-bottom: 5px; }
+        .metric-label { font-size: 13px; color: #6c757d; text-transform: uppercase; }
 
-        .metric-label {
-            font-size: 13px;
-            color: #6c757d;
-            text-transform: uppercase;
-        }
-
-        /* Tabela de corretores */
         .section-box {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            background: white; border-radius: 12px; padding: 25px;
+            margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            color: #1a1a2e;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            font-family: 'Playfair Display', serif; font-size: 22px;
+            color: #1a1a2e; margin-bottom: 20px; padding-bottom: 15px;
             border-bottom: 2px solid #f0f0f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 10px;
         }
+
+        .btn-primary {
+            padding: 10px 20px; background: #d4af37; color: white;
+            border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 600; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 8px; font-family: inherit;
+        }
+        .btn-primary:hover { background: #b8941f; }
 
         .corretor-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            cursor: pointer;
+            background: #f8f9fa; border-radius: 10px; padding: 20px;
+            margin-bottom: 15px; border-left: 4px solid #d4af37;
             transition: all 0.3s ease;
-            border-left: 4px solid #d4af37;
         }
-
-        .corretor-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+        .corretor-card:hover { transform: translateX(5px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .corretor-card.inativo { opacity: 0.6; border-left-color: #6c757d; }
 
         .corretor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; flex-wrap: wrap; gap: 10px;
         }
 
-        .corretor-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .corretor-info { display: flex; align-items: center; gap: 15px; }
 
         .corretor-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #d4af37;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: #d4af37; color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 18px;
         }
 
-        .corretor-nome {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1a1a2e;
-        }
-
-        .corretor-creci {
-            font-size: 12px;
-            color: #6c757d;
-        }
+        .corretor-nome { font-size: 16px; font-weight: 700; color: #1a1a2e; margin: 0; }
+        .corretor-email { font-size: 12px; color: #6c757d; margin: 2px 0; }
+        .corretor-creci { font-size: 12px; color: #6c757d; margin: 0; }
 
         .badge-perfil {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
+            padding: 4px 12px; border-radius: 20px;
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
         }
-
         .badge-senior { background: #d4af37; color: white; }
         .badge-pleno { background: #17a2b8; color: white; }
         .badge-junior { background: #28a745; color: white; }
+        .badge-inativo { background: #6c757d; color: white; }
 
         .corretor-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 15px;
         }
 
-        .stat-item {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
+        .stat-item { background: white; padding: 12px; border-radius: 8px; text-align: center; }
+        .stat-value { font-size: 20px; font-weight: 800; color: #1a1a2e; }
+        .stat-label { font-size: 11px; color: #6c757d; text-transform: uppercase; }
+
+        .corretor-actions {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px;
+            padding-top: 15px; border-top: 1px solid #dee2e6;
         }
 
-        .stat-value {
-            font-size: 20px;
-            font-weight: 800;
-            color: #1a1a2e;
+        .btn-action {
+            padding: 8px 16px; border: none; border-radius: 6px;
+            cursor: pointer; font-weight: 600; font-size: 13px;
+            transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px;
         }
+        .btn-ver { background: #17a2b8; color: white; }
+        .btn-remover { background: #dc3545; color: white; }
+        .btn-reativar { background: #28a745; color: white; }
+        .btn-action:hover { transform: translateY(-2px); }
 
-        .stat-label {
-            font-size: 11px;
-            color: #6c757d;
-            text-transform: uppercase;
-        }
-
-        /* Detalhes do corretor (expandido) */
-        .corretor-detalhes {
-            display: none;
-            margin-top: 15px;
-            padding-top: 15px;
+        .propostas-detalhe {
+            display: none; margin-top: 15px; padding-top: 15px;
             border-top: 1px solid #dee2e6;
         }
-
-        .corretor-detalhes.ativo {
-            display: block;
-        }
-
-        .proposta-lista {
-            margin-top: 10px;
-        }
+        .propostas-detalhe.ativo { display: block; }
 
         .proposta-item {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            background: white; padding: 12px; border-radius: 8px;
+            margin-bottom: 8px; display: flex;
+            justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 10px;
         }
 
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
+        .status-badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
         .status-nova { background: #cce5ff; color: #004085; }
         .status-analise { background: #fff3cd; color: #856404; }
         .status-negociacao { background: #e2d5f1; color: #4a148c; }
         .status-aprovada { background: #d4edda; color: #155724; }
         .status-rejeitada { background: #f8d7da; color: #721c24; }
 
-        .ranking-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin-bottom: 10px;
+        /* MODAL */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+            z-index: 9999; align-items: center; justify-content: center;
+        }
+        .modal.ativo { display: flex; }
+
+        .modal-content {
+            background: white; padding: 30px; border-radius: 12px;
+            max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;
         }
 
-        .ranking-posicao {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #d4af37;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-        }
+        .modal-header { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 20px; color: #1a1a2e; }
 
-        .ranking-posicao.ouro { background: gold; color: #333; }
-        .ranking-posicao.prata { background: silver; color: #333; }
-        .ranking-posicao.bronze { background: #cd7f32; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #2c3e50; font-size: 14px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0;
+            border-radius: 6px; font-family: inherit; font-size: 14px;
+        }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #d4af37; }
+
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        .btn-confirmar { padding: 10px 20px; background: #d4af37; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-fechar { padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
 
         @media (max-width: 768px) {
             .panel-header { flex-direction: column; text-align: center; }
@@ -286,13 +194,14 @@
     <header>
         <div class="container nav-container">
             <a href="index.html" class="brand">
-                <i class="fa-solid fa-hotel" style="color: var(--accent); font-size: 24px;"></i>
+                <i class="fa-solid fa-hotel" style="color: #d4af37; font-size: 24px;"></i>
                 <h1>Gian<span>Casas</span></h1>
             </a>
-            <nav class="desktop-nav">
+            <nav class="desktop-nav" id="menuNavegacao">
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="imoveis.html" class="nav-link">Imóveis</a>
                 <a href="contato.html" class="nav-link">Contacto</a>
+                <a href="painel-supervisor.html" class="nav-link active">Painel</a>
             </nav>
             <button class="mobile-nav-toggle">&#9776;</button>
         </div>
@@ -303,34 +212,34 @@
         <div class="panel-header">
             <div>
                 <h2>👔 Painel do Supervisor Geral</h2>
-                <p>Visão completa da equipe de corretores</p>
+                <p id="infoUsuario">Carregando...</p>
             </div>
             <button class="btn-logout" onclick="fazerLogout()">
-                <i class="fa-solid fa-right-from-bracket"></i> Sair
+                <i class="fa-solid fa-right-from-bracket"></i> Sair do Sistema
             </button>
         </div>
 
-        <!-- MÉTRICAS GERAIS DA EMPRESA -->
+        <!-- MÉTRICAS GERAIS -->
         <div class="metrics-grid">
             <div class="metric-card">
-                <div class="metric-value" id="totalCorretores">3</div>
+                <div class="metric-value" id="totalCorretores">0</div>
                 <div class="metric-label">Corretores Ativos</div>
             </div>
             <div class="metric-card" style="border-left-color: var(--success);">
-                <div class="metric-value" id="totalPropostas">8</div>
+                <div class="metric-value" id="totalPropostas">0</div>
                 <div class="metric-label">Propostas Ativas</div>
             </div>
             <div class="metric-card" style="border-left-color: var(--warning);">
-                <div class="metric-value" id="totalVisitas">7</div>
+                <div class="metric-value" id="totalVisitas">0</div>
                 <div class="metric-label">Visitas Hoje</div>
             </div>
             <div class="metric-card" style="border-left-color: var(--info);">
-                <div class="metric-value" id="faturamentoTotal">€ 49.550</div>
+                <div class="metric-value" id="faturamentoTotal">€ 0</div>
                 <div class="metric-label">Comissões Previstas</div>
             </div>
         </div>
 
-        <!-- RANKING GERAL -->
+        <!-- RANKING -->
         <div class="section-box">
             <div class="section-title">
                 <span>🏆 Ranking da Equipe</span>
@@ -339,89 +248,151 @@
             <div id="rankingContainer"></div>
         </div>
 
-        <!-- LISTA DE CORRETORES -->
+        <!-- GESTÃO DE EQUIPE -->
         <div class="section-box">
             <div class="section-title">
-                <span>👥 Equipe de Corretores</span>
-                <span style="font-size: 13px; color: #6c757d;">Clique para ver detalhes</span>
+                <span>👥 Gestão de Equipe</span>
+                <button class="btn-primary" onclick="abrirModalCadastro()">
+                    <i class="fa-solid fa-user-plus"></i> Adicionar Funcionário
+                </button>
             </div>
-            <div id="corretoresContainer"></div>
+            <div id="equipeContainer"></div>
         </div>
 
         <!-- TODAS AS PROPOSTAS -->
         <div class="section-box">
             <div class="section-title">
-                <span> Todas as Propostas em Andamento</span>
+                <span>📄 Todas as Propostas em Andamento</span>
             </div>
             <div id="todasPropostasContainer"></div>
         </div>
+    </div>
 
+    <!-- MODAL CADASTRO -->
+    <div class="modal" id="modalCadastro">
+        <div class="modal-content">
+            <div class="modal-header">Adicionar Novo Funcionário</div>
+            <form id="formCadastro">
+                <div class="form-group">
+                    <label>Nome Completo *</label>
+                    <input type="text" id="cadNome" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="cadEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Senha Inicial *</label>
+                    <input type="text" id="cadSenha" value="giancasas2026" required>
+                </div>
+                <div class="form-group">
+                    <label>Perfil *</label>
+                    <select id="cadPerfil" required>
+                        <option value="corretor">Corretor</option>
+                        <option value="supervisor">Supervisor</option>
+                        <option value="financeiro">Financeiro</option>
+                        <option value="rh">RH</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>CRECI (apenas corretores)</label>
+                    <input type="text" id="cadCreci" placeholder="Ex: 12345-F">
+                </div>
+                <div class="form-group">
+                    <label>Nível (apenas corretores)</label>
+                    <select id="cadNivel">
+                        <option value="Junior">Junior</option>
+                        <option value="Pleno">Pleno</option>
+                        <option value="Senior">Senior</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-fechar" onclick="fecharModalCadastro()">Cancelar</button>
+                    <button type="submit" class="btn-confirmar">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMAÇÃO -->
+    <div class="modal" id="modalConfirmacao">
+        <div class="modal-content">
+            <div class="modal-header" id="tituloConfirmacao">Confirmar Ação</div>
+            <p id="textoConfirmacao"></p>
+            <div class="modal-actions">
+                <button class="btn-fechar" onclick="fecharModalConfirmacao()">Cancelar</button>
+                <button class="btn-confirmar" id="btnConfirmarAcao">Confirmar</button>
+            </div>
+        </div>
     </div>
 
     <footer>
-        <div class="container footer-bottom">
-            <p>&copy; 2026 Gian Casas Imobiliária S.A. - Painel Supervisor</p>
+        <div class="container footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding: 20px 0; border-top: 1px solid #e0e0e0; margin-top: 40px;">
+            <p style="margin: 0; color: #6c757d;">&copy; 2026 Gian Casas Imobiliária S.A. - Painel Supervisor</p>
         </div>
     </footer>
 
+    <!-- SCRIPTS NO FINAL (ORDEM CORRETA) -->
     <script src="js/usuarios.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
     <script>
-        // VERIFICAÇÃO DE SEGURANÇA: só supervisor/rh pode acessar
-        const usuario = getUsuarioLogado();
-        if (!usuario || (usuario.perfil !== 'supervisor' && usuario.perfil !== 'rh')) {
-            window.location.href = 'login.html';
-        } else {
-            // Atualiza header com nome do supervisor
-            document.querySelector('.panel-header p').textContent = 
-                `Logado como: ${usuario.nome} (${usuario.cargo || usuario.perfil})`;
-        }
+        // ===== VERIFICAÇÃO DE SEGURANÇA =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuario = getUsuarioLogado();
+            if (!usuario || (usuario.perfil !== 'supervisor' && usuario.perfil !== 'rh')) {
+                window.location.href = 'login.html';
+                return;
+            }
+            document.getElementById('infoUsuario').textContent = `Logado como: ${usuario.nome} (${usuario.cargo || usuario.perfil})`;
+            
+            atualizarMetricasGerais();
+            renderizarRanking();
+            renderizarEquipe();
+            renderizarTodasPropostas();
+        });
 
-        // Dados dos corretores (filtrar apenas perfil corretor)
-        const corretores = usuariosSistema.filter(u => u.perfil === 'corretor');
-
-        // Calcula métricas por corretor
+        // ===== FUNÇÕES DE RENDERIZAÇÃO =====
         function calcularMetricas(corretorId) {
             const propostasCorretor = propostasSistema.filter(p => p.corretorId === corretorId);
             const visitasCorretor = visitasSistema.filter(v => v.corretorId === corretorId);
             const comissaoTotal = propostasCorretor.reduce((sum, p) => sum + p.comissao, 0);
-            const propostasAtivas = propostasCorretor.filter(p => 
-                p.status !== 'rejeitada').length;
-            
-            return {
-                propostasAtivas,
-                visitas: visitasCorretor.length,
-                comissaoTotal,
-                totalPropostas: propostasCorretor.length
-            };
+            const propostasAtivas = propostasCorretor.filter(p => p.status !== 'rejeitada').length;
+            return { propostasAtivas, visitas: visitasCorretor.length, comissaoTotal, totalPropostas: propostasCorretor.length };
         }
 
-        // Renderiza ranking
+        function atualizarMetricasGerais() {
+            const corretoresAtivos = getCorretoresAtivos();
+            const totalPropostasAtivas = propostasSistema.filter(p => p.status !== 'rejeitada').length;
+            const totalVisitasHoje = visitasSistema.length;
+            const totalComissoes = getTotalComissoes(null, 'pendente') + getTotalComissoes(null, 'aprovado') + getTotalComissoes(null, 'pago');
+
+            document.getElementById('totalCorretores').textContent = corretoresAtivos.length;
+            document.getElementById('totalPropostas').textContent = totalPropostasAtivas;
+            document.getElementById('totalVisitas').textContent = totalVisitasHoje;
+            document.getElementById('faturamentoTotal').textContent = `€ ${totalComissoes.toLocaleString('pt-PT')}`;
+        }
+
         function renderizarRanking() {
             const container = document.getElementById('rankingContainer');
-            const ranking = corretores.map(c => ({
-                ...c,
-                metricas: calcularMetricas(c.id)
-            })).sort((a, b) => b.metricas.comissaoTotal - a.metricas.comissaoTotal);
+            const corretoresAtivos = getCorretoresAtivos();
+            const ranking = corretoresAtivos.map(c => ({ ...c, metricas: calcularMetricas(c.id) }))
+                .sort((a, b) => b.metricas.comissaoTotal - a.metricas.comissaoTotal);
 
             container.innerHTML = ranking.map((c, index) => {
                 const posicao = index + 1;
-                let classePos = '';
-                if (posicao === 1) classePos = 'ouro';
-                else if (posicao === 2) classePos = 'prata';
-                else if (posicao === 3) classePos = 'bronze';
+                let medalha = posicao === 1 ? '🥇' : posicao === 2 ? '🥈' : posicao === 3 ? '🥉' : `${posicao}º`;
                 
                 return `
-                    <div class="ranking-item">
-                        <div class="ranking-posicao ${classePos}">${posicao}º</div>
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px; margin-bottom: 10px;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: #d4af37; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">${medalha}</div>
                         <div class="corretor-avatar">${c.avatar}</div>
                         <div style="flex: 1;">
-                            <div class="corretor-nome">${c.nome}</div>
-                            <div class="corretor-creci">CRECI: ${c.creci} | ${c.nivel}</div>
+                            <div style="font-weight: 700; color: #1a1a2e;">${c.nome}</div>
+                            <div style="font-size: 12px; color: #6c757d;">${c.nivel} | CRECI: ${c.creci || '-'}</div>
                         </div>
                         <div style="text-align: right;">
-                            <div style="font-size: 18px; font-weight: 800; color: #d4af37;">
-                                € ${c.metricas.comissaoTotal.toLocaleString('pt-PT')}
-                            </div>
+                            <div style="font-size: 18px; font-weight: 800; color: #d4af37;">€ ${c.metricas.comissaoTotal.toLocaleString('pt-PT')}</div>
                             <div style="font-size: 12px; color: #6c757d;">em comissões</div>
                         </div>
                     </div>
@@ -429,120 +400,164 @@
             }).join('');
         }
 
-        // Renderiza lista de corretores
-        function renderizarCorretores() {
-            const container = document.getElementById('corretoresContainer');
+        function renderizarEquipe() {
+            const container = document.getElementById('equipeContainer');
+            const todosFuncionarios = getTodosFuncionarios();
             
-            container.innerHTML = corretores.map(c => {
-                const m = calcularMetricas(c.id);
-                const badgeClass = c.nivel === 'Senior' ? 'badge-senior' : 
-                                   c.nivel === 'Pleno' ? 'badge-pleno' : 'badge-junior';
+            const ordenados = [...todosFuncionarios].sort((a, b) => {
+                if (a.ativo === false && b.ativo !== false) return 1;
+                if (a.ativo !== false && b.ativo === false) return -1;
+                return a.nome.localeCompare(b.nome);
+            });
+
+            container.innerHTML = ordenados.map(c => {
+                const ehCorretor = c.perfil === 'corretor';
+                const metricas = ehCorretor ? calcularMetricas(c.id) : null;
+                const ativo = c.ativo !== false;
                 
-                // Pega propostas deste corretor
-                const propostas = propostasSistema.filter(p => p.corretorId === c.id);
-                const propostasHtml = propostas.map(p => {
-                    const statusClass = `status-${p.status}`;
-                    const statusLabel = p.status.charAt(0).toUpperCase() + p.status.slice(1);
-                    return `
+                const badgeClass = !ativo ? 'badge-inativo' : (c.nivel === 'Senior' ? 'badge-senior' : c.nivel === 'Pleno' ? 'badge-pleno' : 'badge-junior');
+                const badgeText = !ativo ? 'Inativo' : (c.cargo || c.nivel || c.perfil);
+                
+                let propostasHtml = '';
+                if (ehCorretor && metricas) {
+                    const propostas = propostasSistema.filter(p => p.corretorId === c.id);
+                    propostasHtml = propostas.map(p => `
                         <div class="proposta-item">
-                            <div>
-                                <strong>${p.cliente}</strong><br>
-                                <small style="color: #6c757d;">${p.imovel}</small>
-                            </div>
+                            <div><strong>${p.cliente}</strong><br><small style="color: #6c757d;">${p.imovel}</small></div>
                             <div style="text-align: right;">
-                                <span class="status-badge ${statusClass}">${statusLabel}</span>
-                                <div style="font-size: 12px; color: #28a745; margin-top: 4px;">
-                                    € ${p.comissao.toLocaleString('pt-PT')} comissão
-                                </div>
+                                <span class="status-badge status-${p.status}">${p.status.charAt(0).toUpperCase() + p.status.slice(1)}</span>
+                                <div style="font-size: 12px; color: #28a745; margin-top: 4px;">€ ${p.comissao.toLocaleString('pt-PT')}</div>
                             </div>
                         </div>
-                    `;
-                }).join('');
-                
+                    `).join('');
+                }
+
                 return `
-                    <div class="corretor-card" onclick="toggleDetalhes(this)">
+                    <div class="corretor-card ${!ativo ? 'inativo' : ''}">
                         <div class="corretor-header">
                             <div class="corretor-info">
                                 <div class="corretor-avatar">${c.avatar}</div>
                                 <div>
-                                    <div class="corretor-nome">${c.nome}</div>
-                                    <div class="corretor-creci">CRECI: ${c.creci} | ${c.nivel}</div>
+                                    <p class="corretor-nome">${c.nome} ${!ativo ? '<i style="color: #dc3545;">(INATIVO)</i>' : ''}</p>
+                                    <p class="corretor-email"><i class="fa-solid fa-envelope"></i> ${c.email}</p>
+                                    <p class="corretor-creci"><i class="fa-solid fa-id-badge"></i> ${c.creci ? `CRECI: ${c.creci}` : c.cargo || c.perfil}</p>
                                 </div>
                             </div>
-                            <span class="badge-perfil ${badgeClass}">${c.nivel}</span>
+                            <span class="badge-perfil ${badgeClass}">${badgeText}</span>
                         </div>
-                        <div class="corretor-stats">
-                            <div class="stat-item">
-                                <div class="stat-value">${m.propostasAtivas}</div>
-                                <div class="stat-label">Propostas Ativas</div>
+                        
+                        ${ehCorretor && ativo ? `
+                            <div class="corretor-stats">
+                                <div class="stat-item"><div class="stat-value">${metricas.propostasAtivas}</div><div class="stat-label">Propostas Ativas</div></div>
+                                <div class="stat-item"><div class="stat-value">${metricas.visitas}</div><div class="stat-label">Visitas Hoje</div></div>
+                                <div class="stat-item"><div class="stat-value" style="color: #d4af37;">€ ${metricas.comissaoTotal.toLocaleString('pt-PT')}</div><div class="stat-label">Comissão Prevista</div></div>
+                                <div class="stat-item"><div class="stat-value">${metricas.totalPropostas}</div><div class="stat-label">Total Propostas</div></div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">${m.visitas}</div>
-                                <div class="stat-label">Visitas Hoje</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value" style="color: #d4af37;">
-                                    € ${m.comissaoTotal.toLocaleString('pt-PT')}
-                                </div>
-                                <div class="stat-label">Comissão Prevista</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">${m.totalPropostas}</div>
-                                <div class="stat-label">Total Propostas</div>
-                            </div>
+                        ` : ''}
+                        
+                        <div class="corretor-actions">
+                            ${ehCorretor ? `<button class="btn-action btn-ver" onclick="toggleDetalhes(this)"><i class="fa-solid fa-eye"></i> Ver Propostas</button>` : ''}
+                            ${ativo ? 
+                                `<button class="btn-action btn-remover" onclick="confirmarRemocao(${c.id}, '${c.nome}')"><i class="fa-solid fa-user-xmark"></i> Remover</button>` :
+                                `<button class="btn-action btn-reativar" onclick="confirmarReativacao(${c.id}, '${c.nome}')"><i class="fa-solid fa-user-check"></i> Reativar</button>`
+                            }
                         </div>
-                        <div class="corretor-detalhes">
+                        
+                        <div class="propostas-detalhe">
                             <h4 style="margin-bottom: 10px; color: #1a1a2e;">📋 Propostas deste corretor:</h4>
-                            <div class="proposta-lista">
-                                ${propostasHtml}
-                            </div>
+                            ${propostasHtml || '<p style="color: #6c757d;">Nenhuma proposta registrada</p>'}
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // Renderiza todas as propostas
         function renderizarTodasPropostas() {
             const container = document.getElementById('todasPropostasContainer');
-            
             container.innerHTML = propostasSistema.map(p => {
                 const corretor = usuariosSistema.find(u => u.id === p.corretorId);
-                const statusClass = `status-${p.status}`;
-                const statusLabel = p.status.charAt(0).toUpperCase() + p.status.slice(1);
-                
                 return `
                     <div class="proposta-item">
                         <div style="flex: 1;">
                             <strong>${p.cliente}</strong>
-                            <div style="font-size: 12px; color: #6c757d;">
-                                ${p.imovel} | Corretor: ${corretor ? corretor.nome : 'Desconhecido'}
-                            </div>
+                            <div style="font-size: 12px; color: #6c757d;">${p.imovel} | Corretor: ${corretor ? corretor.nome : 'Desconhecido'}</div>
                         </div>
                         <div style="text-align: right;">
-                            <div style="font-weight: 700; color: #1a1a2e;">
-                                € ${p.valor.toLocaleString('pt-PT')}
-                            </div>
-                            <span class="status-badge ${statusClass}">${statusLabel}</span>
-                            <div style="font-size: 12px; color: #28a745; margin-top: 4px;">
-                                Comissão: € ${p.comissao.toLocaleString('pt-PT')}
-                            </div>
+                            <div style="font-weight: 700; color: #1a1a2e;">€ ${p.valor.toLocaleString('pt-PT')}</div>
+                            <span class="status-badge status-${p.status}">${p.status.charAt(0).toUpperCase() + p.status.slice(1)}</span>
+                            <div style="font-size: 12px; color: #28a745; margin-top: 4px;">Comissão: € ${p.comissao.toLocaleString('pt-PT')}</div>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // Toggle de detalhes
-        function toggleDetalhes(elemento) {
-            const detalhes = elemento.querySelector('.corretor-detalhes');
+        // ===== FUNÇÕES DE INTERAÇÃO =====
+        function toggleDetalhes(botao) {
+            const card = botao.closest('.corretor-card');
+            const detalhes = card.querySelector('.propostas-detalhe');
             detalhes.classList.toggle('ativo');
+            botao.innerHTML = detalhes.classList.contains('ativo') ? '<i class="fa-solid fa-eye-slash"></i> Ocultar' : '<i class="fa-solid fa-eye"></i> Ver Propostas';
         }
 
-        // Inicializa tudo
-        renderizarRanking();
-        renderizarCorretores();
-        renderizarTodasPropostas();
+        function abrirModalCadastro() { document.getElementById('modalCadastro').classList.add('ativo'); }
+        function fecharModalCadastro() { 
+            document.getElementById('modalCadastro').classList.remove('ativo'); 
+            document.getElementById('formCadastro').reset();
+        }
+
+        function confirmarRemocao(id, nome) {
+            document.getElementById('tituloConfirmacao').textContent = 'Confirmar Remoção';
+            document.getElementById('textoConfirmacao').innerHTML = `Tem certeza que deseja <strong>remover</strong> <strong>${nome}</strong>?<br><small>O funcionário será desativado e perderá o acesso ao sistema.</small>`;
+            document.getElementById('modalConfirmacao').classList.add('ativo');
+            document.getElementById('btnConfirmarAcao').onclick = () => {
+                removerFuncionario(id);
+                fecharModalConfirmacao();
+                renderizarEquipe();
+                renderizarRanking();
+                atualizarMetricasGerais();
+                alert(`✅ ${nome} foi removido com sucesso!`);
+            };
+        }
+
+        function confirmarReativacao(id, nome) {
+            document.getElementById('tituloConfirmacao').textContent = 'Confirmar Reativação';
+            document.getElementById('textoConfirmacao').innerHTML = `Deseja <strong>reativar</strong> <strong>${nome}</strong> no sistema?`;
+            document.getElementById('modalConfirmacao').classList.add('ativo');
+            document.getElementById('btnConfirmarAcao').onclick = () => {
+                reativarFuncionario(id);
+                fecharModalConfirmacao();
+                renderizarEquipe();
+                renderizarRanking();
+                atualizarMetricasGerais();
+                alert(`✅ ${nome} foi reativado com sucesso!`);
+            };
+        }
+
+        function fecharModalConfirmacao() { document.getElementById('modalConfirmacao').classList.remove('ativo'); }
+
+        // ===== FORMULÁRIO DE CADASTRO =====
+        document.getElementById('formCadastro').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('cadNome').value;
+            const email = document.getElementById('cadEmail').value;
+            const senha = document.getElementById('cadSenha').value;
+            const perfil = document.getElementById('cadPerfil').value;
+            const creci = document.getElementById('cadCreci').value;
+            const nivel = document.getElementById('cadNivel').value;
+            
+            if (usuariosSistema.find(u => u.email === email)) {
+                alert('⚠️ Este email já está cadastrado no sistema!');
+                return;
+            }
+            
+            adicionarFuncionario({ nome, email, senha, perfil, creci: perfil === 'corretor' ? creci : null, nivel: perfil === 'corretor' ? nivel : null, cargo: perfil !== 'corretor' ? perfil.charAt(0).toUpperCase() + perfil.slice(1) : null });
+            fecharModalCadastro();
+            renderizarEquipe();
+            renderizarRanking();
+            atualizarMetricasGerais();
+            alert(`✅ ${nome} foi cadastrado com sucesso!\n\nEmail: ${email}\nSenha: ${senha}`);
+        });
     </script>
 </body>
 </html>
