@@ -23,15 +23,8 @@
             --text-light: #6c757d;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--panel-bg);
-        }
-        header {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 15px 0;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--panel-bg); }
+        header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 15px 0; }
         .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
@@ -59,10 +52,7 @@
         .user-details { text-align: right; }
         .user-details h4 { font-size: 16px; margin-bottom: 4px; }
         .user-details p { font-size: 13px; opacity: 0.8; margin: 0; }
-        .metrics-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px; margin-bottom: 30px;
-        }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .metric-card {
             background: var(--card-bg); padding: 25px; border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid var(--accent);
@@ -82,47 +72,21 @@
         .metric-card.pending .metric-icon { color: var(--warning); }
         .metric-value { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
         .metric-label { font-size: 13px; color: var(--text-light); text-transform: uppercase; }
-        .goal-progress {
-            background: white; padding: 20px; border-radius: 10px;
-            margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
+        .goal-progress { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         .goal-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
         .goal-header h4 { font-size: 14px; color: var(--primary); margin: 0; }
         .goal-header span { font-size: 14px; font-weight: 700; color: var(--accent); }
         .progress-bar { height: 12px; background: #e9ecef; border-radius: 6px; overflow: hidden; }
-        .progress-fill {
-            height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-hover));
-            border-radius: 6px; transition: width 0.5s;
-        }
-        .main-grid {
-            display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 30px;
-        }
-        .panel-section {
-            background: var(--card-bg); border-radius: 12px;
-            padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-        .section-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0;
-        }
-        .section-header h3 {
-            font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); margin: 0;
-        }
-        .badge-count {
-            background: var(--accent); color: white; padding: 4px 12px;
-            border-radius: 20px; font-size: 13px; font-weight: 600;
-        }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-hover)); border-radius: 6px; transition: width 0.5s; }
+        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 30px; }
+        .panel-section { background: var(--card-bg); border-radius: 12px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0; }
+        .section-header h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); margin: 0; }
+        .badge-count { background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
         .visit-list { display: flex; flex-direction: column; gap: 15px; }
-        .visit-item {
-            display: flex; align-items: center; gap: 15px; padding: 15px;
-            background: #f8f9fa; border-radius: 10px; border-left: 3px solid var(--accent);
-            transition: all 0.3s;
-        }
+        .visit-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px; border-left: 3px solid var(--accent); transition: all 0.3s; }
         .visit-item:hover { background: #e9ecef; transform: translateX(5px); }
-        .visit-time {
-            background: var(--primary); color: white; padding: 10px;
-            border-radius: 8px; text-align: center; min-width: 70px;
-        }
+        .visit-time { background: var(--primary); color: white; padding: 10px; border-radius: 8px; text-align: center; min-width: 70px; }
         .visit-time .hour { font-size: 18px; font-weight: bold; }
         .visit-time .period { font-size: 11px; opacity: 0.8; }
         .visit-info { flex: 1; }
@@ -132,142 +96,64 @@
         .status-confirmed { background: #d4edda; color: #155724; }
         .status-pending { background: #fff3cd; color: #856404; }
         .status-cancelled { background: #f8d7da; color: #721c24; }
-        .proposal-item {
-            background: #f8f9fa; padding: 18px; border-radius: 10px;
-            margin-bottom: 15px; border-left: 4px solid var(--accent);
-        }
-        .proposal-header {
-            display: flex; justify-content: space-between; align-items: start;
-            margin-bottom: 10px; flex-wrap: wrap; gap: 10px;
-        }
+        .proposal-item { background: #f8f9fa; padding: 18px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--accent); }
+        .proposal-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
         .proposal-client { font-weight: 700; font-size: 16px; color: var(--primary); }
         .proposal-property { font-size: 13px; color: var(--text-light); margin-bottom: 10px; }
-        .proposal-status {
-            padding: 6px 14px; border-radius: 20px;
-            font-size: 12px; font-weight: 600; text-transform: uppercase;
-        }
+        .proposal-status { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
         .status-new { background: #cce5ff; color: #004085; }
         .status-analysis { background: #fff3cd; color: #856404; }
         .status-approved { background: #d4edda; color: #155724; }
         .status-rejected { background: #f8d7da; color: #721c24; }
         .status-negotiation { background: #e2d5f1; color: #4a148c; }
-        .proposal-footer {
-            display: flex; justify-content: space-between; align-items: center;
-            padding-top: 12px; border-top: 1px solid #dee2e6; flex-wrap: wrap; gap: 10px;
-        }
+        .proposal-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid #dee2e6; flex-wrap: wrap; gap: 10px; }
         .proposal-value { font-size: 18px; font-weight: 700; color: var(--accent); }
         .proposal-commission { font-size: 13px; color: var(--success); font-weight: 600; }
-        .notification-item {
-            display: flex; gap: 12px; padding: 12px;
-            border-bottom: 1px solid #f0f0f0; align-items: start;
-        }
+        .notification-item { display: flex; gap: 12px; padding: 12px; border-bottom: 1px solid #f0f0f0; align-items: start; }
         .notification-item:last-child { border-bottom: none; }
-        .notif-icon {
-            width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; font-size: 16px;
-        }
+        .notif-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
         .notif-icon.new-proposal { background: #d1ecf1; color: var(--info); }
         .notif-icon.visit { background: #d4edda; color: var(--success); }
         .notif-icon.alert { background: #f8d7da; color: var(--danger); }
         .notif-content h5 { font-size: 14px; margin-bottom: 3px; color: var(--primary); margin-top: 0; }
         .notif-content p { font-size: 12px; color: var(--text-light); margin: 0; }
         .notif-time { font-size: 11px; color: var(--text-light); margin-left: auto; white-space: nowrap; }
-        .action-buttons {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px; margin-top: 20px;
-        }
-        .action-btn {
-            padding: 14px; background: var(--primary); color: white;
-            border: none; border-radius: 8px; font-weight: 600;
-            cursor: pointer; transition: all 0.3s;
-            display: flex; align-items: center; justify-content: center;
-            gap: 8px; font-size: 14px; font-family: inherit;
-        }
+        .action-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 20px; }
+        .action-btn { padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-family: inherit; }
         .action-btn:hover { background: var(--accent); transform: translateY(-2px); }
         .empty-state { text-align: center; padding: 40px; color: var(--text-light); }
-        @media (max-width: 968px) {
-            .main-grid { grid-template-columns: 1fr; }
-            .panel-header { flex-direction: column; text-align: center; }
-            .panel-user-info { flex-direction: column; }
-            .user-details { text-align: center; }
-        }
-        @media (max-width: 600px) {
-            .metrics-grid { grid-template-columns: 1fr 1fr; }
-            .metric-value { font-size: 24px; }
-            .panel-welcome h2 { font-size: 22px; }
-            .desktop-nav { display: none; }
-            .mobile-nav-toggle { display: block; }
-        }
+        @media (max-width: 968px) { .main-grid { grid-template-columns: 1fr; } .panel-header { flex-direction: column; text-align: center; } .panel-user-info { flex-direction: column; } .user-details { text-align: center; } }
+        @media (max-width: 600px) { .metrics-grid { grid-template-columns: 1fr 1fr; } .metric-value { font-size: 24px; } .panel-welcome h2 { font-size: 22px; } .desktop-nav { display: none; } }
         footer { background: white; padding: 20px 0; margin-top: 40px; border-top: 1px solid #e0e0e0; }
         .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .btn-logout {
-            background: var(--danger); color: white; border: none;
-            padding: 10px 20px; border-radius: 8px; cursor: pointer;
-            font-weight: 600; display: inline-flex; align-items: center;
-            gap: 8px; font-family: inherit;
-        }
+        .btn-logout { background: var(--danger); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-family: inherit; }
         .btn-logout:hover { background: #c82333; }
         
-        /* ===== MODAL DE NOVA VISITA ===== */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.5);
-            z-index: 9999; align-items: center; justify-content: center;
-            padding: 20px;
-        }
+        /* ===== MODAL ===== */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
         .modal.ativo { display: flex; }
-        .modal-content {
-            background: white; padding: 30px; border-radius: 16px;
-            max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        .modal-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0;
-        }
-        .modal-header h3 {
-            font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); margin: 0;
-        }
-        .modal-close {
-            background: none; border: none; font-size: 24px; cursor: pointer;
-            color: var(--text-light); transition: color 0.3s;
-        }
+        .modal-content { background: white; padding: 30px; border-radius: 16px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0; }
+        .modal-header h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); margin: 0; }
+        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-light); transition: color 0.3s; }
         .modal-close:hover { color: var(--danger); }
         .form-group { margin-bottom: 20px; }
-        .form-group label {
-            display: block; font-weight: 600; margin-bottom: 8px;
-            color: var(--primary); font-size: 14px;
-        }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-size: 14px; }
         .form-group label i { color: var(--accent); margin-right: 5px; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0;
-            border-radius: 8px; font-size: 14px; font-family: inherit;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none; border-color: var(--accent);
-        }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; font-family: inherit; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); }
+        .form-group textarea { resize: vertical; min-height: 80px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .btn-submit {
-            width: 100%; padding: 14px; background: var(--accent); color: white;
-            border: none; border-radius: 8px; font-size: 16px; font-weight: 700;
-            cursor: pointer; transition: all 0.3s; font-family: inherit;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            margin-top: 10px;
-        }
+        .form-row-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
+        .btn-submit { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
         .btn-submit:hover { background: var(--accent-hover); transform: translateY(-2px); }
         .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-        .success-message {
-            background: #d4edda; color: #155724; padding: 15px;
-            border-radius: 8px; margin-bottom: 15px; display: none;
-            text-align: center; font-weight: 600;
-        }
+        .success-message { background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 15px; display: none; text-align: center; font-weight: 600; }
         .success-message.ativo { display: block; animation: slideDown 0.3s ease; }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .comissao-preview { background: #fff9e6; border: 2px dashed var(--accent); border-radius: 8px; padding: 12px; text-align: center; margin-top: 10px; }
+        .comissao-preview .label { font-size: 12px; color: var(--text-light); margin-bottom: 4px; }
+        .comissao-preview .valor { font-size: 20px; font-weight: 800; color: var(--accent); }
     </style>
 </head>
 <body>
@@ -343,7 +229,7 @@
             <div>
                 <div class="panel-section">
                     <div class="section-header">
-                        <h3><i class="fa-regular fa-calendar-check" style="color: var(--accent);"></i> Visitas Agendadas Hoje</h3>
+                        <h3><i class="fa-regular fa-calendar-check" style="color: var(--accent);"></i> Visitas Agendadas</h3>
                         <span class="badge-count" id="visitasCount">0 visitas</span>
                     </div>
                     <div class="visit-list" id="visitasList">
@@ -365,7 +251,7 @@
                         <div class="empty-state">Carregando propostas...</div>
                     </div>
                     <div class="action-buttons">
-                        <button class="action-btn"><i class="fa-solid fa-plus"></i> Nova Proposta</button>
+                        <button class="action-btn" id="btnNovaProposta"><i class="fa-solid fa-plus"></i> Nova Proposta</button>
                         <button class="action-btn"><i class="fa-solid fa-filter"></i> Filtrar</button>
                         <button class="action-btn"><i class="fa-solid fa-file-export"></i> Exportar PDF</button>
                     </div>
@@ -376,7 +262,7 @@
                 <div class="panel-section">
                     <div class="section-header">
                         <h3><i class="fa-solid fa-bell" style="color: var(--accent);"></i> Notificações</h3>
-                        <span class="badge-count">5 novas</span>
+                        <span class="badge-count">3 novas</span>
                     </div>
                     <div class="notification-item">
                         <div class="notif-icon new-proposal"><i class="fa-solid fa-file-signature"></i></div>
@@ -390,7 +276,7 @@
                         <div class="notif-icon visit"><i class="fa-solid fa-calendar-check"></i></div>
                         <div class="notif-content">
                             <h5>Nova funcionalidade!</h5>
-                            <p>Agora você pode agendar visitas pelo painel.</p>
+                            <p>Agora você pode agendar visitas e propostas.</p>
                         </div>
                         <span class="notif-time">agora</span>
                     </div>
@@ -416,75 +302,106 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3><i class="fa-regular fa-calendar-plus" style="color: var(--accent);"></i> Agendar Nova Visita</h3>
-                <button class="modal-close" onclick="fecharModalNovaVisita()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <button class="modal-close" onclick="fecharModalNovaVisita()"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
-            <div class="success-message" id="successMessage">
-                <i class="fa-solid fa-circle-check"></i> Visita agendada com sucesso!
-            </div>
-
+            <div class="success-message" id="successVisita"><i class="fa-solid fa-circle-check"></i> Visita agendada com sucesso!</div>
             <form id="formNovaVisita">
                 <div class="form-group">
-                    <label for="visitaCliente">
-                        <i class="fa-solid fa-user"></i> Nome do Cliente *
-                    </label>
+                    <label for="visitaCliente"><i class="fa-solid fa-user"></i> Nome do Cliente *</label>
                     <input type="text" id="visitaCliente" placeholder="Ex: João Silva" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="visitaImovel">
-                        <i class="fa-solid fa-house"></i> Imóvel *
-                    </label>
+                    <label for="visitaImovel"><i class="fa-solid fa-house"></i> Imóvel *</label>
                     <input type="text" id="visitaImovel" placeholder="Ex: Modern Villa Cascais" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="visitaLocal">
-                        <i class="fa-solid fa-location-dot"></i> Localização *
-                    </label>
+                    <label for="visitaLocal"><i class="fa-solid fa-location-dot"></i> Localização *</label>
                     <input type="text" id="visitaLocal" placeholder="Ex: Cascais, Lisboa" required>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="visitaData">
-                            <i class="fa-solid fa-calendar"></i> Data *
-                        </label>
+                        <label for="visitaData"><i class="fa-solid fa-calendar"></i> Data *</label>
                         <input type="date" id="visitaData" required>
                     </div>
                     <div class="form-group">
-                        <label for="visitaHora">
-                            <i class="fa-solid fa-clock"></i> Hora *
-                        </label>
+                        <label for="visitaHora"><i class="fa-solid fa-clock"></i> Hora *</label>
                         <input type="time" id="visitaHora" required>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label for="visitaPeriodo">
-                        <i class="fa-solid fa-sun"></i> Período *
-                    </label>
+                    <label for="visitaPeriodo"><i class="fa-solid fa-sun"></i> Período *</label>
                     <select id="visitaPeriodo" required>
                         <option value="manhã">🌅 Manhã (até 12h)</option>
-                        <option value="tarde">☀️ Tarde (12h-18h)</option>
-                        <option value="noite"> Noite (após 18h)</option>
+                        <option value="tarde">️ Tarde (12h-18h)</option>
+                        <option value="noite">🌙 Noite (após 18h)</option>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label for="visitaStatus">
-                        <i class="fa-solid fa-circle-check"></i> Status *
-                    </label>
+                    <label for="visitaStatus"><i class="fa-solid fa-circle-check"></i> Status *</label>
                     <select id="visitaStatus" required>
                         <option value="confirmada">✅ Confirmada</option>
-                        <option value="aguardando"> Aguardando Confirmação</option>
+                        <option value="aguardando">⏳ Aguardando Confirmação</option>
                     </select>
                 </div>
-
                 <button type="submit" class="btn-submit" id="btnSubmitVisita">
                     <i class="fa-solid fa-calendar-check"></i> Agendar Visita
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== MODAL NOVA PROPOSTA ===== -->
+    <div class="modal" id="modalNovaProposta">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-file-signature" style="color: var(--accent);"></i> Registrar Nova Proposta</h3>
+                <button class="modal-close" onclick="fecharModalNovaProposta()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="success-message" id="successProposta"><i class="fa-solid fa-circle-check"></i> Proposta registrada com sucesso!</div>
+            <form id="formNovaProposta">
+                <div class="form-group">
+                    <label for="propCliente"><i class="fa-solid fa-user"></i> Nome do Cliente *</label>
+                    <input type="text" id="propCliente" placeholder="Ex: João Silva" required>
+                </div>
+                <div class="form-group">
+                    <label for="propImovel"><i class="fa-solid fa-house"></i> Imóvel *</label>
+                    <input type="text" id="propImovel" placeholder="Ex: Modern Villa Cascais" required>
+                </div>
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="propValor"><i class="fa-solid fa-euro-sign"></i> Valor da Proposta (€) *</label>
+                        <input type="number" id="propValor" placeholder="Ex: 325000" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="propComissao"><i class="fa-solid fa-coins"></i> Comissão (€)</label>
+                        <input type="number" id="propComissao" placeholder="Auto" min="0" step="0.01">
+                    </div>
+                </div>
+                <div class="comissao-preview">
+                    <div class="label">💡 Comissão calculada automaticamente (3% do valor)</div>
+                    <div class="valor" id="comissaoCalculada">€ 0,00</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propStatus"><i class="fa-solid fa-tag"></i> Status *</label>
+                        <select id="propStatus" required>
+                            <option value="nova"> Nova</option>
+                            <option value="analise">🔍 Em Análise</option>
+                            <option value="negociacao"> Em Negociação</option>
+                            <option value="aprovada">✅ Aprovada</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="propPrevisao"><i class="fa-solid fa-calendar-day"></i> Previsão Pagamento</label>
+                        <input type="date" id="propPrevisao">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="propObs"><i class="fa-solid fa-comment"></i> Observações</label>
+                    <textarea id="propObs" placeholder="Ex: Cliente interessado, aguardando documentação..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit" id="btnSubmitProposta">
+                    <i class="fa-solid fa-file-signature"></i> Registrar Proposta
                 </button>
             </form>
         </div>
@@ -506,54 +423,38 @@
         const SUPABASE_KEY = 'sb_publishable_lpKspNbDobxkjq4Ywp0tbQ_86VF2Bqa';
         const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Verificação de segurança
         const usuarioAtual = JSON.parse(localStorage.getItem('usuarioLogado'));
         if (!usuarioAtual || usuarioAtual.perfil !== 'corretor') {
             window.location.href = 'login.html';
         } else {
-            // Atualizar header
             document.getElementById('welcomeText').textContent = `Olá, ${usuarioAtual.nome.split(' ')[0]}! 👋`;
             document.getElementById('userName').textContent = usuarioAtual.nome;
             document.getElementById('userCreci').textContent = `CRECI: ${usuarioAtual.creci || '---'} | Nível: ${usuarioAtual.nivel || '---'}`;
             document.getElementById('userAvatar').textContent = usuarioAtual.avatar || '--';
-
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('dataAtual').textContent = new Date().toLocaleDateString('pt-PT', options);
-
-            // Set data mínima para hoje no input
             const hoje = new Date().toISOString().split('T')[0];
             document.getElementById('visitaData').setAttribute('min', hoje);
             document.getElementById('visitaData').value = hoje;
-
-            // Carregar dados iniciais
+            document.getElementById('propPrevisao').setAttribute('min', hoje);
+            
             await carregarVisitas();
             await carregarPropostas();
         }
 
-        // ===== FUNÇÕES DE VISITAS =====
+        // ===== CARREGAR VISITAS =====
         async function carregarVisitas() {
-            const { data: visitas, error } = await supabase
-                .from('visitas')
-                .select('*')
-                .eq('corretor_id', usuarioAtual.id)
-                .order('data', { ascending: true })
-                .order('hora', { ascending: true });
-
-            if (error) {
-                console.error('Erro ao carregar visitas:', error);
-                return;
-            }
-
+            const { data: visitas, error } = await supabase.from('visitas').select('*').eq('corretor_id', usuarioAtual.id).order('data', { ascending: true }).order('hora', { ascending: true });
+            if (error) { console.error('Erro ao carregar visitas:', error); return; }
             document.getElementById('metricVisitas').textContent = visitas ? visitas.length : 0;
             document.getElementById('visitasCount').textContent = `${visitas ? visitas.length : 0} visitas`;
-
             const visitasList = document.getElementById('visitasList');
             if (visitas && visitas.length > 0) {
+                const hoje = new Date().toISOString().split('T')[0];
                 visitasList.innerHTML = visitas.map(v => {
                     const statusClass = v.status === 'confirmada' ? 'confirmed' : v.status === 'aguardando' ? 'pending' : 'cancelled';
                     const statusLabel = v.status.charAt(0).toUpperCase() + v.status.slice(1);
-                    const dataFormatada = v.data ? new Date(v.data + 'T00:00:00').toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' }) : 'Hoje';
-                    
+                    const isHoje = v.data === hoje;
                     return `
                         <div class="visit-item">
                             <div class="visit-time">
@@ -563,7 +464,7 @@
                             <div class="visit-info">
                                 <h4>${v.imovel}</h4>
                                 <p><i class="fa-solid fa-user"></i> ${v.cliente} | <i class="fa-solid fa-location-dot"></i> ${v.local}</p>
-                                ${v.data !== new Date().toISOString().split('T')[0] ? `<p style="font-size: 11px; color: var(--accent); margin-top: 4px;"><i class="fa-solid fa-calendar"></i> ${dataFormatada}</p>` : ''}
+                                ${!isHoje ? `<p style="font-size: 11px; color: var(--accent); margin-top: 4px;"><i class="fa-solid fa-calendar"></i> ${new Date(v.data + 'T00:00:00').toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' })}</p>` : '<p style="font-size: 11px; color: var(--success); margin-top: 4px;"><i class="fa-solid fa-clock"></i> Hoje</p>'}
                             </div>
                             <span class="visit-status status-${statusClass}">${statusLabel}</span>
                         </div>
@@ -574,25 +475,19 @@
             }
         }
 
+        // ===== CARREGAR PROPOSTAS =====
         async function carregarPropostas() {
-            const { data: propostas } = await supabase
-                .from('propostas')
-                .select('*')
-                .eq('corretor_id', usuarioAtual.id);
-
+            const { data: propostas } = await supabase.from('propostas').select('*').eq('corretor_id', usuarioAtual.id);
             const propostasAtivas = propostas ? propostas.filter(p => p.status !== 'rejeitada') : [];
             const pendentes = propostas ? propostas.filter(p => p.status === 'nova' || p.status === 'analise') : [];
             const comissaoTotal = propostasAtivas.reduce((sum, p) => sum + (p.comissao || 0), 0);
-
             document.getElementById('metricPropostas').textContent = propostasAtivas.length;
             document.getElementById('metricPendentes').textContent = pendentes.length;
             document.getElementById('metricComissao').textContent = `€${comissaoTotal.toLocaleString('pt-PT')}`;
             document.getElementById('propostasCount').textContent = `${propostasAtivas.length} propostas`;
-
             const metaPercent = Math.min(100, Math.round((comissaoTotal / 25000) * 100));
             document.getElementById('goalPercent').textContent = `${metaPercent}% alcançado`;
             document.getElementById('goalFill').style.width = `${metaPercent}%`;
-
             const propostasList = document.getElementById('propostasList');
             if (propostas && propostas.length > 0) {
                 const statusMap = {
@@ -602,7 +497,6 @@
                     'aprovada': { class: 'status-approved', label: 'Aprovada' },
                     'rejeitada': { class: 'status-rejected', label: 'Rejeitada' }
                 };
-
                 propostasList.innerHTML = propostas.map(p => {
                     const status = statusMap[p.status] || { class: 'status-new', label: p.status };
                     return `
@@ -618,6 +512,7 @@
                                 <div class="proposal-value">€ ${(p.valor || 0).toLocaleString('pt-PT')}</div>
                                 <div class="proposal-commission"><i class="fa-solid fa-coins"></i> Comissão: € ${(p.comissao || 0).toLocaleString('pt-PT')}</div>
                             </div>
+                            ${p.observacoes ? `<div style="margin-top: 10px; padding: 8px; background: white; border-radius: 6px; font-size: 12px; color: var(--text-light);"><i class="fa-solid fa-comment"></i> ${p.observacoes}</div>` : ''}
                         </div>
                     `;
                 }).join('');
@@ -626,58 +521,44 @@
             }
         }
 
-        // ===== MODAL DE NOVA VISITA =====
+        // ===== MODAL NOVA VISITA =====
         const modalNovaVisita = document.getElementById('modalNovaVisita');
         const btnNovaVisita = document.getElementById('btnNovaVisita');
         const formNovaVisita = document.getElementById('formNovaVisita');
 
-        // Abrir modal
         btnNovaVisita.addEventListener('click', function() {
             modalNovaVisita.classList.add('ativo');
             document.body.style.overflow = 'hidden';
-            
-            // Auto-detectar período baseado na hora
             const horaInput = document.getElementById('visitaHora');
-            horaInput.addEventListener('change', function() {
+            horaInput.onchange = function() {
                 const hora = parseInt(this.value.split(':')[0]);
                 const periodoSelect = document.getElementById('visitaPeriodo');
                 if (hora < 12) periodoSelect.value = 'manhã';
                 else if (hora < 18) periodoSelect.value = 'tarde';
                 else periodoSelect.value = 'noite';
-            });
+            };
         });
 
-        // Fechar modal
         function fecharModalNovaVisita() {
             modalNovaVisita.classList.remove('ativo');
             document.body.style.overflow = 'auto';
             formNovaVisita.reset();
-            document.getElementById('successMessage').classList.remove('ativo');
-            
-            // Restaurar data para hoje
+            document.getElementById('successVisita').classList.remove('ativo');
             const hoje = new Date().toISOString().split('T')[0];
             document.getElementById('visitaData').value = hoje;
         }
         window.fecharModalNovaVisita = fecharModalNovaVisita;
 
-        // Fechar ao clicar fora do modal
         modalNovaVisita.addEventListener('click', function(e) {
-            if (e.target === modalNovaVisita) {
-                fecharModalNovaVisita();
-            }
+            if (e.target === modalNovaVisita) fecharModalNovaVisita();
         });
 
-        // Submit do formulário
         formNovaVisita.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
             const btnSubmit = document.getElementById('btnSubmitVisita');
-            const successMsg = document.getElementById('successMessage');
-            
-            // Desabilitar botão
+            const successMsg = document.getElementById('successVisita');
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
-
             const novaVisita = {
                 corretor_id: usuarioAtual.id,
                 cliente: document.getElementById('visitaCliente').value.trim(),
@@ -688,13 +569,7 @@
                 periodo: document.getElementById('visitaPeriodo').value,
                 status: document.getElementById('visitaStatus').value
             };
-
-            // Salvar no Supabase
-            const { data, error } = await supabase
-                .from('visitas')
-                .insert([novaVisita])
-                .select();
-
+            const { data, error } = await supabase.from('visitas').insert([novaVisita]).select();
             if (error) {
                 console.error('Erro ao salvar visita:', error);
                 alert('❌ Erro ao agendar visita: ' + error.message);
@@ -702,25 +577,89 @@
                 btnSubmit.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Agendar Visita';
                 return;
             }
-
-            // Sucesso!
             successMsg.classList.add('ativo');
             formNovaVisita.reset();
-            
             const hoje = new Date().toISOString().split('T')[0];
             document.getElementById('visitaData').value = hoje;
-
-            // Recarregar visitas
             await carregarVisitas();
-
-            // Restaurar botão
             btnSubmit.disabled = false;
             btnSubmit.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Agendar Visita';
+            setTimeout(() => { fecharModalNovaVisita(); }, 1500);
+        });
 
-            // Fechar modal após 1.5 segundos
-            setTimeout(() => {
-                fecharModalNovaVisita();
-            }, 1500);
+        // ===== MODAL NOVA PROPOSTA =====
+        const modalNovaProposta = document.getElementById('modalNovaProposta');
+        const btnNovaProposta = document.getElementById('btnNovaProposta');
+        const formNovaProposta = document.getElementById('formNovaProposta');
+        const inputValor = document.getElementById('propValor');
+        const inputComissao = document.getElementById('propComissao');
+        const previewComissao = document.getElementById('comissaoCalculada');
+
+        // Cálculo automático da comissão (3% do valor)
+        inputValor.addEventListener('input', function() {
+            const valor = parseFloat(this.value) || 0;
+            const comissao = valor * 0.03;
+            previewComissao.textContent = `€ ${comissao.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}`;
+            // Se o campo de comissão estiver vazio, preenche automaticamente
+            if (!inputComissao.value) {
+                inputComissao.value = comissao.toFixed(2);
+            }
+        });
+
+        btnNovaProposta.addEventListener('click', function() {
+            modalNovaProposta.classList.add('ativo');
+            document.body.style.overflow = 'hidden';
+        });
+
+        function fecharModalNovaProposta() {
+            modalNovaProposta.classList.remove('ativo');
+            document.body.style.overflow = 'auto';
+            formNovaProposta.reset();
+            document.getElementById('successProposta').classList.remove('ativo');
+            previewComissao.textContent = '€ 0,00';
+        }
+        window.fecharModalNovaProposta = fecharModalNovaProposta;
+
+        modalNovaProposta.addEventListener('click', function(e) {
+            if (e.target === modalNovaProposta) fecharModalNovaProposta();
+        });
+
+        formNovaProposta.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btnSubmit = document.getElementById('btnSubmitProposta');
+            const successMsg = document.getElementById('successProposta');
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
+            
+            const novaProposta = {
+                corretor_id: usuarioAtual.id,
+                cliente: document.getElementById('propCliente').value.trim(),
+                imovel: document.getElementById('propImovel').value.trim(),
+                valor: parseFloat(document.getElementById('propValor').value) || 0,
+                comissao: parseFloat(document.getElementById('propComissao').value) || 0,
+                status: document.getElementById('propStatus').value,
+                status_financeiro: 'pendente',
+                data_proposta: new Date().toISOString().split('T')[0],
+                data_previsao_pagamento: document.getElementById('propPrevisao').value || null,
+                observacoes: document.getElementById('propObs').value.trim()
+            };
+
+            const { data, error } = await supabase.from('propostas').insert([novaProposta]).select();
+            if (error) {
+                console.error('Erro ao salvar proposta:', error);
+                alert('❌ Erro ao registrar proposta: ' + error.message);
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="fa-solid fa-file-signature"></i> Registrar Proposta';
+                return;
+            }
+
+            successMsg.classList.add('ativo');
+            formNovaProposta.reset();
+            previewComissao.textContent = '€ 0,00';
+            await carregarPropostas();
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<i class="fa-solid fa-file-signature"></i> Registrar Proposta';
+            setTimeout(() => { fecharModalNovaProposta(); }, 1500);
         });
 
         // ===== LOGOUT =====
