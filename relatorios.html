@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Gian Casas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsPDF + AutoTable para gerar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #d4af37;
+            --accent-hover: #b8941f;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --panel-bg: #f4f6f9;
+            --text-light: #6c757d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--panel-bg); }
+        header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 15px 0; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .brand h1 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 24px; }
+        .brand h1 span { color: var(--accent); }
+        .desktop-nav { display: flex; gap: 20px; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--primary); font-weight: 600; transition: color 0.3s; }
+        .nav-link:hover { color: var(--accent); }
+        .btn-voltar {
+            padding: 8px 16px; background: var(--primary); color: white;
+            border: none; border-radius: 6px; cursor: pointer;
+            font-weight: 600; font-size: 13px; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: inherit;
+        }
+        .btn-voltar:hover { background: var(--accent); transform: translateY(-2px); }
+        .panel-container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .page-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; padding: 30px; border-radius: 16px; margin-bottom: 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 20px;
+        }
+        .page-header h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 0 0 8px 0; }
+        .page-header p { margin: 0; opacity: 0.9; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 25px; }
+        @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+        
+        .card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .card h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--primary); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0; }
+        
+        .tipo-list { display: flex; flex-direction: column; gap: 10px; }
+        .tipo-item {
+            padding: 16px 20px; background: #f8f9fa; border-radius: 10px;
+            border: 2px solid transparent; cursor: pointer;
+            display: flex; align-items: center; gap: 15px;
+            transition: all 0.3s; font-weight: 600; color: var(--primary);
+        }
+        .tipo-item:hover { background: #e9ecef; transform: translateX(5px); }
+        .tipo-item.ativo { border-color: var(--accent); background: #fff9e6; }
+        .tipo-item i { font-size: 22px; color: var(--accent); width: 30px; text-align: center; }
+        
+        .periodo-list { display: flex; flex-direction: column; gap: 10px; }
+        .periodo-item {
+            padding: 14px 18px; background: #f8f9fa; border-radius: 10px;
+            border: 2px solid transparent; cursor: pointer;
+            transition: all 0.3s; font-weight: 600; color: var(--primary);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .periodo-item:hover { background: #e9ecef; }
+        .periodo-item.ativo { border-color: var(--accent); background: #fff9e6; }
+        .periodo-item i { color: var(--accent); }
+        
+        .periodo-custom { margin-top: 12px; display: none; }
+        .periodo-custom.ativo { display: block; }
+        .periodo-custom label { font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 6px; display: block; }
+        .periodo-custom input {
+            width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0;
+            border-radius: 6px; font-family: inherit; font-size: 14px; margin-bottom: 10px;
+        }
+        .periodo-custom input:focus { outline: none; border-color: var(--accent); }
+        
+        .btn-gerar {
+            width: 100%; padding: 16px; background: var(--accent); color: white;
+            border: none; border-radius: 10px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: all 0.3s; font-family: inherit;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-top: 15px;
+        }
+        .btn-gerar:hover { background: var(--accent-hover); transform: translateY(-2px); }
+        .btn-gerar:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        
+        .preview-info { font-size: 14px; color: var(--text-light); margin-bottom: 15px; }
+        .preview-info strong { color: var(--primary); }
+        .preview-box {
+            background: #f8f9fa; border-radius: 10px; padding: 20px;
+            margin-top: 15px; max-height: 400px; overflow-y: auto;
+        }
+        .preview-item {
+            background: white; padding: 14px; border-radius: 8px;
+            margin-bottom: 10px; border-left: 4px solid var(--accent);
+        }
+        .preview-item h4 { font-size: 15px; color: var(--primary); margin-bottom: 6px; }
+        .preview-item p { font-size: 13px; color: var(--text-light); margin: 3px 0; }
+        
+        .empty-preview { text-align: center; padding: 40px; color: var(--text-light); }
+        .empty-preview i { font-size: 50px; margin-bottom: 15px; opacity: 0.4; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="brand">
+                <i class="fa-solid fa-hotel" style="color: var(--accent); font-size: 24px;"></i>
+                <h1>Gian<span>Casas</span></h1>
+            </a>
+            <nav class="desktop-nav">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="imoveis.html" class="nav-link">Imóveis</a>
+                <a href="contato.html" class="nav-link">Contacto</a>
+                <a href="cadastro-imoveis.html" class="nav-link">Cad. Imóveis</a>
+                <button class="btn-voltar" onclick="voltarAoPainel()">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar ao Painel
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="panel-container">
+        <div class="page-header">
+            <div>
+                <h2>📄 Relatórios em PDF</h2>
+                <p id="infoUsuario">Carregando...</p>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <!-- Coluna 1: Tipo e Período -->
+            <div>
+                <div class="card">
+                    <h3><i class="fa-solid fa-folder" style="color: var(--accent);"></i> Tipo de Relatório</h3>
+                    <div class="tipo-list">
+                        <div class="tipo-item ativo" data-tipo="visitas" onclick="selecionarTipo(this)">
+                            <i class="fa-regular fa-calendar-check"></i>
+                            <div>
+                                <div>Visitas Agendadas</div>
+                                <div style="font-size: 12px; font-weight: 400; color: var(--text-light);">Lista de visitas do período</div>
+                            </div>
+                        </div>
+                        <div class="tipo-item" data-tipo="propostas" onclick="selecionarTipo(this)">
+                            <i class="fa-solid fa-file-signature"></i>
+                            <div>
+                                <div>Propostas</div>
+                                <div style="font-size: 12px; font-weight: 400; color: var(--text-light);">Valores e comissões</div>
+                            </div>
+                        </div>
+                        <div class="tipo-item" data-tipo="clientes" onclick="selecionarTipo(this)">
+                            <i class="fa-solid fa-users"></i>
+                            <div>
+                                <div>Clientes Cadastrados</div>
+                                <div style="font-size: 12px; font-weight: 400; color: var(--text-light);">Base de contatos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 25px;">
+                    <h3><i class="fa-solid fa-clock-rotate-left" style="color: var(--accent);"></i> Período</h3>
+                    <div class="periodo-list">
+                        <div class="periodo-item ativo" data-periodo="mes_atual" onclick="selecionarPeriodo(this)">
+                            <i class="fa-solid fa-calendar-day"></i>
+                            <span>Mês Atual</span>
+                        </div>
+                        <div class="periodo-item" data-periodo="mes_anterior" onclick="selecionarPeriodo(this)">
+                            <i class="fa-solid fa-calendar-week"></i>
+                            <span>Mês Anterior</span>
+                        </div>
+                        <div class="periodo-item" data-periodo="personalizado" onclick="selecionarPeriodo(this)">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Personalizado</span>
+                        </div>
+                    </div>
+                    <div class="periodo-custom" id="periodoCustom">
+                        <label>Data Início</label>
+                        <input type="date" id="dataInicio">
+                        <label>Data Fim</label>
+                        <input type="date" id="dataFim">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna 2: Preview e Gerar -->
+            <div>
+                <div class="card">
+                    <h3><i class="fa-solid fa-eye" style="color: var(--accent);"></i> Pré-visualização</h3>
+                    <div class="preview-info" id="previewInfo">
+                        <strong>Tipo:</strong> Visitas | <strong>Período:</strong> Mês Atual
+                    </div>
+                    <div class="preview-box" id="previewBox">
+                        <div class="empty-preview">
+                            <i class="fa-regular fa-file-lines"></i>
+                            <h4>Nenhum dado carregado</h4>
+                            <p>Clique em "Carregar Dados" para visualizar</p>
+                        </div>
+                    </div>
+                    <button class="btn-gerar" id="btnCarregar" onclick="carregarDados()">
+                        <i class="fa-solid fa-database"></i> Carregar Dados
+                    </button>
+                    <button class="btn-gerar" id="btnGerarPdf" style="background: var(--success); display: none;" onclick="gerarPDF()">
+                        <i class="fa-solid fa-file-pdf"></i> Gerar PDF
+                    </button>
+                </div>
+
+                <div class="card" style="margin-top: 25px;">
+                    <h3><i class="fa-solid fa-circle-info" style="color: var(--accent);"></i> Sobre os Relatórios</h3>
+                    <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">
+                        Os relatórios são gerados em formato <strong>PDF profissional</strong> com:
+                    </p>
+                    <ul style="margin: 12px 0 0 20px; font-size: 14px; color: var(--text-light); line-height: 1.8;">
+                        <li>Logo e cabeçalho da Gian Casas</li>
+                        <li>Data de emissão e nome do corretor</li>
+                        <li>Tabelas organizadas com todos os dados</li>
+                        <li>Totais e resumos automáticos</li>
+                        <li>Design limpo e pronto para impressão</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+        
+        const SUPABASE_URL = 'https://sulnodgrwzqffpryllld.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_lpKspNbDobxkjq4Ywp0tbQ_86VF2Bqa';
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (!usuario || usuario.perfil !== 'corretor') { window.location.href = 'login.html'; }
+        else { document.getElementById('infoUsuario').textContent = `Corretor: ${usuario.nome}`; }
+        
+        let tipoSelecionado = 'visitas';
+        let periodoSelecionado = 'mes_atual';
+        let dadosCarregados = [];
+        let datasPeriodo = { inicio: null, fim: null, label: '' };
+        
+        window.voltarAoPainel = function() { window.location.href = 'painel-corretor.html'; };
+        
+        window.selecionarTipo = function(el) {
+            document.querySelectorAll('.tipo-item').forEach(i => i.classList.remove('ativo'));
+            el.classList.add('ativo');
+            tipoSelecionado = el.dataset.tipo;
+            atualizarPreviewInfo();
+        };
+        
+        window.selecionarPeriodo = function(el) {
+            document.querySelectorAll('.periodo-item').forEach(i => i.classList.remove('ativo'));
+            el.classList.add('ativo');
+            periodoSelecionado = el.dataset.periodo;
+            const custom = document.getElementById('periodoCustom');
+            if (periodoSelecionado === 'personalizado') custom.classList.add('ativo');
+            else custom.classList.remove('ativo');
+            atualizarPreviewInfo();
+        };
+        
+        function atualizarPreviewInfo() {
+            const labels = { visitas: 'Visitas', propostas: 'Propostas', clientes: 'Clientes' };
+            const periodos = { mes_atual: 'Mês Atual', mes_anterior: 'Mês Anterior', personalizado: 'Personalizado' };
+            document.getElementById('previewInfo').innerHTML = `<strong>Tipo:</strong> ${labels[tipoSelecionado]} | <strong>Período:</strong> ${periodos[periodoSelecionado]}`;
+        }
+        
+        function calcularPeriodo() {
+            const hoje = new Date();
+            let inicio, fim;
+            if (periodoSelecionado === 'mes_atual') {
+                inicio = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+                fim = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
+                datasPeriodo.label = `${inicio.toLocaleDateString('pt-PT')} a ${fim.toLocaleDateString('pt-PT')}`;
+            } else if (periodoSelecionado === 'mes_anterior') {
+                const mesAnt = hoje.getMonth() - 1;
+                const ano = mesAnt < 0 ? hoje.getFullYear() - 1 : hoje.getFullYear();
+                const mes = mesAnt < 0 ? 11 : mesAnt;
+                inicio = new Date(ano, mes, 1);
+                fim = new Date(ano, mes + 1, 0);
+                datasPeriodo.label = `${inicio.toLocaleDateString('pt-PT')} a ${fim.toLocaleDateString('pt-PT')}`;
+            } else {
+                const i = document.getElementById('dataInicio').value;
+                const f = document.getElementById('dataFim').value;
+                if (!i || !f) { alert('Por favor, preencha as duas datas.'); return false; }
+                inicio = new Date(i + 'T00:00:00');
+                fim = new Date(f + 'T00:00:00');
+                datasPeriodo.label = `${inicio.toLocaleDateString('pt-PT')} a ${fim.toLocaleDateString('pt-PT')}`;
+            }
+            datasPeriodo.inicio = inicio.toISOString().split('T')[0];
+            datasPeriodo.fim = fim.toISOString().split('T')[0];
+            return true;
+        }
+        
+        async function carregarDados() {
+            if (!calcularPeriodo()) return;
+            const btn = document.getElementById('btnCarregar');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Carregando...';
+            
+            try {
+                if (tipoSelecionado === 'visitas') {
+                    const { data } = await supabase
+                        .from('visitas')
+                        .select('*')
+                        .eq('corretor_id', usuario.id)
+                        .gte('data', datasPeriodo.inicio)
+                        .lte('data', datasPeriodo.fim)
+                        .order('data', { ascending: true });
+                    dadosCarregados = data || [];
+                } else if (tipoSelecionado === 'propostas') {
+                    const { data } = await supabase
+                        .from('propostas')
+                        .select('*')
+                        .eq('corretor_id', usuario.id)
+                        .gte('data_proposta', datasPeriodo.inicio)
+                        .lte('data_proposta', datasPeriodo.fim)
+                        .order('data_proposta', { ascending: true });
+                    dadosCarregados = data || [];
+                } else if (tipoSelecionado === 'clientes') {
+                    const { data } = await supabase
+                        .from('clientes')
+                        .select('*')
+                        .eq('corretor_id', usuario.id)
+                        .eq('ativo', true)
+                        .gte('data_cadastro', datasPeriodo.inicio)
+                        .lte('data_cadastro', datasPeriodo.fim)
+                        .order('data_cadastro', { ascending: false });
+                    dadosCarregados = data || [];
+                }
+                renderizarPreview();
+            } catch (err) {
+                alert('Erro ao carregar dados: ' + err.message);
+            }
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-database"></i> Carregar Dados';
+        }
+        window.carregarDados = carregarDados;
+        
+        function renderizarPreview() {
+            const box = document.getElementById('previewBox');
+            const btnGerar = document.getElementById('btnGerarPdf');
+            if (dadosCarregados.length === 0) {
+                box.innerHTML = '<div class="empty-preview"><i class="fa-regular fa-file-lines"></i><h4>Nenhum dado encontrado</h4><p>Tente outro período ou tipo de relatório</p></div>';
+                btnGerar.style.display = 'none';
+                return;
+            }
+            let html = '';
+            if (tipoSelecionado === 'visitas') {
+                html = dadosCarregados.map(v => `
+                    <div class="preview-item">
+                        <h4>${v.cliente} - ${v.imovel}</h4>
+                        <p><i class="fa-solid fa-calendar"></i> ${new Date(v.data + 'T00:00:00').toLocaleDateString('pt-PT')} às ${v.hora} (${v.periodo})</p>
+                        <p><i class="fa-solid fa-location-dot"></i> ${v.local}</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Status: ${v.status}</p>
+                    </div>
+                `).join('');
+            } else if (tipoSelecionado === 'propostas') {
+                const totalComissao = dadosCarregados.reduce((s, p) => s + (p.comissao || 0), 0);
+                html = dadosCarregados.map(p => `
+                    <div class="preview-item">
+                        <h4>${p.cliente} - ${p.imovel}</h4>
+                        <p><i class="fa-solid fa-calendar"></i> ${new Date(p.data_proposta + 'T00:00:00').toLocaleDateString('pt-PT')}</p>
+                        <p><i class="fa-solid fa-euro-sign"></i> Valor: € ${(p.valor || 0).toLocaleString('pt-PT')}</p>
+                        <p><i class="fa-solid fa-coins"></i> Comissão: € ${(p.comissao || 0).toLocaleString('pt-PT')}</p>
+                        <p><i class="fa-solid fa-tag"></i> Status: ${p.status}</p>
+                    </div>
+                `).join('');
+                html += `<div style="background: var(--accent); color: white; padding: 14px; border-radius: 8px; text-align: center; font-weight: 700; margin-top: 15px;"> Comissão Total: € ${totalComissao.toLocaleString('pt-PT')}</div>`;
+            } else if (tipoSelecionado === 'clientes') {
+                html = dadosCarregados.map(c => `
+                    <div class="preview-item">
+                        <h4>${c.nome}</h4>
+                        <p><i class="fa-solid fa-phone"></i> ${c.telefone}</p>
+                        ${c.email ? `<p><i class="fa-solid fa-envelope"></i> ${c.email}</p>` : ''}
+                        ${c.cpf_cnpj ? `<p><i class="fa-solid fa-id-card"></i> ${c.cpf_cnpj}</p>` : ''}
+                    </div>
+                `).join('');
+            }
+            box.innerHTML = html;
+            btnGerar.style.display = 'flex';
+        }
+        
+        function gerarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const pageWidth = doc.internal.pageSize.getWidth();
+            
+            // Cabeçalho
+            doc.setFillColor(26, 26, 46);
+            doc.rect(0, 0, pageWidth, 40, 'F');
+            doc.setTextColor(212, 175, 55);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(22);
+            doc.text('GianCasas', 14, 22);
+            doc.setFontSize(10);
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Imobiliária S.A.', 58, 22);
+            doc.text('Relatório Gerado em: ' + new Date().toLocaleDateString('pt-PT') + ' ' + new Date().toLocaleTimeString('pt-PT'), 14, 32);
+            
+            // Subtítulo
+            doc.setTextColor(26, 26, 46);
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            const titulos = { visitas: '📅 Relatório de Visitas', propostas: '📝 Relatório de Propostas', clientes: '👥 Relatório de Clientes' };
+            doc.text(titulos[tipoSelecionado], 14, 55);
+            
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(108, 117, 125);
+            doc.text(`Corretor: ${usuario.nome} | CRECI: ${usuario.creci || '-'}`, 14, 63);
+            doc.text(`Período: ${datasPeriodo.label}`, 14, 69);
+            doc.text(`Total de registros: ${dadosCarregados.length}`, 14, 75);
+            
+            // Tabela
+            let head = [], body = [], startY = 85;
+            
+            if (tipoSelecionado === 'visitas') {
+                head = [['Data', 'Hora', 'Cliente', 'Imóvel', 'Local', 'Status']];
+                body = dadosCarregados.map(v => [
+                    new Date(v.data + 'T00:00:00').toLocaleDateString('pt-PT'),
+                    v.hora, v.cliente, v.imovel, v.local, v.status
+                ]);
+            } else if (tipoSelecionado === 'propostas') {
+                head = [['Data', 'Cliente', 'Imóvel', 'Valor', 'Comissão', 'Status']];
+                body = dadosCarregados.map(p => [
+                    new Date(p.data_proposta + 'T00:00:00').toLocaleDateString('pt-PT'),
+                    p.cliente, p.imovel,
+                    '€ ' + (p.valor || 0).toLocaleString('pt-PT'),
+                    '€ ' + (p.comissao || 0).toLocaleString('pt-PT'),
+                    p.status
+                ]);
+                // Total
+                const totalComissao = dadosCarregados.reduce((s, p) => s + (p.comissao || 0), 0);
+                body.push([{ content: 'TOTAL', colSpan: 4, styles: { fontStyle: 'bold', fillColor: [212, 175, 55], textColor: [255, 255, 255] } }, 
+                          { content: '€ ' + totalComissao.toLocaleString('pt-PT'), styles: { fontStyle: 'bold', fillColor: [212, 175, 55], textColor: [255, 255, 255] } },
+                          { content: '', styles: { fillColor: [212, 175, 55], textColor: [255, 255, 255] } }]);
+            } else if (tipoSelecionado === 'clientes') {
+                head = [['Nome', 'Telefone', 'Email', 'CPF/CNPJ']];
+                body = dadosCarregados.map(c => [c.nome, c.telefone, c.email || '-', c.cpf_cnpj || '-']);
+            }
+            
+            doc.autoTable({
+                head, body, startY,
+                theme: 'striped',
+                headStyles: { fillColor: [26, 26, 46], textColor: [255, 255, 255], fontStyle: 'bold' },
+                alternateRowStyles: { fillColor: [248, 249, 250] },
+                styles: { fontSize: 9, cellPadding: 3 },
+                margin: { left: 14, right: 14 }
+            });
+            
+            // Rodapé
+            const finalY = doc.lastAutoTable.finalY || 85;
+            doc.setFontSize(8);
+            doc.setTextColor(150);
+            doc.text('© 2026 Gian Casas Imobiliária S.A. | Documento gerado automaticamente pelo sistema.', 14, finalY + 15);
+            doc.text('Este relatório é de uso interno e confidencial.', 14, finalY + 20);
+            
+            doc.save(`relatorio_${tipoSelecionado}_${usuario.nome.replace(/ /g, '_')}.pdf`);
+        }
+        window.gerarPDF = gerarPDF;
+    </script>
+</body>
+</html>
