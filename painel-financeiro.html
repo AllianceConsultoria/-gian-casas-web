@@ -10,170 +10,71 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1a1a2e;
-            --secondary: #16213e;
-            --accent: #d4af37;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --info: #17a2b8;
-            --panel-bg: #f4f6f9;
-            --text-light: #6c757d;
+            --primary: #1a1a2e; --secondary: #16213e; --accent: #d4af37;
+            --success: #28a745; --warning: #ffc107; --danger: #dc3545;
+            --info: #17a2b8; --panel-bg: #f4f6f9; --text-light: #6c757d;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--panel-bg);
-        }
-        header {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 15px 0;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--panel-bg); }
+        header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 15px 0; }
         .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .brand h1 {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary);
-            font-size: 24px;
-        }
+        .brand h1 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 24px; }
         .brand h1 span { color: var(--accent); }
         .desktop-nav { display: flex; gap: 30px; }
-        .nav-link {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: 600;
-        }
+        .nav-link { text-decoration: none; color: var(--primary); font-weight: 600; }
         .nav-link:hover, .nav-link.active { color: var(--accent); }
         .panel-container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
         .panel-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 30px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+            color: white; padding: 30px; border-radius: 16px; margin-bottom: 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 20px;
         }
-        .panel-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            margin: 0 0 8px 0;
-        }
+        .panel-header h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 0 0 8px 0; }
         .panel-header p { margin: 0; opacity: 0.9; }
         .btn-logout {
-            padding: 10px 20px;
-            background: var(--danger);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: inherit;
+            padding: 10px 20px; background: var(--danger); color: white; border: none;
+            border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px; font-family: inherit;
         }
         .btn-logout:hover { background: #c82333; transform: translateY(-2px); }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .metric-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border-left: 4px solid var(--accent);
-        }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .metric-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid var(--accent); }
         .metric-card.warning { border-left-color: var(--warning); }
         .metric-card.success { border-left-color: var(--success); }
         .metric-card.info { border-left-color: var(--info); }
         .metric-card.danger { border-left-color: var(--danger); }
         .metric-value { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
         .metric-label { font-size: 13px; color: var(--text-light); text-transform: uppercase; }
-        .section-box {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
+        .section-box { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            color: var(--primary);
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            font-family: 'Playfair Display', serif; font-size: 22px;
+            color: var(--primary); margin-bottom: 20px; padding-bottom: 15px;
             border-bottom: 2px solid #f0f0f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 10px;
         }
-        .comissao-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--accent);
-        }
+        .comissao-card { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--accent); }
         .comissao-card.aprovado { border-left-color: var(--success); }
         .comissao-card.pago { border-left-color: var(--info); }
         .comissao-card.cancelado { border-left-color: var(--danger); }
-        .comissao-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        .comissao-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .comissao-info { flex: 1; }
         .comissao-corretor { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
         .comissao-imovel { font-size: 13px; color: var(--text-light); margin-bottom: 8px; }
-        .comissao-detalhes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
+        .comissao-detalhes { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; background: white; padding: 15px; border-radius: 8px; margin-top: 10px; }
         .detalhe-item { font-size: 13px; }
         .detalhe-label { color: var(--text-light); margin-bottom: 4px; }
         .detalhe-valor { font-weight: 700; color: var(--primary); font-size: 16px; }
-        .status-financeiro {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
+        .status-financeiro { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
         .status-pendente { background: #fff3cd; color: #856404; }
         .status-aprovado { background: #d4edda; color: #155724; }
         .status-pago { background: #d1ecf1; color: #0c5460; }
         .status-cancelado { background: #f8d7da; color: #721c24; }
         .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-        .btn-action {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
+        .btn-action { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s; font-family: inherit; }
         .btn-aprovar { background: var(--success); color: white; }
         .btn-aprovar:hover { background: #218838; }
         .btn-pagar { background: var(--info); color: white; }
@@ -181,100 +82,25 @@
         .btn-cancelar { background: var(--danger); color: white; }
         .btn-cancelar:hover { background: #c82333; }
         .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
-        .tab-btn {
-            padding: 8px 16px;
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
+        .tab-btn { padding: 8px 16px; background: #f8f9fa; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; font-family: inherit; }
         .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-        .corretor-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--accent);
-        }
+        .corretor-card { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--accent); }
         .corretor-nome { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
         .corretor-info-text { font-size: 13px; color: var(--text-light); }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; }
         .modal.ativo { display: flex; }
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 90%;
-        }
-        .modal-header {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 500px; width: 90%; }
+        .modal-header { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 20px; color: var(--primary); }
         .form-group { margin-bottom: 15px; }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #2c3e50;
-        }
-        .form-group textarea, .form-group input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-family: inherit;
-        }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #2c3e50; }
+        .form-group textarea, .form-group input { width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: inherit; }
         .form-group textarea { resize: vertical; min-height: 80px; }
         .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
-        .btn-confirmar {
-            padding: 10px 20px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-family: inherit;
-        }
-        .btn-fechar {
-            padding: 10px 20px;
-            background: var(--text-light);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-family: inherit;
-        }
+        .btn-confirmar { padding: 10px 20px; background: var(--accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-family: inherit; }
+        .btn-fechar { padding: 10px 20px; background: var(--text-light); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-family: inherit; }
         .empty-state { text-align: center; padding: 40px; color: var(--text-light); }
-        footer {
-            background: white;
-            padding: 20px 0;
-            margin-top: 40px;
-            border-top: 1px solid #e0e0e0;
-        }
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        footer { background: white; padding: 20px 0; margin-top: 40px; border-top: 1px solid #e0e0e0; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         @media (max-width: 768px) {
             .panel-header { flex-direction: column; text-align: center; }
             .metrics-grid { grid-template-columns: 1fr 1fr; }
@@ -293,6 +119,7 @@
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="imoveis.html" class="nav-link">Imóveis</a>
                 <a href="contato.html" class="nav-link">Contacto</a>
+                <a href="cadastro-imoveis.html" class="nav-link">Cad. Imóveis</a>
                 <a href="painel-financeiro.html" class="nav-link active">Painel</a>
             </nav>
         </div>
@@ -344,7 +171,7 @@
 
         <div class="section-box">
             <div class="section-title">
-                <span> Histórico de Pagamentos</span>
+                <span>📜 Histórico de Pagamentos</span>
                 <button class="btn-action" style="background: var(--text-light); color: white;" onclick="exportarRelatorio()">
                     <i class="fa-solid fa-file-export"></i> Exportar Relatório
                 </button>
@@ -364,7 +191,7 @@
         </div>
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL AÇÃO FINANCEIRA -->
     <div class="modal" id="modalAcao">
         <div class="modal-content">
             <div class="modal-header" id="modalTitulo">Ação Financeira</div>
@@ -393,22 +220,17 @@
 
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
         const SUPABASE_URL = 'https://sulnodgrwzqffpryllld.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_lpKspNbDobxkjq4Ywp0tbQ_86VF2Bqa';
         const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
+        
         let propostasSistema = [];
         let usuariosSistema = [];
         let propostaSelecionada = null;
-
-        // Verificação de segurança
+        
         const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (!usuario || usuario.perfil !== 'financeiro') {
-            window.location.href = 'login.html';
-        } else {
-            document.getElementById('infoUsuario').textContent = `Logado como: ${usuario.nome} (${usuario.cargo})`;
-        }
+        if (!usuario || usuario.perfil !== 'financeiro') { window.location.href = 'login.html'; }
+        else { document.getElementById('infoUsuario').textContent = `Logado como: ${usuario.nome} (${usuario.cargo})`; }
 
         async function carregarDados() {
             const { data: propostas } = await supabase.from('propostas').select('*');
@@ -429,7 +251,6 @@
             const aprovados = getTotalComissoes(null, 'aprovado');
             const pagos = getTotalComissoes(null, 'pago');
             const totalMes = pendentes + aprovados + pagos;
-
             document.getElementById('totalPendentes').textContent = `€ ${pendentes.toLocaleString('pt-PT')}`;
             document.getElementById('totalAprovados').textContent = `€ ${aprovados.toLocaleString('pt-PT')}`;
             document.getElementById('totalPagos').textContent = `€ ${pagos.toLocaleString('pt-PT')}`;
@@ -439,25 +260,14 @@
         function renderizarComissoes(filtro = 'todas') {
             const container = document.getElementById('comissoesContainer');
             let comissoes = getComissoesAPagar();
-
-            if (filtro === 'pendente') {
-                comissoes = comissoes.filter(c => c.status_financeiro === 'pendente');
-            } else if (filtro === 'aprovado') {
-                comissoes = comissoes.filter(c => c.status_financeiro === 'aprovado');
-            }
-
-            if (comissoes.length === 0) {
-                container.innerHTML = '<div class="empty-state">Nenhuma comissão encontrada</div>';
-                return;
-            }
-
+            if (filtro === 'pendente') { comissoes = comissoes.filter(c => c.status_financeiro === 'pendente'); }
+            else if (filtro === 'aprovado') { comissoes = comissoes.filter(c => c.status_financeiro === 'aprovado'); }
+            if (comissoes.length === 0) { container.innerHTML = '<div class="empty-state">Nenhuma comissão encontrada</div>'; return; }
             container.innerHTML = comissoes.map(c => {
                 const corretor = usuariosSistema.find(u => u.id === c.corretor_id);
                 const statusClass = `status-${c.status_financeiro}`;
                 const statusLabel = c.status_financeiro.charAt(0).toUpperCase() + c.status_financeiro.slice(1);
-                const cardClass = c.status_financeiro === 'aprovado' ? 'aprovado' : 
-                                  c.status_financeiro === 'pago' ? 'pago' : '';
-
+                const cardClass = c.status_financeiro === 'aprovado' ? 'aprovado' : c.status_financeiro === 'pago' ? 'pago' : '';
                 return `
                     <div class="comissao-card ${cardClass}">
                         <div class="comissao-header">
@@ -465,22 +275,10 @@
                                 <div class="comissao-corretor"><i class="fa-solid fa-user"></i> ${corretor ? corretor.nome : 'Desconhecido'}</div>
                                 <div class="comissao-imovel"><i class="fa-solid fa-house"></i> ${c.imovel} | Cliente: ${c.cliente}</div>
                                 <div class="comissao-detalhes">
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Valor da Venda</div>
-                                        <div class="detalhe-valor">€ ${(c.valor || 0).toLocaleString('pt-PT')}</div>
-                                    </div>
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Comissão</div>
-                                        <div class="detalhe-valor" style="color: var(--accent);">€ ${(c.comissao || 0).toLocaleString('pt-PT')}</div>
-                                    </div>
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Previsão Pagamento</div>
-                                        <div class="detalhe-valor">${formatarData(c.data_previsao_pagamento)}</div>
-                                    </div>
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Status</div>
-                                        <span class="status-financeiro ${statusClass}">${statusLabel}</span>
-                                    </div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Valor da Venda</div><div class="detalhe-valor">€ ${(c.valor || 0).toLocaleString('pt-PT')}</div></div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Comissão</div><div class="detalhe-valor" style="color: var(--accent);">€ ${(c.comissao || 0).toLocaleString('pt-PT')}</div></div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Previsão Pagamento</div><div class="detalhe-valor">${formatarData(c.data_previsao_pagamento)}</div></div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Status</div><span class="status-financeiro ${statusClass}">${statusLabel}</span></div>
                                 </div>
                             </div>
                             <div class="action-buttons">
@@ -498,17 +296,11 @@
         function renderizarHistorico() {
             const container = document.getElementById('historicoContainer');
             const historico = getHistoricoPagamentos();
-
-            if (historico.length === 0) {
-                container.innerHTML = '<div class="empty-state">Nenhum pagamento registrado</div>';
-                return;
-            }
-
+            if (historico.length === 0) { container.innerHTML = '<div class="empty-state">Nenhum pagamento registrado</div>'; return; }
             container.innerHTML = historico.map(c => {
                 const corretor = usuariosSistema.find(u => u.id === c.corretor_id);
                 const statusClass = `status-${c.status_financeiro}`;
                 const statusLabel = c.status_financeiro.charAt(0).toUpperCase() + c.status_financeiro.slice(1);
-
                 return `
                     <div class="comissao-card ${c.status_financeiro === 'pago' ? 'pago' : 'cancelado'}">
                         <div class="comissao-header">
@@ -516,18 +308,9 @@
                                 <div class="comissao-corretor">${corretor ? corretor.nome : 'Desconhecido'}</div>
                                 <div class="comissao-imovel">${c.imovel}</div>
                                 <div class="comissao-detalhes">
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Comissão</div>
-                                        <div class="detalhe-valor">€ ${(c.comissao || 0).toLocaleString('pt-PT')}</div>
-                                    </div>
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Data Pagamento</div>
-                                        <div class="detalhe-valor">${formatarData(c.data_pagamento)}</div>
-                                    </div>
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Status</div>
-                                        <span class="status-financeiro ${statusClass}">${statusLabel}</span>
-                                    </div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Comissão</div><div class="detalhe-valor">€ ${(c.comissao || 0).toLocaleString('pt-PT')}</div></div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Data Pagamento</div><div class="detalhe-valor">${formatarData(c.data_pagamento)}</div></div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Status</div><span class="status-financeiro ${statusClass}">${statusLabel}</span></div>
                                 </div>
                             </div>
                         </div>
@@ -540,13 +323,11 @@
         function renderizarResumoCorretores() {
             const container = document.getElementById('resumoCorretoresContainer');
             const corretores = usuariosSistema.filter(u => u.perfil === 'corretor');
-
             container.innerHTML = corretores.map(c => {
                 const pendente = getTotalComissoes(c.id, 'pendente');
                 const aprovado = getTotalComissoes(c.id, 'aprovado');
                 const pago = getTotalComissoes(c.id, 'pago');
                 const total = pendente + aprovado + pago;
-
                 return `
                     <div class="corretor-card">
                         <div class="comissao-header">
@@ -554,22 +335,10 @@
                                 <div class="corretor-nome">${c.nome}</div>
                                 <div class="corretor-info-text">CRECI: ${c.creci || '-'} | ${c.nivel || '-'}</div>
                                 <div class="comissao-detalhes">
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">A Pagar</div>
-                                        <div class="detalhe-valor" style="color: var(--warning);">€ ${pendente.toLocaleString('pt-PT')}</div>
-                                    </div>
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Aprovado</div>
-                                        <div class="detalhe-valor" style="color: var(--success);">€ ${aprovado.toLocaleString('pt-PT')}</div>
-                                    </div>
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Já Pago</div>
-                                        <div class="detalhe-valor" style="color: var(--info);">€ ${pago.toLocaleString('pt-PT')}</div>
-                                    </div>
-                                    <div class="detalhe-item">
-                                        <div class="detalhe-label">Total</div>
-                                        <div class="detalhe-valor" style="color: var(--accent);">€ ${total.toLocaleString('pt-PT')}</div>
-                                    </div>
+                                    <div class="detalhe-item"><div class="detalhe-label">A Pagar</div><div class="detalhe-valor" style="color: var(--warning);">€ ${pendente.toLocaleString('pt-PT')}</div></div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Aprovado</div><div class="detalhe-valor" style="color: var(--success);">€ ${aprovado.toLocaleString('pt-PT')}</div></div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Já Pago</div><div class="detalhe-valor" style="color: var(--info);">€ ${pago.toLocaleString('pt-PT')}</div></div>
+                                    <div class="detalhe-item"><div class="detalhe-label">Total</div><div class="detalhe-valor" style="color: var(--accent);">€ ${total.toLocaleString('pt-PT')}</div></div>
                                 </div>
                             </div>
                         </div>
@@ -579,20 +348,13 @@
         }
 
         function getComissoesAPagar(corretorId = null) {
-            let comissoes = propostasSistema.filter(p => 
-                p.status !== "rejeitada" && 
-                p.status_financeiro !== "pago" && 
-                p.status_financeiro !== "cancelado" &&
-                p.comissao > 0
-            );
+            let comissoes = propostasSistema.filter(p => p.status !== "rejeitada" && p.status_financeiro !== "pago" && p.status_financeiro !== "cancelado" && p.comissao > 0);
             if (corretorId) comissoes = comissoes.filter(p => p.corretor_id === corretorId);
             return comissoes.sort((a, b) => new Date(a.data_previsao_pagamento) - new Date(b.data_previsao_pagamento));
         }
 
         function getHistoricoPagamentos(corretorId = null) {
-            let historico = propostasSistema.filter(p => 
-                p.status_financeiro === "pago" || p.status_financeiro === "cancelado"
-            );
+            let historico = propostasSistema.filter(p => p.status_financeiro === "pago" || p.status_financeiro === "cancelado");
             if (corretorId) historico = historico.filter(p => p.corretor_id === corretorId);
             return historico;
         }
@@ -610,96 +372,55 @@
             const titulo = document.getElementById('modalTitulo');
             const grupoData = document.getElementById('grupoDataPagamento');
             const btnConfirmar = document.getElementById('btnConfirmarAcao');
-
             if (acao === 'aprovar') {
-                titulo.textContent = 'Aprovar Comissão';
-                grupoData.style.display = 'none';
-                btnConfirmar.textContent = 'Aprovar';
-                btnConfirmar.onclick = confirmarAprovacao;
+                titulo.textContent = 'Aprovar Comissão'; grupoData.style.display = 'none'; btnConfirmar.textContent = 'Aprovar'; btnConfirmar.onclick = confirmarAprovacao;
             } else if (acao === 'pagar') {
-                titulo.textContent = 'Registrar Pagamento';
-                grupoData.style.display = 'block';
-                document.getElementById('modalDataPagamento').valueAsDate = new Date();
-                btnConfirmar.textContent = 'Confirmar Pagamento';
-                btnConfirmar.onclick = confirmarPagamento;
+                titulo.textContent = 'Registrar Pagamento'; grupoData.style.display = 'block'; document.getElementById('modalDataPagamento').valueAsDate = new Date(); btnConfirmar.textContent = 'Confirmar Pagamento'; btnConfirmar.onclick = confirmarPagamento;
             } else if (acao === 'cancelar') {
-                titulo.textContent = 'Cancelar Comissão';
-                grupoData.style.display = 'none';
-                btnConfirmar.textContent = 'Cancelar';
-                btnConfirmar.onclick = confirmarCancelamento;
+                titulo.textContent = 'Cancelar Comissão'; grupoData.style.display = 'none'; btnConfirmar.textContent = 'Cancelar'; btnConfirmar.onclick = confirmarCancelamento;
             }
-
             modal.classList.add('ativo');
         }
+        window.abrirModal = abrirModal;
 
         function fecharModal() {
             document.getElementById('modalAcao').classList.remove('ativo');
             document.getElementById('modalObservacoes').value = '';
             propostaSelecionada = null;
         }
+        window.fecharModal = fecharModal;
 
         async function confirmarAprovacao() {
             const obs = document.getElementById('modalObservacoes').value;
-            const { error } = await supabase
-                .from('propostas')
-                .update({ status_financeiro: 'aprovado', observacoes: obs })
-                .eq('id', propostaSelecionada);
-            
-            if (error) {
-                alert('Erro ao aprovar: ' + error.message);
-            } else {
+            const { error } = await supabase.from('propostas').update({ status_financeiro: 'aprovado', observacoes: obs }).eq('id', propostaSelecionada);
+            if (error) { alert('Erro ao aprovar: ' + error.message); }
+            else {
                 const proposta = propostasSistema.find(p => p.id === propostaSelecionada);
-                if (proposta) {
-                    proposta.status_financeiro = 'aprovado';
-                    if (obs) proposta.observacoes = obs;
-                }
-                fecharModal();
-                atualizarTela();
+                if (proposta) { proposta.status_financeiro = 'aprovado'; if (obs) proposta.observacoes = obs; }
+                fecharModal(); atualizarTela();
             }
         }
 
         async function confirmarPagamento() {
             const obs = document.getElementById('modalObservacoes').value;
             const data = document.getElementById('modalDataPagamento').value;
-            const { error } = await supabase
-                .from('propostas')
-                .update({ 
-                    status_financeiro: 'pago', 
-                    data_pagamento: data,
-                    observacoes: obs || `Pagamento realizado em ${formatarData(data)}`
-                })
-                .eq('id', propostaSelecionada);
-            
-            if (error) {
-                alert('Erro ao registrar pagamento: ' + error.message);
-            } else {
+            const { error } = await supabase.from('propostas').update({ status_financeiro: 'pago', data_pagamento: data, observacoes: obs || `Pagamento realizado em ${formatarData(data)}` }).eq('id', propostaSelecionada);
+            if (error) { alert('Erro ao registrar pagamento: ' + error.message); }
+            else {
                 const proposta = propostasSistema.find(p => p.id === propostaSelecionada);
-                if (proposta) {
-                    proposta.status_financeiro = 'pago';
-                    proposta.data_pagamento = data;
-                }
-                fecharModal();
-                atualizarTela();
+                if (proposta) { proposta.status_financeiro = 'pago'; proposta.data_pagamento = data; }
+                fecharModal(); atualizarTela();
             }
         }
 
         async function confirmarCancelamento() {
             const obs = document.getElementById('modalObservacoes').value;
-            const { error } = await supabase
-                .from('propostas')
-                .update({ status_financeiro: 'cancelado', observacoes: obs })
-                .eq('id', propostaSelecionada);
-            
-            if (error) {
-                alert('Erro ao cancelar: ' + error.message);
-            } else {
+            const { error } = await supabase.from('propostas').update({ status_financeiro: 'cancelado', observacoes: obs }).eq('id', propostaSelecionada);
+            if (error) { alert('Erro ao cancelar: ' + error.message); }
+            else {
                 const proposta = propostasSistema.find(p => p.id === propostaSelecionada);
-                if (proposta) {
-                    proposta.status_financeiro = 'cancelado';
-                    if (obs) proposta.observacoes = obs;
-                }
-                fecharModal();
-                atualizarTela();
+                if (proposta) { proposta.status_financeiro = 'cancelado'; if (obs) proposta.observacoes = obs; }
+                fecharModal(); atualizarTela();
             }
         }
 
@@ -712,20 +433,16 @@
             });
             const totalVendas = propostasMes.reduce((s, p) => s + (p.valor || 0), 0);
             const totalComissoes = propostasMes.reduce((s, p) => s + (p.comissao || 0), 0);
-            
-            alert('📊 RELATÓRIO FINANCEIRO\n\n' + 
-                  `Mês: ${mesAtual}/${anoAtual}\n` +
-                  `Total de Vendas: € ${totalVendas.toLocaleString('pt-PT')}\n` +
-                  `Total Comissões: € ${totalComissoes.toLocaleString('pt-PT')}\n` +
-                  `Propostas: ${propostasMes.length}\n\n` +
-                  'Em um sistema real, isso geraria um PDF ou Excel para impressão.');
+            alert(' RELATÓRIO FINANCEIRO\n\n' + `Mês: ${mesAtual}/${anoAtual}\n` + `Total de Vendas: € ${totalVendas.toLocaleString('pt-PT')}\n` + `Total Comissões: € ${totalComissoes.toLocaleString('pt-PT')}\n` + `Propostas: ${propostasMes.length}\n\n` + 'Em um sistema real, isso geraria um PDF ou Excel para impressão.');
         }
+        window.exportarRelatorio = exportarRelatorio;
 
         function filtrarComissoes(tipo, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             renderizarComissoes(tipo);
         }
+        window.filtrarComissoes = filtrarComissoes;
 
         function atualizarTela() {
             renderizarMetricas();
@@ -734,15 +451,16 @@
             renderizarResumoCorretores();
         }
 
-        function fazerLogout() {
+        // ✅ LOGOUT COM SUPABASE AUTH OFICIAL
+        async function fazerLogout() {
             if (confirm('Deseja realmente sair do sistema?')) {
+                await supabase.auth.signOut();
                 localStorage.removeItem('usuarioLogado');
                 window.location.href = 'login.html';
             }
         }
         window.fazerLogout = fazerLogout;
 
-        // Inicializar
         carregarDados();
     </script>
 </body>
