@@ -628,8 +628,9 @@
             btnSubmit.innerHTML = '<i class="fa-solid fa-file-signature"></i> Registrar Proposta';
             setTimeout(() => { fecharModalNovaProposta(); }, 1500);
         });
-        function fazerLogout() {
+        async function fazerLogout() {
             if (confirm('Deseja realmente sair do sistema?')) {
+                await supabase.auth.signOut();
                 localStorage.removeItem('usuarioLogado');
                 window.location.href = 'login.html';
             }
