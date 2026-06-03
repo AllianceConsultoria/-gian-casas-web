@@ -128,8 +128,6 @@
         .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .btn-logout { background: var(--danger); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-family: inherit; }
         .btn-logout:hover { background: #c82333; }
-        
-        /* ===== MODAL ===== */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
         .modal.ativo { display: flex; }
         .modal-content { background: white; padding: 30px; border-radius: 16px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
@@ -167,6 +165,7 @@
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="imoveis.html" class="nav-link">Imóveis</a>
                 <a href="contato.html" class="nav-link">Contacto</a>
+                <a href="cadastro-imoveis.html" class="nav-link">Cad. Imóveis</a>
                 <a href="painel-corretor.html" class="nav-link active">Painel</a>
             </nav>
         </div>
@@ -287,8 +286,8 @@
                         <h3><i class="fa-solid fa-bolt" style="color: var(--accent);"></i> Acesso Rápido</h3>
                     </div>
                     <div class="action-buttons" style="grid-template-columns: 1fr;">
+                        <button class="action-btn" onclick="window.location.href='cadastro-imoveis.html'"><i class="fa-solid fa-house-chimney-medical"></i> Cadastrar Imóvel</button>
                         <button class="action-btn"><i class="fa-solid fa-user-plus"></i> Cadastrar Cliente</button>
-                        <button class="action-btn"><i class="fa-solid fa-house-chimney-medical"></i> Cadastrar Imóvel</button>
                         <button class="action-btn"><i class="fa-solid fa-user"></i> Meu Perfil</button>
                         <button class="action-btn"><i class="fa-solid fa-file-invoice-dollar"></i> Minhas Comissões</button>
                     </div>
@@ -297,7 +296,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL NOVA VISITA ===== -->
+    <!-- MODAL NOVA VISITA -->
     <div class="modal" id="modalNovaVisita">
         <div class="modal-content">
             <div class="modal-header">
@@ -332,7 +331,7 @@
                     <label for="visitaPeriodo"><i class="fa-solid fa-sun"></i> Período *</label>
                     <select id="visitaPeriodo" required>
                         <option value="manhã">🌅 Manhã (até 12h)</option>
-                        <option value="tarde">️ Tarde (12h-18h)</option>
+                        <option value="tarde">☀️ Tarde (12h-18h)</option>
                         <option value="noite">🌙 Noite (após 18h)</option>
                     </select>
                 </div>
@@ -350,7 +349,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL NOVA PROPOSTA ===== -->
+    <!-- MODAL NOVA PROPOSTA -->
     <div class="modal" id="modalNovaProposta">
         <div class="modal-content">
             <div class="modal-header">
@@ -385,9 +384,9 @@
                     <div class="form-group">
                         <label for="propStatus"><i class="fa-solid fa-tag"></i> Status *</label>
                         <select id="propStatus" required>
-                            <option value="nova"> Nova</option>
+                            <option value="nova">🆕 Nova</option>
                             <option value="analise">🔍 Em Análise</option>
-                            <option value="negociacao"> Em Negociação</option>
+                            <option value="negociacao">💬 Em Negociação</option>
                             <option value="aprovada">✅ Aprovada</option>
                         </select>
                     </div>
@@ -418,15 +417,12 @@
 
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
         const SUPABASE_URL = 'https://sulnodgrwzqffpryllld.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_lpKspNbDobxkjq4Ywp0tbQ_86VF2Bqa';
         const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
         const usuarioAtual = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (!usuarioAtual || usuarioAtual.perfil !== 'corretor') {
-            window.location.href = 'login.html';
-        } else {
+        if (!usuarioAtual || usuarioAtual.perfil !== 'corretor') { window.location.href = 'login.html'; }
+        else {
             document.getElementById('welcomeText').textContent = `Olá, ${usuarioAtual.nome.split(' ')[0]}! 👋`;
             document.getElementById('userName').textContent = usuarioAtual.nome;
             document.getElementById('userCreci').textContent = `CRECI: ${usuarioAtual.creci || '---'} | Nível: ${usuarioAtual.nivel || '---'}`;
@@ -437,12 +433,9 @@
             document.getElementById('visitaData').setAttribute('min', hoje);
             document.getElementById('visitaData').value = hoje;
             document.getElementById('propPrevisao').setAttribute('min', hoje);
-            
             await carregarVisitas();
             await carregarPropostas();
         }
-
-        // ===== CARREGAR VISITAS =====
         async function carregarVisitas() {
             const { data: visitas, error } = await supabase.from('visitas').select('*').eq('corretor_id', usuarioAtual.id).order('data', { ascending: true }).order('hora', { ascending: true });
             if (error) { console.error('Erro ao carregar visitas:', error); return; }
@@ -474,8 +467,6 @@
                 visitasList.innerHTML = '<div class="empty-state">Nenhuma visita agendada</div>';
             }
         }
-
-        // ===== CARREGAR PROPOSTAS =====
         async function carregarPropostas() {
             const { data: propostas } = await supabase.from('propostas').select('*').eq('corretor_id', usuarioAtual.id);
             const propostasAtivas = propostas ? propostas.filter(p => p.status !== 'rejeitada') : [];
@@ -520,12 +511,9 @@
                 propostasList.innerHTML = '<div class="empty-state">Nenhuma proposta registrada</div>';
             }
         }
-
-        // ===== MODAL NOVA VISITA =====
         const modalNovaVisita = document.getElementById('modalNovaVisita');
         const btnNovaVisita = document.getElementById('btnNovaVisita');
         const formNovaVisita = document.getElementById('formNovaVisita');
-
         btnNovaVisita.addEventListener('click', function() {
             modalNovaVisita.classList.add('ativo');
             document.body.style.overflow = 'hidden';
@@ -538,7 +526,6 @@
                 else periodoSelect.value = 'noite';
             };
         });
-
         function fecharModalNovaVisita() {
             modalNovaVisita.classList.remove('ativo');
             document.body.style.overflow = 'auto';
@@ -548,11 +535,7 @@
             document.getElementById('visitaData').value = hoje;
         }
         window.fecharModalNovaVisita = fecharModalNovaVisita;
-
-        modalNovaVisita.addEventListener('click', function(e) {
-            if (e.target === modalNovaVisita) fecharModalNovaVisita();
-        });
-
+        modalNovaVisita.addEventListener('click', function(e) { if (e.target === modalNovaVisita) fecharModalNovaVisita(); });
         formNovaVisita.addEventListener('submit', async function(e) {
             e.preventDefault();
             const btnSubmit = document.getElementById('btnSubmitVisita');
@@ -586,31 +569,22 @@
             btnSubmit.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Agendar Visita';
             setTimeout(() => { fecharModalNovaVisita(); }, 1500);
         });
-
-        // ===== MODAL NOVA PROPOSTA =====
         const modalNovaProposta = document.getElementById('modalNovaProposta');
         const btnNovaProposta = document.getElementById('btnNovaProposta');
         const formNovaProposta = document.getElementById('formNovaProposta');
         const inputValor = document.getElementById('propValor');
         const inputComissao = document.getElementById('propComissao');
         const previewComissao = document.getElementById('comissaoCalculada');
-
-        // Cálculo automático da comissão (3% do valor)
         inputValor.addEventListener('input', function() {
             const valor = parseFloat(this.value) || 0;
             const comissao = valor * 0.03;
             previewComissao.textContent = `€ ${comissao.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}`;
-            // Se o campo de comissão estiver vazio, preenche automaticamente
-            if (!inputComissao.value) {
-                inputComissao.value = comissao.toFixed(2);
-            }
+            if (!inputComissao.value) { inputComissao.value = comissao.toFixed(2); }
         });
-
         btnNovaProposta.addEventListener('click', function() {
             modalNovaProposta.classList.add('ativo');
             document.body.style.overflow = 'hidden';
         });
-
         function fecharModalNovaProposta() {
             modalNovaProposta.classList.remove('ativo');
             document.body.style.overflow = 'auto';
@@ -619,18 +593,13 @@
             previewComissao.textContent = '€ 0,00';
         }
         window.fecharModalNovaProposta = fecharModalNovaProposta;
-
-        modalNovaProposta.addEventListener('click', function(e) {
-            if (e.target === modalNovaProposta) fecharModalNovaProposta();
-        });
-
+        modalNovaProposta.addEventListener('click', function(e) { if (e.target === modalNovaProposta) fecharModalNovaProposta(); });
         formNovaProposta.addEventListener('submit', async function(e) {
             e.preventDefault();
             const btnSubmit = document.getElementById('btnSubmitProposta');
             const successMsg = document.getElementById('successProposta');
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
-            
             const novaProposta = {
                 corretor_id: usuarioAtual.id,
                 cliente: document.getElementById('propCliente').value.trim(),
@@ -643,7 +612,6 @@
                 data_previsao_pagamento: document.getElementById('propPrevisao').value || null,
                 observacoes: document.getElementById('propObs').value.trim()
             };
-
             const { data, error } = await supabase.from('propostas').insert([novaProposta]).select();
             if (error) {
                 console.error('Erro ao salvar proposta:', error);
@@ -652,7 +620,6 @@
                 btnSubmit.innerHTML = '<i class="fa-solid fa-file-signature"></i> Registrar Proposta';
                 return;
             }
-
             successMsg.classList.add('ativo');
             formNovaProposta.reset();
             previewComissao.textContent = '€ 0,00';
@@ -661,8 +628,6 @@
             btnSubmit.innerHTML = '<i class="fa-solid fa-file-signature"></i> Registrar Proposta';
             setTimeout(() => { fecharModalNovaProposta(); }, 1500);
         });
-
-        // ===== LOGOUT =====
         function fazerLogout() {
             if (confirm('Deseja realmente sair do sistema?')) {
                 localStorage.removeItem('usuarioLogado');
