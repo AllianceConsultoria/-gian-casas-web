@@ -103,7 +103,7 @@
         .empty-state i { font-size: 60px; margin-bottom: 15px; opacity: 0.5; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
         .modal.ativo { display: flex; }
-        .modal-content { background: white; padding: 30px; border-radius: 16px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative; }
+        .modal-content { background: white; padding: 30px; border-radius: 16px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0; }
         .modal-header h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); margin: 0; }
         .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-light); }
@@ -124,6 +124,81 @@
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         footer { background: white; padding: 20px 0; margin-top: 40px; border-top: 1px solid #e0e0e0; }
         .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        
+        /* ===== UPLOAD DE FOTO ===== */
+        .upload-area {
+            border: 2px dashed #d0d0d0;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fafafa;
+            position: relative;
+        }
+        .upload-area:hover { border-color: var(--accent); background: #fff9e6; }
+        .upload-area.dragover { border-color: var(--accent); background: #fff9e6; transform: scale(1.02); }
+        .upload-area i { font-size: 40px; color: var(--accent); margin-bottom: 10px; }
+        .upload-area p { color: var(--text-light); font-size: 14px; margin: 5px 0; }
+        .upload-area strong { color: var(--primary); }
+        .upload-area input[type="file"] { display: none; }
+        .preview-container {
+            margin-top: 15px;
+            position: relative;
+            display: none;
+        }
+        .preview-container.ativo { display: block; }
+        .preview-img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--accent);
+        }
+        .btn-remover-foto {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-remover-foto:hover { background: #c82333; transform: scale(1.1); }
+        .upload-progress {
+            margin-top: 10px;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            display: none;
+        }
+        .upload-progress.ativo { display: block; }
+        .upload-progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .upload-status { font-size: 12px; color: var(--text-light); margin-top: 6px; display: none; }
+        .upload-status.ativo { display: block; }
+        .separador { text-align: center; margin: 15px 0; color: var(--text-light); font-size: 13px; position: relative; }
+        .separador::before, .separador::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+        .separador::before { left: 0; }
+        .separador::after { right: 0; }
+        
         @media (max-width: 768px) {
             .page-header { flex-direction: column; text-align: center; }
             .imoveis-grid { grid-template-columns: 1fr; }
@@ -144,7 +219,6 @@
                 <a href="imoveis.html" class="nav-link">Imóveis</a>
                 <a href="contato.html" class="nav-link">Contacto</a>
                 <a href="cadastro-imoveis.html" class="nav-link active">Cad. Imóveis</a>
-                <!-- Botão dinâmico de voltar ao painel -->
                 <button class="btn-voltar" id="btnVoltarPainel" onclick="voltarAoPainel()">
                     <i class="fa-solid fa-arrow-left"></i> <span id="textoBtnVoltar">Meu Painel</span>
                 </button>
@@ -239,7 +313,7 @@
                         <label for="imovelStatus"><i class="fa-solid fa-circle-check"></i> Status *</label>
                         <select id="imovelStatus" required>
                             <option value="disponivel">✅ Disponível</option>
-                            <option value="reservado">🟡 Reservado</option>
+                            <option value="reservado"> Reservado</option>
                             <option value="vendido"> Vendido</option>
                         </select>
                     </div>
@@ -268,10 +342,32 @@
                         <input type="number" id="imovelBanheiros" placeholder="Ex: 3" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="imovelFoto"><i class="fa-solid fa-image"></i> URL da Foto</label>
-                        <input type="text" id="imovelFoto" placeholder="https://...">
+                        <label for="imovelFotoUrl"><i class="fa-solid fa-link"></i> URL Externa (opcional)</label>
+                        <input type="text" id="imovelFotoUrl" placeholder="https://...">
                     </div>
                 </div>
+
+                <!-- ÁREA DE UPLOAD DE FOTO -->
+                <div class="form-group">
+                    <label><i class="fa-solid fa-image"></i> Upload de Foto</label>
+                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('inputFile').click()">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <p><strong>Clique para selecionar</strong> ou arraste uma imagem</p>
+                        <p style="font-size: 12px;">JPG, PNG ou WEBP (máx. 5MB)</p>
+                        <input type="file" id="inputFile" accept="image/jpeg,image/png,image/webp">
+                    </div>
+                    <div class="upload-progress" id="uploadProgress">
+                        <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                    </div>
+                    <div class="upload-status" id="uploadStatus"></div>
+                    <div class="preview-container" id="previewContainer">
+                        <img src="" alt="Preview" class="preview-img" id="previewImg">
+                        <button type="button" class="btn-remover-foto" onclick="removerFoto(event)" title="Remover foto">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="imovelDescricao"><i class="fa-solid fa-align-left"></i> Descrição</label>
                     <textarea id="imovelDescricao" placeholder="Descreva as características do imóvel..."></textarea>
@@ -297,16 +393,15 @@
         
         let imoveisSistema = [];
         let filtroAtual = 'todos';
+        let fotoSelecionada = null; // Blob da foto selecionada
+        let fotoUrlAtual = null; // URL final (upload ou externa)
         const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
         
         if (!usuario) { window.location.href = 'login.html'; }
         else { 
             document.getElementById('infoUsuario').textContent = `Logado como: ${usuario.nome} (${usuario.cargo || usuario.perfil})`;
-            
-            // Configurar botão de voltar ao painel correto baseado no perfil
             const btnVoltar = document.getElementById('btnVoltarPainel');
             const textoBtn = document.getElementById('textoBtnVoltar');
-            
             if (usuario.perfil === 'supervisor' || usuario.perfil === 'rh') {
                 btnVoltar.onclick = () => window.location.href = 'painel-supervisor.html';
                 textoBtn.textContent = 'Painel Supervisor';
@@ -318,6 +413,12 @@
                 textoBtn.textContent = 'Meu Painel';
             }
         }
+        
+        window.voltarAoPainel = function() {
+            if (usuario.perfil === 'supervisor' || usuario.perfil === 'rh') window.location.href = 'painel-supervisor.html';
+            else if (usuario.perfil === 'financeiro') window.location.href = 'painel-financeiro.html';
+            else window.location.href = 'painel-corretor.html';
+        };
         
         async function carregarImoveis() {
             const { data, error } = await supabase.from('imoveis').select('*').order('data_cadastro', { ascending: false });
@@ -348,7 +449,8 @@
             container.innerHTML = '<div class="imoveis-grid">' + imoveisFiltrados.map(i => {
                 const icone = iconesTipo[i.tipo] || 'fa-house';
                 const statusLabel = { 'disponivel': 'Disponível', 'reservado': 'Reservado', 'vendido': 'Vendido' }[i.status] || i.status;
-                return '<div class="imovel-card"><div class="imovel-img">' + (i.foto_url ? '<img src="' + i.foto_url + '" alt="' + i.nome + '" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">' : '') + '<i class="fa-solid ' + icone + '" style="display: ' + (i.foto_url ? 'none' : 'block') + '; font-size: 60px;"></i><span class="status-badge badge-' + i.status + '">' + statusLabel + '</span></div><div class="imovel-info"><div class="imovel-nome">' + i.nome + '</div><div class="imovel-tipo"><i class="fa-solid ' + icone + '"></i> ' + i.tipo + '</div><div class="imovel-local"><i class="fa-solid fa-location-dot"></i> ' + i.localizacao + '</div><div class="imovel-preco">€ ' + ((i.preco || 0).toLocaleString('pt-PT')) + '</div><div class="imovel-detalhes"><div class="detalhe"><i class="fa-solid fa-ruler-combined"></i>' + ((i.area || 0)) + ' m²</div><div class="detalhe"><i class="fa-solid fa-bed"></i>' + (i.quartos || 0) + '</div><div class="detalhe"><i class="fa-solid fa-bath"></i>' + (i.banheiros || 0) + '</div></div>' + (i.descricao ? '<p style="font-size: 12px; color: var(--text-light); margin-bottom: 12px; font-style: italic;">' + i.descricao.substring(0, 80) + '...</p>' : '') + '<div class="imovel-actions"><button class="btn-action btn-editar" onclick="editarImovel(' + i.id + ')"><i class="fa-solid fa-edit"></i> Editar</button><button class="btn-action btn-excluir" onclick="excluirImovel(' + i.id + ', \'' + i.nome.replace(/'/g, "\\'") + '\')"><i class="fa-solid fa-trash"></i> Excluir</button></div></div></div>';
+                const imgHtml = i.foto_url ? `<img src="${i.foto_url}" alt="${i.nome}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : '';
+                return `<div class="imovel-card"><div class="imovel-img">${imgHtml}<i class="fa-solid ${icone}" style="display: ${i.foto_url ? 'none' : 'block'}; font-size: 60px;"></i><span class="status-badge badge-${i.status}">${statusLabel}</span></div><div class="imovel-info"><div class="imovel-nome">${i.nome}</div><div class="imovel-tipo"><i class="fa-solid ${icone}"></i> ${i.tipo}</div><div class="imovel-local"><i class="fa-solid fa-location-dot"></i> ${i.localizacao}</div><div class="imovel-preco">€ ${((i.preco || 0).toLocaleString('pt-PT'))}</div><div class="imovel-detalhes"><div class="detalhe"><i class="fa-solid fa-ruler-combined"></i>${((i.area || 0))} m²</div><div class="detalhe"><i class="fa-solid fa-bed"></i>${(i.quartos || 0)}</div><div class="detalhe"><i class="fa-solid fa-bath"></i>${(i.banheiros || 0)}</div></div>${i.descricao ? '<p style="font-size: 12px; color: var(--text-light); margin-bottom: 12px; font-style: italic;">' + i.descricao.substring(0, 80) + '...</p>' : ''}<div class="imovel-actions"><button class="btn-action btn-editar" onclick="editarImovel(' + i.id + ')"><i class="fa-solid fa-edit"></i> Editar</button><button class="btn-action btn-excluir" onclick="excluirImovel(' + i.id + ', \'' + i.nome.replace(/'/g, "\\'") + '\')"><i class="fa-solid fa-trash"></i> Excluir</button></div></div></div>`;
             }).join('') + '</div>';
         }
         
@@ -361,6 +463,103 @@
         window.filtrarImoveis = filtrarImoveis;
         
         const modalCadastro = document.getElementById('modalCadastro');
+        const uploadArea = document.getElementById('uploadArea');
+        const inputFile = document.getElementById('inputFile');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewImg = document.getElementById('previewImg');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const uploadProgressBar = document.getElementById('uploadProgressBar');
+        const uploadStatus = document.getElementById('uploadStatus');
+        
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) processarArquivo(file);
+        });
+        
+        // Seleção via clique
+        inputFile.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) processarArquivo(file);
+        });
+        
+        function processarArquivo(file) {
+            // Validar tipo
+            if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+                alert('❌ Formato inválido! Use JPG, PNG ou WEBP.');
+                return;
+            }
+            // Validar tamanho (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('❌ Arquivo muito grande! Máximo 5MB.');
+                return;
+            }
+            fotoSelecionada = file;
+            // Preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                previewContainer.classList.add('ativo');
+                uploadArea.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+            // Limpar URL externa se houver
+            document.getElementById('imovelFotoUrl').value = '';
+        }
+        
+        window.removerFoto = function(e) {
+            e.stopPropagation();
+            fotoSelecionada = null;
+            previewImg.src = '';
+            previewContainer.classList.remove('ativo');
+            uploadArea.style.display = 'block';
+            inputFile.value = '';
+        };
+        
+        async function uploadFotoParaSupabase(file, imovelId) {
+            const extensao = file.name.split('.').pop();
+            const nomeArquivo = `imovel_${imovelId}_${Date.now()}.${extensao}`;
+            const caminho = `${nomeArquivo}`;
+            
+            uploadProgress.classList.add('ativo');
+            uploadStatus.classList.add('ativo');
+            uploadStatus.textContent = 'Enviando foto...';
+            uploadProgressBar.style.width = '30%';
+            
+            const { data, error } = await supabase.storage
+                .from('imoveis')
+                .upload(caminho, file, {
+                    cacheControl: '3600',
+                    upsert: true
+                });
+            
+            if (error) {
+                uploadStatus.textContent = '❌ Erro no upload: ' + error.message;
+                uploadStatus.style.color = 'var(--danger)';
+                uploadProgress.classList.remove('ativo');
+                throw error;
+            }
+            
+            uploadProgressBar.style.width = '100%';
+            uploadStatus.textContent = '✅ Upload concluído!';
+            uploadStatus.style.color = 'var(--success)';
+            
+            // Obter URL pública
+            const { data: urlData } = supabase.storage
+                .from('imoveis')
+                .getPublicUrl(caminho);
+            
+            setTimeout(() => {
+                uploadProgress.classList.remove('ativo');
+                uploadStatus.classList.remove('ativo');
+            }, 1500);
+            
+            return urlData.publicUrl;
+        }
         
         function abrirModalCadastro() {
             document.getElementById('modalTitulo').innerHTML = '<i class="fa-solid fa-house-chimney-medical" style="color: var(--accent);"></i> Cadastrar Novo Imóvel';
@@ -368,6 +567,11 @@
             document.getElementById('imovelId').value = '';
             document.getElementById('formCadastro').reset();
             document.getElementById('successMessage').classList.remove('ativo');
+            fotoSelecionada = null;
+            fotoUrlAtual = null;
+            previewContainer.classList.remove('ativo');
+            uploadArea.style.display = 'block';
+            inputFile.value = '';
             modalCadastro.classList.add('ativo');
             document.body.style.overflow = 'hidden';
         }
@@ -378,6 +582,11 @@
             document.body.style.overflow = 'auto';
             document.getElementById('formCadastro').reset();
             document.getElementById('successMessage').classList.remove('ativo');
+            fotoSelecionada = null;
+            fotoUrlAtual = null;
+            previewContainer.classList.remove('ativo');
+            uploadArea.style.display = 'block';
+            inputFile.value = '';
         }
         window.fecharModalCadastro = fecharModalCadastro;
         
@@ -397,9 +606,23 @@
             document.getElementById('imovelArea').value = imovel.area;
             document.getElementById('imovelQuartos').value = imovel.quartos;
             document.getElementById('imovelBanheiros').value = imovel.banheiros;
-            document.getElementById('imovelFoto').value = imovel.foto_url || '';
             document.getElementById('imovelDescricao').value = imovel.descricao || '';
             document.getElementById('successMessage').classList.remove('ativo');
+            
+            // Se tem foto existente, mostrar preview
+            if (imovel.foto_url) {
+                previewImg.src = imovel.foto_url;
+                previewContainer.classList.add('ativo');
+                uploadArea.style.display = 'none';
+                fotoUrlAtual = imovel.foto_url;
+                fotoSelecionada = null;
+            } else {
+                previewContainer.classList.remove('ativo');
+                uploadArea.style.display = 'block';
+                fotoUrlAtual = null;
+                fotoSelecionada = null;
+            }
+            
             modalCadastro.classList.add('ativo');
             document.body.style.overflow = 'hidden';
         }
@@ -407,6 +630,14 @@
         
         async function excluirImovel(id, nome) {
             if (!confirm('⚠️ Tem certeza que deseja EXCLUIR o imóvel "' + nome + '"?')) return;
+            const imovel = imoveisSistema.find(i => i.id === id);
+            // Se tem foto no storage, tentar remover
+            if (imovel && imovel.foto_url && imovel.foto_url.includes('storage/v1/object/public/imoveis/')) {
+                try {
+                    const caminho = imovel.foto_url.split('/imoveis/')[1];
+                    await supabase.storage.from('imoveis').remove([caminho]);
+                } catch (e) { console.log('Não foi possível remover a foto do storage'); }
+            }
             const { error } = await supabase.from('imoveis').delete().eq('id', id);
             if (error) { alert('Erro ao excluir: ' + error.message); }
             else { await carregarImoveis(); }
@@ -419,29 +650,50 @@
             const successMsg = document.getElementById('successMessage');
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
-            const dados = {
-                nome: document.getElementById('imovelNome').value.trim(),
-                tipo: document.getElementById('imovelTipo').value,
-                localizacao: document.getElementById('imovelLocal').value.trim(),
-                preco: parseFloat(document.getElementById('imovelPreco').value) || 0,
-                area: parseFloat(document.getElementById('imovelArea').value) || null,
-                quartos: parseInt(document.getElementById('imovelQuartos').value) || null,
-                banheiros: parseInt(document.getElementById('imovelBanheiros').value) || null,
-                status: document.getElementById('imovelStatus').value,
-                foto_url: document.getElementById('imovelFoto').value.trim() || null,
-                descricao: document.getElementById('imovelDescricao').value.trim() || null,
-                data_cadastro: new Date().toISOString().split('T')[0]
-            };
-            const imovelId = document.getElementById('imovelId').value;
-            let error;
-            if (imovelId) { ({ error } = await supabase.from('imoveis').update(dados).eq('id', parseInt(imovelId))); }
-            else { ({ error } = await supabase.from('imoveis').insert([dados])); }
-            if (error) { alert('Erro ao salvar: ' + error.message); btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="fa-solid fa-save"></i> <span id="btnText">' + (imovelId ? 'Salvar Alterações' : 'Cadastrar Imóvel') + '</span>'; return; }
-            successMsg.classList.add('ativo');
-            await carregarImoveis();
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = '<i class="fa-solid fa-save"></i> <span id="btnText">' + (imovelId ? 'Salvar Alterações' : 'Cadastrar Imóvel') + '</span>';
-            setTimeout(() => { fecharModalCadastro(); }, 1500);
+            
+            let fotoFinal = null;
+            
+            try {
+                // Prioridade: upload > URL externa > existente
+                if (fotoSelecionada) {
+                    const imovelIdTemp = document.getElementById('imovelId').value || Date.now();
+                    fotoFinal = await uploadFotoParaSupabase(fotoSelecionada, imovelIdTemp);
+                } else {
+                    const urlExterna = document.getElementById('imovelFotoUrl').value.trim();
+                    if (urlExterna) fotoFinal = urlExterna;
+                    else fotoFinal = fotoUrlAtual; // Manter foto existente
+                }
+                
+                const dados = {
+                    nome: document.getElementById('imovelNome').value.trim(),
+                    tipo: document.getElementById('imovelTipo').value,
+                    localizacao: document.getElementById('imovelLocal').value.trim(),
+                    preco: parseFloat(document.getElementById('imovelPreco').value) || 0,
+                    area: parseFloat(document.getElementById('imovelArea').value) || null,
+                    quartos: parseInt(document.getElementById('imovelQuartos').value) || null,
+                    banheiros: parseInt(document.getElementById('imovelBanheiros').value) || null,
+                    status: document.getElementById('imovelStatus').value,
+                    foto_url: fotoFinal,
+                    descricao: document.getElementById('imovelDescricao').value.trim() || null,
+                    data_cadastro: new Date().toISOString().split('T')[0]
+                };
+                
+                const imovelId = document.getElementById('imovelId').value;
+                let error;
+                if (imovelId) { ({ error } = await supabase.from('imoveis').update(dados).eq('id', parseInt(imovelId))); }
+                else { ({ error } = await supabase.from('imoveis').insert([dados])); }
+                
+                if (error) { alert('Erro ao salvar: ' + error.message); btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="fa-solid fa-save"></i> <span id="btnText">' + (imovelId ? 'Salvar Alterações' : 'Cadastrar Imóvel') + '</span>'; return; }
+                
+                successMsg.classList.add('ativo');
+                await carregarImoveis();
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="fa-solid fa-save"></i> <span id="btnText">' + (imovelId ? 'Salvar Alterações' : 'Cadastrar Imóvel') + '</span>';
+                setTimeout(() => { fecharModalCadastro(); }, 1500);
+            } catch (err) {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="fa-solid fa-save"></i> <span id="btnText">' + (document.getElementById('imovelId').value ? 'Salvar Alterações' : 'Cadastrar Imóvel') + '</span>';
+            }
         });
         
         async function fazerLogout() {
