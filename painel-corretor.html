@@ -10,17 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1a1a2e;
-            --secondary: #16213e;
-            --accent: #d4af37;
-            --accent-hover: #b8941f;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --info: #17a2b8;
-            --panel-bg: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-light: #6c757d;
+            --primary: #1a1a2e; --secondary: #16213e; --accent: #d4af37;
+            --accent-hover: #b8941f; --success: #28a745; --warning: #ffc107;
+            --danger: #dc3545; --info: #17a2b8; --panel-bg: #f4f6f9;
+            --card-bg: #ffffff; --text-light: #6c757d;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--panel-bg); }
@@ -115,6 +108,7 @@
         .notif-icon.new-proposal { background: #d1ecf1; color: var(--info); }
         .notif-icon.visit { background: #d4edda; color: var(--success); }
         .notif-icon.alert { background: #f8d7da; color: var(--danger); }
+        .notif-icon.client { background: #fff3cd; color: #856404; }
         .notif-content h5 { font-size: 14px; margin-bottom: 3px; color: var(--primary); margin-top: 0; }
         .notif-content p { font-size: 12px; color: var(--text-light); margin: 0; }
         .notif-time { font-size: 11px; color: var(--text-light); margin-left: auto; white-space: nowrap; }
@@ -152,6 +146,22 @@
         .comissao-preview { background: #fff9e6; border: 2px dashed var(--accent); border-radius: 8px; padding: 12px; text-align: center; margin-top: 10px; }
         .comissao-preview .label { font-size: 12px; color: var(--text-light); margin-bottom: 4px; }
         .comissao-preview .valor { font-size: 20px; font-weight: 800; color: var(--accent); }
+        /* Estilo para lista de clientes */
+        .client-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px; background: #f8f9fa; border-radius: 10px;
+            margin-bottom: 12px; border-left: 4px solid var(--success);
+            transition: all 0.3s;
+        }
+        .client-item:hover { background: #e9ecef; transform: translateX(5px); }
+        .client-info h4 { font-size: 15px; color: var(--primary); margin-bottom: 4px; }
+        .client-info p { font-size: 12px; color: var(--text-light); margin: 0; }
+        .client-actions button {
+            background: var(--danger); color: white; border: none;
+            padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 12px; font-family: inherit; transition: all 0.3s;
+        }
+        .client-actions button:hover { background: #c82333; }
     </style>
 </head>
 <body>
@@ -287,9 +297,19 @@
                     </div>
                     <div class="action-buttons" style="grid-template-columns: 1fr;">
                         <button class="action-btn" onclick="window.location.href='cadastro-imoveis.html'"><i class="fa-solid fa-house-chimney-medical"></i> Cadastrar Imóvel</button>
-                        <button class="action-btn"><i class="fa-solid fa-user-plus"></i> Cadastrar Cliente</button>
+                        <button class="action-btn" id="btnNovoCliente"><i class="fa-solid fa-user-plus"></i> Cadastrar Cliente</button>
                         <button class="action-btn"><i class="fa-solid fa-user"></i> Meu Perfil</button>
                         <button class="action-btn"><i class="fa-solid fa-file-invoice-dollar"></i> Minhas Comissões</button>
+                    </div>
+                </div>
+
+                <div class="panel-section" style="margin-top: 25px;">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-users" style="color: var(--accent);"></i> Meus Clientes</h3>
+                        <span class="badge-count" id="clientesCount">0 clientes</span>
+                    </div>
+                    <div id="clientesList">
+                        <div class="empty-state">Nenhum cliente cadastrado</div>
                     </div>
                 </div>
             </div>
@@ -330,16 +350,16 @@
                 <div class="form-group">
                     <label for="visitaPeriodo"><i class="fa-solid fa-sun"></i> Período *</label>
                     <select id="visitaPeriodo" required>
-                        <option value="manhã">🌅 Manhã (até 12h)</option>
+                        <option value="manhã"> Manhã (até 12h)</option>
                         <option value="tarde">☀️ Tarde (12h-18h)</option>
-                        <option value="noite">🌙 Noite (após 18h)</option>
+                        <option value="noite"> Noite (após 18h)</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="visitaStatus"><i class="fa-solid fa-circle-check"></i> Status *</label>
                     <select id="visitaStatus" required>
                         <option value="confirmada">✅ Confirmada</option>
-                        <option value="aguardando">⏳ Aguardando Confirmação</option>
+                        <option value="aguardando"> Aguardando Confirmação</option>
                     </select>
                 </div>
                 <button type="submit" class="btn-submit" id="btnSubmitVisita">
@@ -406,6 +426,44 @@
         </div>
     </div>
 
+    <!-- MODAL NOVO CLIENTE -->
+    <div class="modal" id="modalNovoCliente">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-plus" style="color: var(--accent);"></i> Cadastrar Novo Cliente</h3>
+                <button class="modal-close" onclick="fecharModalNovoCliente()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="success-message" id="successCliente"><i class="fa-solid fa-circle-check"></i> Cliente cadastrado com sucesso!</div>
+            <form id="formNovoCliente">
+                <div class="form-group">
+                    <label for="clienteNome"><i class="fa-solid fa-user"></i> Nome Completo *</label>
+                    <input type="text" id="clienteNome" placeholder="Ex: João da Silva" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clienteEmail"><i class="fa-solid fa-envelope"></i> Email</label>
+                        <input type="email" id="clienteEmail" placeholder="email@exemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteTelefone"><i class="fa-solid fa-phone"></i> Telefone *</label>
+                        <input type="tel" id="clienteTelefone" placeholder="Ex: +351 912 345 678" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="clienteDocumento"><i class="fa-solid fa-id-card"></i> CPF/CNPJ</label>
+                    <input type="text" id="clienteDocumento" placeholder="Ex: 123.456.789-00">
+                </div>
+                <div class="form-group">
+                    <label for="clienteObs"><i class="fa-solid fa-comment"></i> Observações</label>
+                    <textarea id="clienteObs" placeholder="Ex: Interessado em apartamentos de 3 quartos na zona de Cascais"></textarea>
+                </div>
+                <button type="submit" class="btn-submit" id="btnSubmitCliente">
+                    <i class="fa-solid fa-user-plus"></i> Cadastrar Cliente
+                </button>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <div class="container footer-bottom">
             <p>&copy; 2026 Gian Casas Imobiliária S.A.</p>
@@ -435,6 +493,7 @@
             document.getElementById('propPrevisao').setAttribute('min', hoje);
             await carregarVisitas();
             await carregarPropostas();
+            await carregarClientes();
         }
         async function carregarVisitas() {
             const { data: visitas, error } = await supabase.from('visitas').select('*').eq('corretor_id', usuarioAtual.id).order('data', { ascending: true }).order('hora', { ascending: true });
@@ -463,9 +522,7 @@
                         </div>
                     `;
                 }).join('');
-            } else {
-                visitasList.innerHTML = '<div class="empty-state">Nenhuma visita agendada</div>';
-            }
+            } else { visitasList.innerHTML = '<div class="empty-state">Nenhuma visita agendada</div>'; }
         }
         async function carregarPropostas() {
             const { data: propostas } = await supabase.from('propostas').select('*').eq('corretor_id', usuarioAtual.id);
@@ -481,13 +538,7 @@
             document.getElementById('goalFill').style.width = `${metaPercent}%`;
             const propostasList = document.getElementById('propostasList');
             if (propostas && propostas.length > 0) {
-                const statusMap = {
-                    'nova': { class: 'status-new', label: 'Nova' },
-                    'analise': { class: 'status-analysis', label: 'Em Análise' },
-                    'negociacao': { class: 'status-negotiation', label: 'Em Negociação' },
-                    'aprovada': { class: 'status-approved', label: 'Aprovada' },
-                    'rejeitada': { class: 'status-rejected', label: 'Rejeitada' }
-                };
+                const statusMap = { 'nova': { class: 'status-new', label: 'Nova' }, 'analise': { class: 'status-analysis', label: 'Em Análise' }, 'negociacao': { class: 'status-negotiation', label: 'Em Negociação' }, 'aprovada': { class: 'status-approved', label: 'Aprovada' }, 'rejeitada': { class: 'status-rejected', label: 'Rejeitada' } };
                 propostasList.innerHTML = propostas.map(p => {
                     const status = statusMap[p.status] || { class: 'status-new', label: p.status };
                     return `
@@ -507,9 +558,26 @@
                         </div>
                     `;
                 }).join('');
-            } else {
-                propostasList.innerHTML = '<div class="empty-state">Nenhuma proposta registrada</div>';
-            }
+            } else { propostasList.innerHTML = '<div class="empty-state">Nenhuma proposta registrada</div>'; }
+        }
+        async function carregarClientes() {
+            const { data: clientes } = await supabase.from('clientes').select('*').eq('corretor_id', usuarioAtual.id).eq('ativo', true).order('data_cadastro', { ascending: false });
+            document.getElementById('clientesCount').textContent = `${clientes ? clientes.length : 0} clientes`;
+            const clientesList = document.getElementById('clientesList');
+            if (clientes && clientes.length > 0) {
+                clientesList.innerHTML = clientes.map(c => `
+                    <div class="client-item">
+                        <div class="client-info">
+                            <h4><i class="fa-solid fa-user" style="color: var(--accent);"></i> ${c.nome}</h4>
+                            <p><i class="fa-solid fa-phone"></i> ${c.telefone} ${c.email ? `| <i class="fa-solid fa-envelope"></i> ${c.email}` : ''}</p>
+                            ${c.observacoes ? `<p style="margin-top: 4px; font-style: italic;"><i class="fa-solid fa-comment"></i> ${c.observacoes}</p>` : ''}
+                        </div>
+                        <div class="client-actions">
+                            <button onclick="excluirCliente(${c.id}, '${c.nome.replace(/'/g, "\\'")}')"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+            } else { clientesList.innerHTML = '<div class="empty-state">Nenhum cliente cadastrado</div>'; }
         }
         const modalNovaVisita = document.getElementById('modalNovaVisita');
         const btnNovaVisita = document.getElementById('btnNovaVisita');
@@ -553,13 +621,7 @@
                 status: document.getElementById('visitaStatus').value
             };
             const { data, error } = await supabase.from('visitas').insert([novaVisita]).select();
-            if (error) {
-                console.error('Erro ao salvar visita:', error);
-                alert('❌ Erro ao agendar visita: ' + error.message);
-                btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Agendar Visita';
-                return;
-            }
+            if (error) { console.error('Erro ao salvar visita:', error); alert('❌ Erro ao agendar visita: ' + error.message); btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Agendar Visita'; return; }
             successMsg.classList.add('ativo');
             formNovaVisita.reset();
             const hoje = new Date().toISOString().split('T')[0];
@@ -613,13 +675,7 @@
                 observacoes: document.getElementById('propObs').value.trim()
             };
             const { data, error } = await supabase.from('propostas').insert([novaProposta]).select();
-            if (error) {
-                console.error('Erro ao salvar proposta:', error);
-                alert('❌ Erro ao registrar proposta: ' + error.message);
-                btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fa-solid fa-file-signature"></i> Registrar Proposta';
-                return;
-            }
+            if (error) { console.error('Erro ao salvar proposta:', error); alert('❌ Erro ao registrar proposta: ' + error.message); btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="fa-solid fa-file-signature"></i> Registrar Proposta'; return; }
             successMsg.classList.add('ativo');
             formNovaProposta.reset();
             previewComissao.textContent = '€ 0,00';
@@ -628,6 +684,54 @@
             btnSubmit.innerHTML = '<i class="fa-solid fa-file-signature"></i> Registrar Proposta';
             setTimeout(() => { fecharModalNovaProposta(); }, 1500);
         });
+        // ===== MODAL CLIENTE =====
+        const modalNovoCliente = document.getElementById('modalNovoCliente');
+        const btnNovoCliente = document.getElementById('btnNovoCliente');
+        const formNovoCliente = document.getElementById('formNovoCliente');
+        btnNovoCliente.addEventListener('click', function() {
+            modalNovoCliente.classList.add('ativo');
+            document.body.style.overflow = 'hidden';
+        });
+        function fecharModalNovoCliente() {
+            modalNovoCliente.classList.remove('ativo');
+            document.body.style.overflow = 'auto';
+            formNovoCliente.reset();
+            document.getElementById('successCliente').classList.remove('ativo');
+        }
+        window.fecharModalNovoCliente = fecharModalNovoCliente;
+        modalNovoCliente.addEventListener('click', function(e) { if (e.target === modalNovoCliente) fecharModalNovoCliente(); });
+        formNovoCliente.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btnSubmit = document.getElementById('btnSubmitCliente');
+            const successMsg = document.getElementById('successCliente');
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
+            const novoCliente = {
+                corretor_id: usuarioAtual.id,
+                nome: document.getElementById('clienteNome').value.trim(),
+                email: document.getElementById('clienteEmail').value.trim() || null,
+                telefone: document.getElementById('clienteTelefone').value.trim(),
+                cpf_cnpj: document.getElementById('clienteDocumento').value.trim() || null,
+                observacoes: document.getElementById('clienteObs').value.trim() || null,
+                ativo: true,
+                data_cadastro: new Date().toISOString().split('T')[0]
+            };
+            const { data, error } = await supabase.from('clientes').insert([novoCliente]).select();
+            if (error) { console.error('Erro ao salvar cliente:', error); alert('❌ Erro ao cadastrar cliente: ' + error.message); btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="fa-solid fa-user-plus"></i> Cadastrar Cliente'; return; }
+            successMsg.classList.add('ativo');
+            formNovoCliente.reset();
+            await carregarClientes();
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<i class="fa-solid fa-user-plus"></i> Cadastrar Cliente';
+            setTimeout(() => { fecharModalNovoCliente(); }, 1500);
+        });
+        async function excluirCliente(id, nome) {
+            if (!confirm(`⚠️ Tem certeza que deseja excluir o cliente "${nome}"?`)) return;
+            const { error } = await supabase.from('clientes').update({ ativo: false }).eq('id', id);
+            if (error) { alert('Erro ao excluir: ' + error.message); }
+            else { await carregarClientes(); }
+        }
+        window.excluirCliente = excluirCliente;
         async function fazerLogout() {
             if (confirm('Deseja realmente sair do sistema?')) {
                 await supabase.auth.signOut();
