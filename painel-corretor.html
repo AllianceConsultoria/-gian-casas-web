@@ -349,16 +349,16 @@
                 <div class="form-group">
                     <label for="visitaPeriodo"><i class="fa-solid fa-sun"></i> Período *</label>
                     <select id="visitaPeriodo" required>
-                        <option value="manhã">🌅 Manhã (até 12h)</option>
+                        <option value="manhã"> Manhã (até 12h)</option>
                         <option value="tarde">☀️ Tarde (12h-18h)</option>
-                        <option value="noite">🌙 Noite (após 18h)</option>
+                        <option value="noite"> Noite (após 18h)</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="visitaStatus"><i class="fa-solid fa-circle-check"></i> Status *</label>
                     <select id="visitaStatus" required>
                         <option value="confirmada">✅ Confirmada</option>
-                        <option value="aguardando">⏳ Aguardando Confirmação</option>
+                        <option value="aguardando"> Aguardando Confirmação</option>
                     </select>
                 </div>
                 <button type="submit" class="btn-submit" id="btnSubmitVisita">
@@ -724,7 +724,7 @@
             setTimeout(() => { fecharModalNovoCliente(); }, 1500);
         });
         async function excluirCliente(id, nome) {
-            if (!confirm(`⚠️ Tem certeza que deseja excluir o cliente "${nome}"?`)) return;
+            if (!confirm(`️ Tem certeza que deseja excluir o cliente "${nome}"?`)) return;
             const { error } = await supabase.from('clientes').update({ ativo: false }).eq('id', id);
             if (error) { alert('Erro ao excluir: ' + error.message); }
             else { await carregarClientes(); }
