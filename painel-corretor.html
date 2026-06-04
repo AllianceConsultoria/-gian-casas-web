@@ -146,7 +146,6 @@
         .comissao-preview { background: #fff9e6; border: 2px dashed var(--accent); border-radius: 8px; padding: 12px; text-align: center; margin-top: 10px; }
         .comissao-preview .label { font-size: 12px; color: var(--text-light); margin-bottom: 4px; }
         .comissao-preview .valor { font-size: 20px; font-weight: 800; color: var(--accent); }
-        /* Estilo para lista de clientes */
         .client-item {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px; background: #f8f9fa; border-radius: 10px;
@@ -247,7 +246,7 @@
                     <div class="action-buttons">
                         <button class="action-btn" id="btnNovaVisita"><i class="fa-solid fa-plus"></i> Nova Visita</button>
                         <button class="action-btn"><i class="fa-solid fa-route"></i> Otimizar Rota</button>
-<button class="action-btn" onclick="window.location.href='calendario.html'"><i class="fa-solid fa-calendar"></i> Ver Calendário</button>
+                        <button class="action-btn" onclick="window.location.href='calendario.html'"><i class="fa-solid fa-calendar"></i> Ver Calendário</button>
                     </div>
                 </div>
 
@@ -261,7 +260,7 @@
                     </div>
                     <div class="action-buttons">
                         <button class="action-btn" id="btnNovaProposta"><i class="fa-solid fa-plus"></i> Nova Proposta</button>
-                        <button class="<butaction-btn"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                        <button class="action-btn"><i class="fa-solid fa-filter"></i> Filtrar</button>
                         <button class="action-btn" onclick="window.location.href='relatorios.html'"><i class="fa-solid fa-file-export"></i> Exportar PDF</button>
                     </div>
                 </div>
@@ -350,16 +349,16 @@
                 <div class="form-group">
                     <label for="visitaPeriodo"><i class="fa-solid fa-sun"></i> Período *</label>
                     <select id="visitaPeriodo" required>
-                        <option value="manhã"> Manhã (até 12h)</option>
+                        <option value="manhã">🌅 Manhã (até 12h)</option>
                         <option value="tarde">☀️ Tarde (12h-18h)</option>
-                        <option value="noite"> Noite (após 18h)</option>
+                        <option value="noite">🌙 Noite (após 18h)</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="visitaStatus"><i class="fa-solid fa-circle-check"></i> Status *</label>
                     <select id="visitaStatus" required>
                         <option value="confirmada">✅ Confirmada</option>
-                        <option value="aguardando"> Aguardando Confirmação</option>
+                        <option value="aguardando">⏳ Aguardando Confirmação</option>
                     </select>
                 </div>
                 <button type="submit" class="btn-submit" id="btnSubmitVisita">
@@ -684,7 +683,6 @@
             btnSubmit.innerHTML = '<i class="fa-solid fa-file-signature"></i> Registrar Proposta';
             setTimeout(() => { fecharModalNovaProposta(); }, 1500);
         });
-        // ===== MODAL CLIENTE =====
         const modalNovoCliente = document.getElementById('modalNovoCliente');
         const btnNovoCliente = document.getElementById('btnNovoCliente');
         const formNovoCliente = document.getElementById('formNovoCliente');
