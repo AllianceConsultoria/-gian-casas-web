@@ -56,6 +56,14 @@
             display: flex; justify-content: space-between; align-items: center;
             flex-wrap: wrap; gap: 10px;
         }
+        .btn-primary {
+            padding: 10px 20px; background: var(--accent); color: white; border: none;
+            border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px; font-family: inherit;
+        }
+        .btn-primary:hover { background: #b8941f; }
+        .btn-primary.info { background: var(--info); }
+        .btn-primary.info:hover { background: #138496; }
         .comissao-card { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--accent); }
         .comissao-card.aprovado { border-left-color: var(--success); }
         .comissao-card.pago { border-left-color: var(--info); }
@@ -189,6 +197,18 @@
                 <div class="empty-state">Carregando resumo...</div>
             </div>
         </div>
+
+        <div class="section-box">
+            <div class="section-title">
+                <span>🗂️ Gestão de Documentos</span>
+                <button class="btn-primary info" onclick="window.location.href='gestao-documentos.html'">
+                    <i class="fa-solid fa-folder-open"></i> Abrir Gestão de Documentos
+                </button>
+            </div>
+            <p style="color: var(--text-light); font-size: 14px;">
+                Acesse o sistema de gestão de documentos para verificar a documentação dos corretores e funcionários.
+            </p>
+        </div>
     </div>
 
     <!-- MODAL AÇÃO FINANCEIRA -->
@@ -231,7 +251,7 @@
         const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
         if (!usuario || usuario.perfil !== 'financeiro') { window.location.href = 'login.html'; }
         else { document.getElementById('infoUsuario').textContent = `Logado como: ${usuario.nome} (${usuario.cargo})`; }
-
+        
         async function carregarDados() {
             const { data: propostas } = await supabase.from('propostas').select('*');
             const { data: usuarios } = await supabase.from('usuarios').select('*');
@@ -239,13 +259,13 @@
             usuariosSistema = usuarios || [];
             atualizarTela();
         }
-
+        
         function formatarData(data) {
             if (!data) return '-';
             const [ano, mes, dia] = data.split('-');
             return `${dia}/${mes}/${ano}`;
         }
-
+        
         function renderizarMetricas() {
             const pendentes = getTotalComissoes(null, 'pendente');
             const aprovados = getTotalComissoes(null, 'aprovado');
@@ -256,7 +276,7 @@
             document.getElementById('totalPagos').textContent = `€ ${pagos.toLocaleString('pt-PT')}`;
             document.getElementById('totalMes').textContent = `€ ${totalMes.toLocaleString('pt-PT')}`;
         }
-
+        
         function renderizarComissoes(filtro = 'todas') {
             const container = document.getElementById('comissoesContainer');
             let comissoes = getComissoesAPagar();
@@ -275,10 +295,22 @@
                                 <div class="comissao-corretor"><i class="fa-solid fa-user"></i> ${corretor ? corretor.nome : 'Desconhecido'}</div>
                                 <div class="comissao-imovel"><i class="fa-solid fa-house"></i> ${c.imovel} | Cliente: ${c.cliente}</div>
                                 <div class="comissao-detalhes">
-                                    <div class="detalhe-item"><div class="detalhe-label">Valor da Venda</div><div class="detalhe-valor">€ ${(c.valor || 0).toLocaleString('pt-PT')}</div></div>
-                                    <div class="detalhe-item"><div class="detalhe-label">Comissão</div><div class="detalhe-valor" style="color: var(--accent);">€ ${(c.comissao || 0).toLocaleString('pt-PT')}</div></div>
-                                    <div class="detalhe-item"><div class="detalhe-label">Previsão Pagamento</div><div class="detalhe-valor">${formatarData(c.data_previsao_pagamento)}</div></div>
-                                    <div class="detalhe-item"><div class="detalhe-label">Status</div><span class="status-financeiro ${statusClass}">${statusLabel}</span></div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Valor da Venda</div>
+                                        <div class="detalhe-valor">€ ${(c.valor || 0).toLocaleString('pt-PT')}</div>
+                                    </div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Comissão</div>
+                                        <div class="detalhe-valor" style="color: var(--accent);">€ ${(c.comissao || 0).toLocaleString('pt-PT')}</div>
+                                    </div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Previsão Pagamento</div>
+                                        <div class="detalhe-valor">${formatarData(c.data_previsao_pagamento)}</div>
+                                    </div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Status</div>
+                                        <span class="status-financeiro ${statusClass}">${statusLabel}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="action-buttons">
@@ -292,7 +324,7 @@
                 `;
             }).join('');
         }
-
+        
         function renderizarHistorico() {
             const container = document.getElementById('historicoContainer');
             const historico = getHistoricoPagamentos();
@@ -308,9 +340,18 @@
                                 <div class="comissao-corretor">${corretor ? corretor.nome : 'Desconhecido'}</div>
                                 <div class="comissao-imovel">${c.imovel}</div>
                                 <div class="comissao-detalhes">
-                                    <div class="detalhe-item"><div class="detalhe-label">Comissão</div><div class="detalhe-valor">€ ${(c.comissao || 0).toLocaleString('pt-PT')}</div></div>
-                                    <div class="detalhe-item"><div class="detalhe-label">Data Pagamento</div><div class="detalhe-valor">${formatarData(c.data_pagamento)}</div></div>
-                                    <div class="detalhe-item"><div class="detalhe-label">Status</div><span class="status-financeiro ${statusClass}">${statusLabel}</span></div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Comissão</div>
+                                        <div class="detalhe-valor">€ ${(c.comissao || 0).toLocaleString('pt-PT')}</div>
+                                    </div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Data Pagamento</div>
+                                        <div class="detalhe-valor">${formatarData(c.data_pagamento)}</div>
+                                    </div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Status</div>
+                                        <span class="status-financeiro ${statusClass}">${statusLabel}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -319,7 +360,7 @@
                 `;
             }).join('');
         }
-
+        
         function renderizarResumoCorretores() {
             const container = document.getElementById('resumoCorretoresContainer');
             const corretores = usuariosSistema.filter(u => u.perfil === 'corretor');
@@ -335,10 +376,22 @@
                                 <div class="corretor-nome">${c.nome}</div>
                                 <div class="corretor-info-text">CRECI: ${c.creci || '-'} | ${c.nivel || '-'}</div>
                                 <div class="comissao-detalhes">
-                                    <div class="detalhe-item"><div class="detalhe-label">A Pagar</div><div class="detalhe-valor" style="color: var(--warning);">€ ${pendente.toLocaleString('pt-PT')}</div></div>
-                                    <div class="detalhe-item"><div class="detalhe-label">Aprovado</div><div class="detalhe-valor" style="color: var(--success);">€ ${aprovado.toLocaleString('pt-PT')}</div></div>
-                                    <div class="detalhe-item"><div class="detalhe-label">Já Pago</div><div class="detalhe-valor" style="color: var(--info);">€ ${pago.toLocaleString('pt-PT')}</div></div>
-                                    <div class="detalhe-item"><div class="detalhe-label">Total</div><div class="detalhe-valor" style="color: var(--accent);">€ ${total.toLocaleString('pt-PT')}</div></div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">A Pagar</div>
+                                        <div class="detalhe-valor" style="color: var(--warning);">€ ${pendente.toLocaleString('pt-PT')}</div>
+                                    </div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Aprovado</div>
+                                        <div class="detalhe-valor" style="color: var(--success);">€ ${aprovado.toLocaleString('pt-PT')}</div>
+                                    </div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Já Pago</div>
+                                        <div class="detalhe-valor" style="color: var(--info);">€ ${pago.toLocaleString('pt-PT')}</div>
+                                    </div>
+                                    <div class="detalhe-item">
+                                        <div class="detalhe-label">Total</div>
+                                        <div class="detalhe-valor" style="color: var(--accent);">€ ${total.toLocaleString('pt-PT')}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -346,26 +399,26 @@
                 `;
             }).join('');
         }
-
+        
         function getComissoesAPagar(corretorId = null) {
             let comissoes = propostasSistema.filter(p => p.status !== "rejeitada" && p.status_financeiro !== "pago" && p.status_financeiro !== "cancelado" && p.comissao > 0);
             if (corretorId) comissoes = comissoes.filter(p => p.corretor_id === corretorId);
             return comissoes.sort((a, b) => new Date(a.data_previsao_pagamento) - new Date(b.data_previsao_pagamento));
         }
-
+        
         function getHistoricoPagamentos(corretorId = null) {
             let historico = propostasSistema.filter(p => p.status_financeiro === "pago" || p.status_financeiro === "cancelado");
             if (corretorId) historico = historico.filter(p => p.corretor_id === corretorId);
             return historico;
         }
-
+        
         function getTotalComissoes(corretorId = null, statusFinanceiro = null) {
             let propostas = propostasSistema;
             if (corretorId) propostas = propostas.filter(p => p.corretor_id === corretorId);
             if (statusFinanceiro) propostas = propostas.filter(p => p.status_financeiro === statusFinanceiro);
             return propostas.reduce((total, p) => total + (p.comissao || 0), 0);
         }
-
+        
         function abrirModal(propostaId, acao) {
             propostaSelecionada = propostaId;
             const modal = document.getElementById('modalAcao');
@@ -373,23 +426,33 @@
             const grupoData = document.getElementById('grupoDataPagamento');
             const btnConfirmar = document.getElementById('btnConfirmarAcao');
             if (acao === 'aprovar') {
-                titulo.textContent = 'Aprovar Comissão'; grupoData.style.display = 'none'; btnConfirmar.textContent = 'Aprovar'; btnConfirmar.onclick = confirmarAprovacao;
+                titulo.textContent = 'Aprovar Comissão';
+                grupoData.style.display = 'none';
+                btnConfirmar.textContent = 'Aprovar';
+                btnConfirmar.onclick = confirmarAprovacao;
             } else if (acao === 'pagar') {
-                titulo.textContent = 'Registrar Pagamento'; grupoData.style.display = 'block'; document.getElementById('modalDataPagamento').valueAsDate = new Date(); btnConfirmar.textContent = 'Confirmar Pagamento'; btnConfirmar.onclick = confirmarPagamento;
+                titulo.textContent = 'Registrar Pagamento';
+                grupoData.style.display = 'block';
+                document.getElementById('modalDataPagamento').valueAsDate = new Date();
+                btnConfirmar.textContent = 'Confirmar Pagamento';
+                btnConfirmar.onclick = confirmarPagamento;
             } else if (acao === 'cancelar') {
-                titulo.textContent = 'Cancelar Comissão'; grupoData.style.display = 'none'; btnConfirmar.textContent = 'Cancelar'; btnConfirmar.onclick = confirmarCancelamento;
+                titulo.textContent = 'Cancelar Comissão';
+                grupoData.style.display = 'none';
+                btnConfirmar.textContent = 'Cancelar';
+                btnConfirmar.onclick = confirmarCancelamento;
             }
             modal.classList.add('ativo');
         }
         window.abrirModal = abrirModal;
-
+        
         function fecharModal() {
             document.getElementById('modalAcao').classList.remove('ativo');
             document.getElementById('modalObservacoes').value = '';
             propostaSelecionada = null;
         }
         window.fecharModal = fecharModal;
-
+        
         async function confirmarAprovacao() {
             const obs = document.getElementById('modalObservacoes').value;
             const { error } = await supabase.from('propostas').update({ status_financeiro: 'aprovado', observacoes: obs }).eq('id', propostaSelecionada);
@@ -400,7 +463,7 @@
                 fecharModal(); atualizarTela();
             }
         }
-
+        
         async function confirmarPagamento() {
             const obs = document.getElementById('modalObservacoes').value;
             const data = document.getElementById('modalDataPagamento').value;
@@ -412,7 +475,7 @@
                 fecharModal(); atualizarTela();
             }
         }
-
+        
         async function confirmarCancelamento() {
             const obs = document.getElementById('modalObservacoes').value;
             const { error } = await supabase.from('propostas').update({ status_financeiro: 'cancelado', observacoes: obs }).eq('id', propostaSelecionada);
@@ -423,7 +486,7 @@
                 fecharModal(); atualizarTela();
             }
         }
-
+        
         function exportarRelatorio() {
             const mesAtual = new Date().getMonth() + 1;
             const anoAtual = new Date().getFullYear();
@@ -433,25 +496,24 @@
             });
             const totalVendas = propostasMes.reduce((s, p) => s + (p.valor || 0), 0);
             const totalComissoes = propostasMes.reduce((s, p) => s + (p.comissao || 0), 0);
-            alert(' RELATÓRIO FINANCEIRO\n\n' + `Mês: ${mesAtual}/${anoAtual}\n` + `Total de Vendas: € ${totalVendas.toLocaleString('pt-PT')}\n` + `Total Comissões: € ${totalComissoes.toLocaleString('pt-PT')}\n` + `Propostas: ${propostasMes.length}\n\n` + 'Em um sistema real, isso geraria um PDF ou Excel para impressão.');
+            alert('📊 RELATÓRIO FINANCEIRO\n\n' + `Mês: ${mesAtual}/${anoAtual}\n` + `Total de Vendas: € ${totalVendas.toLocaleString('pt-PT')}\n` + `Total Comissões: € ${totalComissoes.toLocaleString('pt-PT')}\n` + `Propostas: ${propostasMes.length}\n\n` + 'Em um sistema real, isso geraria um PDF ou Excel para impressão.');
         }
         window.exportarRelatorio = exportarRelatorio;
-
+        
         function filtrarComissoes(tipo, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             renderizarComissoes(tipo);
         }
         window.filtrarComissoes = filtrarComissoes;
-
+        
         function atualizarTela() {
             renderizarMetricas();
             renderizarComissoes();
             renderizarHistorico();
             renderizarResumoCorretores();
         }
-
-        // ✅ LOGOUT COM SUPABASE AUTH OFICIAL
+        
         async function fazerLogout() {
             if (confirm('Deseja realmente sair do sistema?')) {
                 await supabase.auth.signOut();
@@ -460,7 +522,7 @@
             }
         }
         window.fazerLogout = fazerLogout;
-
+        
         carregarDados();
     </script>
 </body>
