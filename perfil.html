@@ -49,7 +49,6 @@
         }
         .card h3 i { color: var(--accent); }
         
-        /* Foto de perfil */
         .foto-container { display: flex; gap: 25px; align-items: center; flex-wrap: wrap; }
         .foto-wrapper {
             width: 140px; height: 140px; border-radius: 50%;
@@ -71,22 +70,15 @@
         .foto-info h4 { color: var(--primary); font-size: 18px; margin-bottom: 4px; }
         .foto-info p { color: var(--text-light); font-size: 14px; margin: 2px 0; }
         
-        /* Formulário */
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .form-group { margin-bottom: 18px; }
-        .form-group label {
-            display: block; font-weight: 600; margin-bottom: 8px;
-            color: var(--primary); font-size: 14px;
-        }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-size: 14px; }
         .form-group label i { color: var(--accent); margin-right: 5px; }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0;
-            border-radius: 8px; font-size: 14px; font-family: inherit;
-            transition: border-color 0.3s;
+            border-radius: 8px; font-size: 14px; font-family: inherit; transition: border-color 0.3s;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none; border-color: var(--accent);
-        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); }
         .form-group input:disabled { background: #f8f9fa; cursor: not-allowed; }
         .form-group .hint { font-size: 12px; color: var(--text-light); margin-top: 4px; }
         
@@ -99,25 +91,47 @@
         .btn-salvar:hover { background: var(--accent-hover); transform: translateY(-2px); }
         .btn-salvar:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         
-        .mensagem {
-            padding: 14px; border-radius: 8px; margin-bottom: 15px;
-            display: none; font-weight: 600; text-align: center;
-        }
+        .mensagem { padding: 14px; border-radius: 8px; margin-bottom: 15px; display: none; font-weight: 600; text-align: center; }
         .mensagem.sucesso { background: #d4edda; color: #155724; display: block; }
         .mensagem.erro { background: #f8d7da; color: #721c24; display: block; }
         
-        .separador {
-            height: 2px; background: #f0f0f0; margin: 25px 0;
+        /* Estilos de Documentos */
+        .doc-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .doc-item {
+            background: #f8f9fa; border-radius: 10px; padding: 20px;
+            border: 1px solid #e9ecef; transition: all 0.3s; position: relative;
+        }
+        .doc-item:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .doc-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px; }
+        .doc-name { font-weight: 700; color: var(--primary); font-size: 15px; margin-bottom: 4px; }
+        .doc-status {
+            font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .status-pendente { background: #fff3cd; color: #856404; }
+        .status-enviado { background: #cce5ff; color: #004085; }
+        .status-aprovado { background: #d4edda; color: #155724; }
+        .status-rejeitado { background: #f8d7da; color: #721c24; }
+        
+        .doc-obs {
+            background: #f8d7da; color: #721c24; padding: 8px; border-radius: 6px;
+            font-size: 12px; margin-bottom: 12px; border-left: 3px solid var(--danger);
         }
         
-        .preview-foto {
-            margin-top: 10px; padding: 10px; background: #fff9e6;
-            border-radius: 8px; font-size: 13px; color: var(--primary);
-            display: none; align-items: center; gap: 10px;
+        .btn-upload-doc {
+            width: 100%; padding: 10px; background: var(--primary); color: white;
+            border: none; border-radius: 6px; cursor: pointer; font-weight: 600;
+            font-size: 13px; transition: all 0.3s; font-family: inherit;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
+        .btn-upload-doc:hover { background: var(--accent); }
+        .btn-upload-doc:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-upload-doc input[type="file"] { display: none; }
+        
+        .preview-foto { margin-top: 10px; padding: 10px; background: #fff9e6; border-radius: 8px; font-size: 13px; color: var(--primary); display: none; align-items: center; gap: 10px; }
         .preview-foto.ativo { display: flex; }
         .preview-foto img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
-        
+
         @media (max-width: 768px) {
             .form-row { grid-template-columns: 1fr; }
             .foto-container { flex-direction: column; text-align: center; }
@@ -217,13 +231,20 @@
             </form>
         </div>
 
+        <!-- NOVA SEÇÃO: DOCUMENTOS -->
+        <div class="card">
+            <h3><i class="fa-solid fa-folder-open"></i> Documentação Obrigatória</h3>
+            <p style="color: var(--text-light); margin-bottom: 20px; font-size: 14px;">
+                Envie os documentos solicitados pelo RH. O status será atualizado assim que forem analisados.
+            </p>
+            <div class="doc-list" id="docList">
+                <!-- Preenchido via JS -->
+            </div>
+        </div>
+
         <div class="card">
             <h3><i class="fa-solid fa-lock"></i> Alterar Senha</h3>
             <form id="formSenha">
-                <div class="form-group">
-                    <label><i class="fa-solid fa-key"></i> Senha Atual *</label>
-                    <input type="password" id="senhaAtual" required>
-                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label><i class="fa-solid fa-lock"></i> Nova Senha *</label>
@@ -255,15 +276,20 @@
         let fotoSelecionada = null;
         let fotoUrlAtual = usuario.foto_perfil || null;
         
-        // Carregar dados do usuário
+        // Lista de documentos obrigatórios
+        const documentosObrigatorios = [
+            { id: 'rg', nome: 'RG ou BI', icon: 'fa-id-card' },
+            { id: 'cpf', nome: 'CPF', icon: 'fa-file-signature' },
+            { id: 'comprovante_residencia', nome: 'Comprovante de Residência', icon: 'fa-house-user' },
+            { id: 'certidao_negativa', nome: 'Certidão Negativa de Débitos', icon: 'fa-scale-balanced' },
+            { id: 'foto_3x4', nome: 'Foto 3x4', icon: 'fa-image' }
+        ];
+
         async function carregarDadosUsuario() {
             const { data, error } = await supabase.from('usuarios').select('*').eq('id', usuario.id).single();
             if (error) { console.error('Erro:', error); return; }
-            
-            // Atualizar localStorage
             localStorage.setItem('usuarioLogado', JSON.stringify(data));
             
-            // Preencher campos
             document.getElementById('campoNome').value = data.nome || '';
             document.getElementById('campoEmail').value = data.email || '';
             document.getElementById('campoTelefone').value = data.telefone || '';
@@ -272,7 +298,6 @@
             document.getElementById('campoCargo').value = data.cargo || data.perfil || '';
             document.getElementById('campoBio').value = data.bio || '';
             
-            // Foto
             const fotoWrapper = document.getElementById('fotoWrapper');
             if (data.foto_perfil) {
                 fotoWrapper.innerHTML = `<img src="${data.foto_perfil}" alt="Foto">`;
@@ -281,10 +306,82 @@
                 const iniciais = (data.nome || '--').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
                 fotoWrapper.textContent = iniciais;
             }
+            
+            await carregarDocumentos();
         }
-        carregarDadosUsuario();
-        
-        // Upload de foto
+
+        async function carregarDocumentos() {
+            const { data: docs, error } = await supabase
+                .from('documentos_usuario')
+                .select('*')
+                .eq('usuario_id', usuario.id);
+            
+            const mapDocs = {};
+            if (docs) docs.forEach(d => mapDocs[d.tipo_documento] = d);
+
+            const container = document.getElementById('docList');
+            container.innerHTML = documentosObrigatorios.map(doc => {
+                const registro = mapDocs[doc.id];
+                let statusHtml = `<span class="doc-status status-pendente">Pendente</span>`;
+                let actionHtml = `<label class="btn-upload-doc"><i class="fa-solid fa-upload"></i> Enviar Arquivo<input type="file" onchange="uploadDoc('${doc.id}', this)"></label>`;
+                let obsHtml = '';
+
+                if (registro) {
+                    if (registro.status === 'aprovado') {
+                        statusHtml = `<span class="doc-status status-aprovado">Aprovado</span>`;
+                        actionHtml = `<div style="text-align:center; color: var(--success); font-size: 13px; font-weight:600;"><i class="fa-solid fa-check-circle"></i> Consta nos arquivos</div>`;
+                    } else if (registro.status === 'rejeitado') {
+                        statusHtml = `<span class="doc-status status-rejeitado">Rejeitado</span>`;
+                        obsHtml = `<div class="doc-obs"><i class="fa-solid fa-circle-exclamation"></i> ${registro.observacao_rh || 'Motivo não informado'}</div>`;
+                        actionHtml = `<label class="btn-upload-doc" style="background: var(--warning); color: #333;"><i class="fa-solid fa-rotate"></i> Reenviar<input type="file" onchange="uploadDoc('${doc.id}', this)"></label>`;
+                    } else if (registro.status === 'enviado') {
+                        statusHtml = `<span class="doc-status status-enviado">Em Análise</span>`;
+                        actionHtml = `<div style="text-align:center; color: var(--info); font-size: 13px;"><i class="fa-solid fa-clock"></i> Aguardando RH</div>`;
+                    }
+                }
+
+                return `
+                    <div class="doc-item">
+                        <div class="doc-header">
+                            <div>
+                                <div class="doc-name"><i class="fa-solid ${doc.icon}" style="color:var(--accent); margin-right:5px;"></i> ${doc.nome}</div>
+                            </div>
+                            ${statusHtml}
+                        </div>
+                        ${obsHtml}
+                        ${actionHtml}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.uploadDoc = async function(tipoDoc, input) {
+            const file = input.files[0];
+            if (!file) return;
+            if (file.size > 5 * 1024 * 1024) { alert('Máximo 5MB'); return; }
+
+            const ext = file.name.split('.').pop();
+            const caminho = `${usuario.id}_${tipoDoc}_${Date.now()}.${ext}`;
+            
+            const { error: uploadError } = await supabase.storage.from('documentos').upload(caminho, file);
+            if (uploadError) { alert('Erro no upload: ' + uploadError.message); return; }
+            
+            const { data: urlData } = supabase.storage.from('documentos').getPublicUrl(caminho);
+            
+            // Upsert no banco
+            const { error: dbError } = await supabase.from('documentos_usuario').upsert({
+                usuario_id: usuario.id,
+                tipo_documento: tipoDoc,
+                url_arquivo: urlData.publicUrl,
+                status: 'enviado',
+                data_envio: new Date().toISOString().split('T')[0],
+                observacao_rh: null
+            }, { onConflict: 'usuario_id, tipo_documento' });
+
+            if (dbError) alert('Erro ao salvar: ' + dbError.message);
+            else await carregarDocumentos();
+        };
+
         const inputFoto = document.getElementById('inputFoto');
         const previewFoto = document.getElementById('previewFoto');
         const previewImg = document.getElementById('previewImg');
@@ -292,59 +389,31 @@
         inputFoto.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
-            
-            if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-                mostrarMensagem('Formato inválido! Use JPG, PNG ou WEBP.', 'erro');
-                return;
-            }
-            if (file.size > 2 * 1024 * 1024) {
-                mostrarMensagem('Arquivo muito grande! Máximo 2MB.', 'erro');
-                return;
-            }
+            if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) { alert('Formato inválido!'); return; }
+            if (file.size > 2 * 1024 * 1024) { alert('Máximo 2MB.'); return; }
             
             fotoSelecionada = file;
             const reader = new FileReader();
-            reader.onload = (ev) => {
-                previewImg.src = ev.target.result;
-                previewFoto.classList.add('ativo');
-            };
+            reader.onload = (ev) => { previewImg.src = ev.target.result; previewFoto.classList.add('ativo'); };
             reader.readAsDataURL(file);
         });
         
-        // Salvar dados pessoais
         document.getElementById('formDados').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = document.getElementById('btnSalvarDados');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
             
             try {
                 let fotoFinal = fotoUrlAtual;
-                
-                // Upload de nova foto se selecionada
                 if (fotoSelecionada) {
                     const ext = fotoSelecionada.name.split('.').pop();
                     const caminho = `usuario_${usuario.id}_${Date.now()}.${ext}`;
-                    
-                    const { error: uploadError } = await supabase.storage
-                        .from('perfis')
-                        .upload(caminho, fotoSelecionada, { upsert: true });
-                    
+                    const { error: uploadError } = await supabase.storage.from('perfis').upload(caminho, fotoSelecionada, { upsert: true });
                     if (uploadError) throw uploadError;
-                    
                     const { data: urlData } = supabase.storage.from('perfis').getPublicUrl(caminho);
                     fotoFinal = urlData.publicUrl;
-                    
-                    // Remover foto antiga do storage (se existir)
-                    if (fotoUrlAtual && fotoUrlAtual.includes('perfis/')) {
-                        try {
-                            const oldPath = fotoUrlAtual.split('/perfis/')[1];
-                            await supabase.storage.from('perfis').remove([oldPath]);
-                        } catch (err) { /* ignora */ }
-                    }
                 }
                 
-                // Atualizar no banco
                 const dados = {
                     nome: document.getElementById('campoNome').value.trim(),
                     telefone: document.getElementById('campoTelefone').value.trim(),
@@ -358,66 +427,50 @@
                 const { error } = await supabase.from('usuarios').update(dados).eq('id', usuario.id);
                 if (error) throw error;
                 
-                // Atualizar localStorage
                 Object.assign(usuario, dados);
                 localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
                 
-                mostrarMensagem('✅ Dados atualizados com sucesso!', 'sucesso');
-                fotoSelecionada = null;
-                previewFoto.classList.remove('ativo');
-                
-                // Recarregar dados
+                const msg = document.getElementById('mensagem');
+                msg.textContent = '✅ Dados atualizados!'; msg.className = 'mensagem sucesso';
+                setTimeout(() => msg.className = 'mensagem', 4000);
+                fotoSelecionada = null; previewFoto.classList.remove('ativo');
                 setTimeout(() => carregarDadosUsuario(), 1000);
             } catch (err) {
-                mostrarMensagem(' Erro ao salvar: ' + err.message, 'erro');
+                const msg = document.getElementById('mensagem');
+                msg.textContent = ' Erro: ' + err.message; msg.className = 'mensagem erro';
             }
-            
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-save"></i> Salvar Dados';
+            btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-save"></i> Salvar Dados';
         });
         
-        // Alterar senha
         document.getElementById('formSenha').addEventListener('submit', async function(e) {
             e.preventDefault();
             const nova = document.getElementById('novaSenha').value;
             const confirmar = document.getElementById('confirmarSenha').value;
+            if (nova !== confirmar) { alert('As senhas não coincidem!'); return; }
+            
             const btn = document.getElementById('btnSalvarSenha');
-            
-            if (nova !== confirmar) {
-                mostrarMensagem('❌ As senhas não coincidem!', 'erro');
-                return;
-            }
-            
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Alterando...';
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Alterando...';
             
             try {
-                // Atualizar via Auth (criptografado)
                 const { error } = await supabase.auth.updateUser({ password: nova });
                 if (error) throw error;
-                
-                mostrarMensagem('✅ Senha alterada com sucesso!', 'sucesso');
+                const msg = document.getElementById('mensagem');
+                msg.textContent = '✅ Senha alterada!'; msg.className = 'mensagem sucesso';
                 document.getElementById('formSenha').reset();
+                setTimeout(() => msg.className = 'mensagem', 4000);
             } catch (err) {
-                mostrarMensagem('❌ Erro ao alterar senha: ' + err.message, 'erro');
+                alert('Erro: ' + err.message);
             }
-            
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-key"></i> Alterar Senha';
+            btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-key"></i> Alterar Senha';
         });
-        
-        function mostrarMensagem(texto, tipo) {
-            const msg = document.getElementById('mensagem');
-            msg.textContent = texto;
-            msg.className = `mensagem ${tipo}`;
-            setTimeout(() => { msg.className = 'mensagem'; }, 4000);
-        }
         
         window.voltarAoPainel = function() {
             if (usuario.perfil === 'supervisor' || usuario.perfil === 'rh') window.location.href = 'painel-supervisor.html';
             else if (usuario.perfil === 'financeiro') window.location.href = 'painel-financeiro.html';
             else window.location.href = 'painel-corretor.html';
         };
+        
+        carregarDadosUsuario();
     </script>
 </body>
 </html>
