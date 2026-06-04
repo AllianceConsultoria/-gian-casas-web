@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Uso - Gian Casas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a1a2e; --secondary: #16213e; --accent: #d4af37;
+            --accent-hover: #b8941f; --success: #28a745; --warning: #ffc107;
+            --danger: #dc3545; --info: #17a2b8; --panel-bg: #f4f6f9;
+            --card-bg: #ffffff; --text-light: #6c757d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--panel-bg); color: var(--primary); line-height: 1.6; }
+        
+        /* Layout */
+        .manual-layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+        @media (max-width: 900px) { .manual-layout { grid-template-columns: 1fr; } .sidebar { position: relative !important; } }
+        
+        /* Sidebar */
+        .sidebar {
+            background: white; padding: 30px 0; border-right: 1px solid #e9ecef;
+            position: sticky; top: 0; height: 100vh; overflow-y: auto;
+        }
+        .sidebar-brand {
+            padding: 0 25px 25px; border-bottom: 2px solid #f0f0f0; margin-bottom: 20px;
+        }
+        .sidebar-brand h2 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 24px; }
+        .sidebar-brand h2 span { color: var(--accent); }
+        .sidebar-brand p { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+        
+        .sidebar-section { margin-bottom: 15px; }
+        .sidebar-section-title {
+            font-size: 11px; font-weight: 700; color: var(--text-light);
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 8px 25px;
+        }
+        .sidebar-nav { list-style: none; }
+        .sidebar-nav a {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 25px; color: var(--primary); text-decoration: none;
+            font-size: 14px; font-weight: 500; transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .sidebar-nav a:hover { background: #f8f9fa; border-left-color: var(--accent); }
+        .sidebar-nav a.active { background: #fff9e6; border-left-color: var(--accent); color: var(--accent); font-weight: 700; }
+        .sidebar-nav a i { width: 18px; color: var(--accent); }
+        
+        /* Conteúdo principal */
+        .content { padding: 40px 50px; max-width: 900px; }
+        @media (max-width: 600px) { .content { padding: 25px 20px; } }
+        
+        .content-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; padding: 40px; border-radius: 16px; margin-bottom: 30px;
+        }
+        .content-header h1 { font-family: 'Playfair Display', serif; font-size: 36px; margin-bottom: 10px; }
+        .content-header p { opacity: 0.9; font-size: 16px; }
+        
+        .btn-print {
+            position: absolute; top: 20px; right: 20px;
+            padding: 10px 20px; background: var(--accent); color: white;
+            border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 600; font-family: inherit; font-size: 14px;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-print:hover { background: var(--accent-hover); }
+        
+        /* Seções */
+        .secao {
+            background: white; border-radius: 12px; padding: 30px;
+            margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .secao h2 {
+            font-family: 'Playfair Display', serif; font-size: 26px;
+            color: var(--primary); margin-bottom: 20px; padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .secao h2 i { color: var(--accent); }
+        .secao h3 { font-size: 18px; color: var(--primary); margin: 20px 0 12px; font-weight: 700; }
+        .secao h4 { font-size: 15px; color: var(--accent); margin: 15px 0 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .secao p { margin-bottom: 12px; color: #444; }
+        .secao ul, .secao ol { margin: 12px 0 12px 25px; color: #444; }
+        .secao li { margin-bottom: 8px; }
+        
+        /* Boxes especiais */
+        .dica {
+            background: #fff9e6; border-left: 4px solid var(--accent);
+            padding: 15px 20px; border-radius: 8px; margin: 20px 0;
+        }
+        .dica strong { color: var(--primary); }
+        
+        .atencao {
+            background: #fff3cd; border-left: 4px solid var(--warning);
+            padding: 15px 20px; border-radius: 8px; margin: 20px 0; color: #856404;
+        }
+        
+        .sucesso {
+            background: #d4edda; border-left: 4px solid var(--success);
+            padding: 15px 20px; border-radius: 8px; margin: 20px 0; color: #155724;
+        }
+        
+        .passo {
+            background: #f8f9fa; padding: 15px 20px; border-radius: 8px;
+            margin: 15px 0; border-left: 4px solid var(--info);
+        }
+        .passo-numero {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; border-radius: 50%;
+            background: var(--info); color: white; font-weight: 700;
+            font-size: 14px; margin-right: 10px;
+        }
+        
+        .tabela-perfil {
+            width: 100%; border-collapse: collapse; margin: 15px 0;
+            background: white; border-radius: 8px; overflow: hidden;
+        }
+        .tabela-perfil th {
+            background: var(--primary); color: white;
+            padding: 12px; text-align: left; font-size: 14px;
+        }
+        .tabela-perfil td {
+            padding: 12px; border-bottom: 1px solid #e9ecef; font-size: 14px;
+        }
+        .tabela-perfil tr:last-child td { border-bottom: none; }
+        .badge-perfil {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 12px; font-weight: 700; color: white;
+        }
+        .badge-corretor { background: var(--accent); }
+        .badge-supervisor { background: var(--info); }
+        .badge-financeiro { background: var(--success); }
+        
+        .codigo {
+            background: #2d2d2d; color: #f8f8f2; padding: 12px 16px;
+            border-radius: 8px; font-family: 'Courier New', monospace;
+            font-size: 14px; margin: 10px 0; overflow-x: auto;
+        }
+        
+        @media print {
+            .sidebar, .btn-print, .no-print { display: none !important; }
+            .manual-layout { grid-template-columns: 1fr; }
+            .content { max-width: 100%; padding: 20px; }
+            .secao { box-shadow: none; page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="manual-layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h2>Gian<span>Casas</span></h2>
+                <p>Manual do Usuário v1.0</p>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Introdução</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#inicio" class="active"><i class="fa-solid fa-house"></i> Início</a></li>
+                    <li><a href="#acesso"><i class="fa-solid fa-right-to-bracket"></i> Acesso ao Sistema</a></li>
+                    <li><a href="#perfis"><i class="fa-solid fa-users"></i> Perfis de Acesso</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Painel Corretor</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#corretor-visitas"><i class="fa-solid fa-calendar-check"></i> Visitas</a></li>
+                    <li><a href="#corretor-propostas"><i class="fa-solid fa-file-signature"></i> Propostas</a></li>
+                    <li><a href="#corretor-clientes"><i class="fa-solid fa-user-plus"></i> Clientes</a></li>
+                    <li><a href="#corretor-imoveis"><i class="fa-solid fa-house"></i> Imóveis</a></li>
+                    <li><a href="#corretor-calendario"><i class="fa-regular fa-calendar"></i> Calendário</a></li>
+                    <li><a href="#corretor-relatorios"><i class="fa-solid fa-file-pdf"></i> Relatórios</a></li>
+                    <li><a href="#corretor-perfil"><i class="fa-solid fa-user"></i> Meu Perfil</a></li>
+                    <li><a href="#corretor-chat"><i class="fa-solid fa-comments"></i> Chat</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Painel Supervisor</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#supervisor-ranking"><i class="fa-solid fa-trophy"></i> Ranking</a></li>
+                    <li><a href="#supervisor-equipe"><i class="fa-solid fa-user-group"></i> Gestão Equipe</a></li>
+                    <li><a href="#supervisor-docs"><i class="fa-solid fa-folder-open"></i> Documentos</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Painel Financeiro</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#financeiro-comissoes"><i class="fa-solid fa-coins"></i> Comissões</a></li>
+                    <li><a href="#financeiro-pagamentos"><i class="fa-solid fa-money-bill-wave"></i> Pagamentos</a></li>
+                    <li><a href="#financeiro-resumo"><i class="fa-solid fa-chart-pie"></i> Resumo</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Ajuda</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#dicas"><i class="fa-solid fa-lightbulb"></i> Dicas</a></li>
+                    <li><a href="#problemas"><i class="fa-solid fa-circle-question"></i> Problemas Comuns</a></li>
+                    <li><a href="#suporte"><i class="fa-solid fa-headset"></i> Suporte</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <!-- CONTEÚDO -->
+        <main class="content" style="position: relative;">
+            <button class="btn-print no-print" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> Imprimir / PDF
+            </button>
+            
+            <!-- INÍCIO -->
+            <section id="inicio" class="content-header">
+                <h1>Manual do Usuário</h1>
+                <p>Guia completo para usar a plataforma Gian Casas Imobiliária</p>
+            </section>
+            
+            <section class="secao">
+                <h2><i class="fa-solid fa-rocket"></i> Bem-vindo à Plataforma</h2>
+                <p>A <strong>Gian Casas</strong> é uma plataforma profissional de gestão imobiliária que conecta corretores, supervisores e equipe financeira em um único sistema integrado.</p>
+                
+                <div class="dica">
+                    <strong>💡 Objetivo:</strong> Este manual foi criado para orientar todos os colaboradores sobre como usar cada funcionalidade do sistema de forma eficiente e correta.
+                </div>
+                
+                <h3>Funcionalidades Principais</h3>
+                <ul>
+                    <li>✅ Gestão completa de imóveis com upload de fotos</li>
+                    <li>✅ Agendamento de visitas com calendário visual</li>
+                    <li>✅ Registro e acompanhamento de propostas</li>
+                    <li>✅ Cadastro de clientes (CRM)</li>
+                    <li>✅ Controle de comissões e pagamentos</li>
+                    <li>✅ Gestão de documentos de funcionários</li>
+                    <li>✅ Chat interno entre equipes</li>
+                    <li>✅ Relatórios em PDF</li>
+                </ul>
+            </section>
+            
+            <!-- ACESSO -->
+            <section id="acesso" class="secao">
+                <h2><i class="fa-solid fa-right-to-bracket"></i> Acesso ao Sistema</h2>
+                
+                <h3>Primeiro Acesso</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Acesse o endereço: <strong>https://gian-casas-web.vercel.app/login.html</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Insira seu <strong>email corporativo</strong> e a <strong>senha inicial</strong> fornecida pelo RH
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Clique em <strong>"Entrar"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">4</span> Você será direcionado automaticamente ao seu painel conforme seu perfil
+                </div>
+                
+                <h3>Esqueci Minha Senha</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Na tela de login, clique em <strong>"Esqueci minha senha"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Digite seu email cadastrado
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Clique em <strong>"Enviar Link de Recuperação"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">4</span> Acesse seu email e siga as instruções do link recebido
+                </div>
+                
+                <div class="atencao">
+                    <strong>️ Importante:</strong> A senha deve ter no mínimo 6 caracteres. Guarde sua nova senha em local seguro.
+                </div>
+            </section>
+            
+            <!-- PERFIS -->
+            <section id="perfis" class="secao">
+                <h2><i class="fa-solid fa-users"></i> Perfis de Acesso</h2>
+                <p>O sistema possui 3 perfis diferentes, cada um com funcionalidades específicas:</p>
+                
+                <table class="tabela-perfil">
+                    <thead>
+                        <tr>
+                            <th>Perfil</th>
+                            <th>Quem usa</th>
+                            <th>Principais Funções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge-perfil badge-corretor">Corretor</span></td>
+                            <td>Corretores de imóveis</td>
+                            <td>Visitas, propostas, clientes, imóveis</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-perfil badge-supervisor">Supervisor</span></td>
+                            <td>Supervisor / RH</td>
+                            <td>Ranking, gestão de equipe, documentos</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-perfil badge-financeiro">Financeiro</span></td>
+                            <td>Departamento Financeiro</td>
+                            <td>Comissões, pagamentos, relatórios</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- CORRETOR: VISITAS -->
+            <section id="corretor-visitas" class="secao">
+                <h2><i class="fa-solid fa-calendar-check"></i> Painel do Corretor - Visitas</h2>
+                
+                <h3>Agendar Nova Visita</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> No painel, clique no botão <strong>"+ Nova Visita"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Preencha o formulário:
+                    <ul>
+                        <li><strong>Nome do Cliente:</strong> nome completo do interessado</li>
+                        <li><strong>Imóvel:</strong> nome do imóvel a ser visitado</li>
+                        <li><strong>Localização:</strong> endereço ou região</li>
+                        <li><strong>Data e Hora:</strong> dia e horário da visita</li>
+                        <li><strong>Período:</strong> Manhã, Tarde ou Noite</li>
+                        <li><strong>Status:</strong> Confirmada ou Aguardando</li>
+                    </ul>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Clique em <strong>"Agendar Visita"</strong>
+                </div>
+                
+                <div class="dica">
+                    <strong>💡 Dica:</strong> O período é preenchido automaticamente conforme a hora selecionada, mas você pode ajustar manualmente.
+                </div>
+                
+                <h3>Ver Calendário Completo</h3>
+                <p>Para visualizar todas as visitas em formato de calendário mensal:</p>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"Ver Calendário"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Use as setas <strong>"Anterior"</strong> e <strong>"Próximo"</strong> para navegar entre meses
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Clique em qualquer dia para ver os detalhes das visitas
+                </div>
+                
+                <h3>Cores do Calendário</h3>
+                <ul>
+                    <li>🟢 <strong>Verde:</strong> Visita Confirmada</li>
+                    <li>🟡 <strong>Amarelo:</strong> Aguardando Confirmação</li>
+                    <li>🔴 <strong>Vermelho:</strong> Cancelada</li>
+                </ul>
+            </section>
+            
+            <!-- CORRETOR: PROPOSTAS -->
+            <section id="corretor-propostas" class="secao">
+                <h2><i class="fa-solid fa-file-signature"></i> Painel do Corretor - Propostas</h2>
+                
+                <h3>Registrar Nova Proposta</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"+ Nova Proposta"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Preencha os dados:
+                    <ul>
+                        <li><strong>Cliente e Imóvel:</strong> identifique a proposta</li>
+                        <li><strong>Valor:</strong> valor da oferta do cliente</li>
+                        <li><strong>Comissão:</strong> calculada automaticamente (3% do valor)</li>
+                    </ul>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Escolha o status:
+                    <ul>
+                        <li>🆕 <strong>Nova</strong> -刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚刚......</li>
+                    </ul>
+                </div>
+                
+                <div class="atencao">
+                    <strong>⚠️ Atenção:</strong> A comissão é calculada automaticamente a 3% do valor da proposta. Se precisar ajustar, edite o campo "Comissão" manualmente antes de salvar.
+                </div>
+            </section>
+            
+            <!-- CORRETOR: CLIENTES -->
+            <section id="corretor-clientes" class="secao">
+                <h2><i class="fa-solid fa-user-plus"></i> Painel do Corretor - Clientes</h2>
+                
+                <h3>Cadastrar Novo Cliente</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> No "Acesso Rápido", clique em <strong>"Cadastrar Cliente"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Preencha: Nome, Email, Telefone, CPF/CNPJ e Observações
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Clique em <strong>"Cadastrar Cliente"</strong>
+                </div>
+                
+                <div class="dica">
+                    <strong>💡 Dica:</strong> Use o campo "Observações" para anotar preferências do cliente (ex: "Interessado em apartamentos de 3 quartos na zona de Cascais"). Isso ajuda nas buscas futuras.
+                </div>
+                
+                <h3>Excluir Cliente</h3>
+                <p>Na lista "Meus Clientes", clique no ícone 🗑️ ao lado do nome para excluir (marcar como inativo).</p>
+            </section>
+            
+            <!-- CORRETOR: IMÓVEIS -->
+            <section id="corretor-imoveis" class="secao">
+                <h2><i class="fa-solid fa-house"></i> Cadastro de Imóveis</h2>
+                
+                <h3>Cadastrar Novo Imóvel</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"Cad. Imóveis"</strong> no menu superior
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Clique em <strong>"+ Novo Imóvel"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Preencha todos os campos obrigatórios (*)
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">4</span> <strong>Upload de Foto:</strong> Clique na área pontilhada ou arraste uma imagem (JPG/PNG/WEBP, máx. 5MB)
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">5</span> Clique em <strong>"Cadastrar Imóvel"</strong>
+                </div>
+                
+                <div class="sucesso">
+                    <strong>✅ Sucesso!</strong> O imóvel será salvo com foto e aparecerá imediatamente na lista filtrável por status.
+                </div>
+                
+                <h3>Editar ou Excluir Imóvel</h3>
+                <p>Use os botões <strong>"Editar"</strong> (azul) ou <strong>"Excluir"</strong> (vermelho) abaixo de cada card de imóvel.</p>
+            </section>
+            
+            <!-- CORRETOR: CALENDÁRIO -->
+            <section id="corretor-calendario" class="secao">
+                <h2><i class="fa-regular fa-calendar"></i> Calendário de Visitas</h2>
+                <p>O calendário mostra todas as suas visitas agendadas em formato mensal visual.</p>
+                
+                <h3>Navegação</h3>
+                <ul>
+                    <li><strong>Setas Anterior/Próximo:</strong> Mudam o mês exibido</li>
+                    <li><strong>Botão "Hoje":</strong> Volta rapidamente ao mês atual</li>
+                    <li><strong>Clique em um dia:</strong> Abre modal com detalhes das visitas</li>
+                </ul>
+                
+                <h3>Legenda de Cores</h3>
+                <ul>
+                    <li>🟢 Verde = Confirmada | 🟡 Amarelo = Aguardando | 🔴 Vermelho = Cancelada</li>
+                    <li>🟨 Fundo amarelo claro = Dia atual (hoje)</li>
+                </ul>
+            </section>
+            
+            <!-- CORRETOR: RELATÓRIOS -->
+            <section id="corretor-relatorios" class="secao">
+                <h2><i class="fa-solid fa-file-pdf"></i> Relatórios em PDF</h2>
+                
+                <h3>Gerar Relatório</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"Exportar PDF"</strong> no painel
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Escolha o tipo: Visitas, Propostas ou Clientes
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Escolha o período: Mês Atual, Mês Anterior ou Personalizado
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">4</span> Clique em <strong>"Carregar Dados"</strong> para pré-visualizar
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">5</span> Clique em <strong>"Gerar PDF"</strong> para baixar
+                </div>
+                
+                <div class="dica">
+                    <strong>💡 Dica:</strong> O relatório de propostas inclui o total de comissões destacado em dourado. Ideal para reuniões mensais!
+                </div>
+            </section>
+            
+            <!-- CORRETOR: PERFIL -->
+            <section id="corretor-perfil" class="secao">
+                <h2><i class="fa-solid fa-user"></i> Meu Perfil</h2>
+                
+                <h3>Atualizar Dados Pessoais</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"Meu Perfil"</strong> no Acesso Rápido
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Edite: Nome, Telefone, CRECI, Nível e Biografia
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Para trocar foto: clique em <strong>"Alterar Foto"</strong> e selecione uma imagem (máx. 2MB)
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">4</span> Clique em <strong>"Salvar Dados"</strong>
+                </div>
+                
+                <h3>Alterar Senha</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Na seção "Alterar Senha", digite a nova senha (mín. 6 caracteres)
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Confirme a nova senha
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Clique em <strong>"Alterar Senha"</strong>
+                </div>
+                
+                <h3>Documentação Obrigatória</h3>
+                <p>Envie os documentos solicitados pelo RH clicando em <strong>"Enviar Arquivo"</strong> em cada item. O status muda para "Em Análise" até que o RH aprove.</p>
+                
+                <div class="atencao">
+                    <strong>⚠️ Importante:</strong> Documentos rejeitados mostram o motivo. Corrija e reenvie conforme orientação.
+                </div>
+            </section>
+            
+            <!-- CORRETOR: CHAT -->
+            <section id="corretor-chat" class="secao">
+                <h2><i class="fa-solid fa-comments"></i> Chat Interno</h2>
+                
+                <h3>Enviar Mensagem</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"Chat Interno"</strong> no Acesso Rápido
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Selecione o colega na lista à esquerda
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Digite sua mensagem e pressione <strong>Enter</strong> ou clique no botão enviar
+                </div>
+                
+                <h3>Indicadores</h3>
+                <ul>
+                    <li>🔴 <strong>Badge vermelho:</strong> Número de mensagens não lidas</li>
+                    <li>✓✓ <strong>Duplo check:</strong> Mensagem foi lida pelo destinatário</li>
+                    <li> <strong>Lista lateral:</strong> Mostra últimos contatos + outros colegas disponíveis</li>
+                </ul>
+                
+                <div class="dica">
+                    <strong>💡 Dica:</strong> O chat atualiza automaticamente a cada 3 segundos. Não precisa recarregar a página!
+                </div>
+            </section>
+            
+            <!-- SUPERVISOR: RANKING -->
+            <section id="supervisor-ranking" class="secao">
+                <h2><i class="fa-solid fa-trophy"></i> Painel Supervisor - Ranking</h2>
+                <p>O ranking mostra os corretores ordenados por comissão do mês, com medalhas para os 3 primeiros colocados.</p>
+                
+                <h3>Métricas do Topo</h3>
+                <ul>
+                    <li><strong>Corretores Ativos:</strong> Total de corretores ativos</li>
+                    <li><strong>Propostas Ativas:</strong> Propostas não rejeitadas</li>
+                    <li><strong>Visitas Hoje:</strong> Visitas agendadas para hoje</li>
+                    <li><strong>Comissões Previstas:</strong> Soma total das comissões</li>
+                </ul>
+            </section>
+            
+            <!-- SUPERVISOR: EQUIPE -->
+            <section id="supervisor-equipe" class="secao">
+                <h2><i class="fa-solid fa-user-group"></i> Gestão de Equipe</h2>
+                
+                <h3>Adicionar Funcionário</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"Adicionar Funcionário"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Preencha: Nome, Email, Senha Inicial, Perfil
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Para corretores: preencha CRECI e Nível (Junior/Pleno/Senior)
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">4</span> Clique em <strong>"Cadastrar"</strong>
+                </div>
+                
+                <div class="atencao">
+                    <strong>⚠️ Importante:</strong> Anote a senha inicial e envie ao novo funcionário. Ele deve alterar no primeiro acesso.
+                </div>
+                
+                <h3>Remover / Reativar</h3>
+                <ul>
+                    <li><strong>Remover:</strong> Desativa o acesso do funcionário (não apaga dados)</li>
+                    <li><strong>Reativar:</strong> Restaura o acesso de funcionários desativados</li>
+                </ul>
+                
+                <h3>Ver Propostas do Corretor</h3>
+                <p>Clique em <strong>"Ver Propostas"</strong> no card do corretor para expandir a lista detalhada.</p>
+            </section>
+            
+            <!-- SUPERVISOR: DOCUMENTOS -->
+            <section id="supervisor-docs" class="secao">
+                <h2><i class="fa-solid fa-folder-open"></i> Gestão de Documentos</h2>
+                
+                <h3>Acessar</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> No painel supervisor, clique em <strong>"Gestão de Documentos"</strong>
+                </div>
+                
+                <h3>Visualizar Status</h3>
+                <table class="tabela-perfil">
+                    <thead>
+                        <tr><th>Status</th><th>Significado</th><th>Ação</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>🟡 Pendente</td><td>Documento não enviado</td><td>Cobrar funcionário</td></tr>
+                        <tr><td>🔵 Enviado</td><td>Aguardando análise</td><td>Aprovar ou Rejeitar</td></tr>
+                        <tr><td>🟢 Aprovado</td><td>Documento válido</td><td>Apenas visualizar</td></tr>
+                        <tr><td>🔴 Rejeitado</td><td>Documento inválido</td><td>Informar motivo</td></tr>
+                    </tbody>
+                </table>
+                
+                <h3>Aprovar Documento</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"Ver"</strong> para abrir o arquivo
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Se estiver correto, clique em <strong>"Aprovar"</strong>
+                </div>
+                
+                <h3>Rejeitar Documento</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"Rejeitar"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Digite o motivo da rejeição (será visível ao funcionário)
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Confirme a rejeição
+                </div>
+                
+                <div class="dica">
+                    <strong>💡 Dica:</strong> Use motivos claros e específicos (ex: "Foto ilegível", "CPF expirado") para facilitar a correção pelo funcionário.
+                </div>
+            </section>
+            
+            <!-- FINANCEIRO: COMISSÕES -->
+            <section id="financeiro-comissoes" class="secao">
+                <h2><i class="fa-solid fa-coins"></i> Painel Financeiro - Comissões</h2>
+                
+                <h3>Filtrar Comissões</h3>
+                <p>Use as abas no topo: <strong>Todas | Pendentes | Aprovadas</strong></p>
+                
+                <h3>Aprovar Comissão</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Localize a comissão pendente
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Clique em <strong>"Aprovar"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Adicione observações (opcional) e confirme
+                </div>
+                
+                <h3>Registrar Pagamento</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Após aprovação, clique em <strong>"Marcar Pago"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Selecione a data do pagamento
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Confirme o pagamento
+                </div>
+                
+                <h3>Cancelar Comissão</h3>
+                <p>Clique em <strong>"Cancelar"</strong> para invalidar uma comissão. Adicione o motivo nas observações.</p>
+            </section>
+            
+            <!-- FINANCEIRO: PAGAMENTOS -->
+            <section id="financeiro-pagamentos" class="secao">
+                <h2><i class="fa-solid fa-money-bill-wave"></i> Histórico de Pagamentos</h2>
+                <p>Mostra todas as comissões pagas ou canceladas, com data e valores.</p>
+                
+                <h3>Exportar Relatório</h3>
+                <div class="passo">
+                    <span class="passo-numero">1</span> Clique em <strong>"Exportar Relatório"</strong>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Um resumo do mês atual será exibido com totais de vendas e comissões
+                </div>
+            </section>
+            
+            <!-- FINANCEIRO: RESUMO -->
+            <section id="financeiro-resumo" class="secao">
+                <h2><i class="fa-solid fa-chart-pie"></i> Resumo por Corretor</h2>
+                <p>Visão consolidada das finanças por corretor, mostrando:</p>
+                <ul>
+                    <li>💛 Valor a pagar (pendente)</li>
+                    <li>💚 Valor aprovado</li>
+                    <li>💙 Valor já pago</li>
+                    <li>⭐ Total geral</li>
+                </ul>
+            </section>
+            
+            <!-- DICAS -->
+            <section id="dicas" class="secao">
+                <h2><i class="fa-solid fa-lightbulb"></i> Dicas Gerais</h2>
+                
+                <div class="dica">
+                    <strong>📱 Responsivo:</strong> O sistema funciona perfeitamente em celulares e tablets. Use o navegador do celular para acessar em qualquer lugar.
+                </div>
+                
+                <div class="dica">
+                    <strong>🔒 Segurança:</strong> Nunca compartilhe sua senha. Ao sair de um computador compartilhado, sempre clique em "Sair do Sistema".
+                </div>
+                
+                <div class="dica">
+                    <strong>💾 Salvamento:</strong> Todos os dados são salvos automaticamente na nuvem. Não há risco de perda por falha local.
+                </div>
+                
+                <div class="dica">
+                    <strong>📧 Notificações:</strong> Verifique seu email regularmente para recuperações de senha e comunicações importantes.
+                </div>
+                
+                <div class="dica">
+                    <strong>🖼️ Fotos:</strong> Use fotos de boa qualidade (mínimo 800x600px). Evite fotos escuras ou desfocadas nos imóveis.
+                </div>
+            </section>
+            
+            <!-- PROBLEMAS -->
+            <section id="problemas" class="secao">
+                <h2><i class="fa-solid fa-circle-question"></i> Problemas Comuns</h2>
+                
+                <h3>Não consigo fazer login</h3>
+                <ul>
+                    <li>Verifique se digitou o email corretamente</li>
+                    <li>Use a função "Esqueci minha senha" para resetar</li>
+                    <li>Confirme se seu perfil ainda está ativo (contate o Supervisor)</li>
+                </ul>
+                
+                <h3>Foto não carrega no upload</h3>
+                <ul>
+                    <li>Verifique o formato: apenas JPG, PNG ou WEBP</li>
+                    <li>Tamanho máximo: 5MB para imóveis, 2MB para perfil</li>
+                    <li>Tente renomear o arquivo sem caracteres especiais</li>
+                </ul>
+                
+                <h3>Chat não atualiza</h3>
+                <ul>
+                    <li>Recarregue a página (F5)</li>
+                    <li>Verifique sua conexão com a internet</li>
+                    <li>O chat atualiza a cada 3 segundos automaticamente</li>
+                </ul>
+                
+                <h3>PDF não gera</h3>
+                <ul>
+                    <li>Verifique se há dados no período selecionado</li>
+                    <li>Tente outro período</li>
+                    <li>Desative bloqueadores de pop-up do navegador</li>
+                </ul>
+                
+                <h3>Documento rejeitado sem motivo claro</h3>
+                <ul>
+                    <li>Contate o Supervisor/RH via Chat Interno</li>
+                    <li>Solicite feedback específico sobre o documento</li>
+                </ul>
+            </section>
+            
+            <!-- SUPORTE -->
+            <section id="suporte" class="secao">
+                <h2><i class="fa-solid fa-headset"></i> Suporte Técnico</h2>
+                
+                <p>Para dúvidas ou problemas técnicos:</p>
+                
+                <div class="passo">
+                    <span class="passo-numero">1</span> Consulte este manual primeiro (busque pela seção relevante)
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span> Use o <strong>Chat Interno</strong> para contato rápido com o Supervisor ou TI
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span> Em caso de urgência, entre em contato diretamente com o administrador do sistema
+                </div>
+                
+                <div class="sucesso">
+                    <strong>✅ Lembrete:</strong> Este manual é atualizado regularmente. Verifique sempre a versão mais recente no sistema.
+                </div>
+                
+                <p style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #f0f0f0; color: var(--text-light); font-size: 14px;">
+                    <strong>Gian Casas Imobiliária S.A.</strong><br>
+                    Manual do Usuário v1.0 | © 2026<br>
+                    <em>Documento confidencial - Uso interno exclusivo</em>
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Navegação suave e highlight ativo
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Atualizar active
+                    document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+        // Atualizar active ao rolar
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.sidebar-nav a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === '#' + current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
